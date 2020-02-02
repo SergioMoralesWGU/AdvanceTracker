@@ -1,0 +1,35 @@
+<resources>
+    <string name="app_name">WGU Advancement Tracker</string>
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_term_list">Term List</string>
+    <string name="title_activity_course_list">Course List</string>
+    <string name="title_activity_assessment_list">Assessment List</string>
+    <string name="title_activity_new_term">New Term</string>
+    <string name="save_button">Save</string>
+    <string name="end_date">End Date</string>
+    <string name="start_date">Start Date</string>
+    <string name="termEditor">Term Editor</string>
+    <string name="enter_term">Enter Term Name</string>
+    <string name="title_activity_term_detail">Term Detail</string>
+    <string name="new_term">New Term</string>
+    <string name="courses_text">Courses for this term</string>
+    <string name="edit_term">edit_term</string>
+    <string name="title_activity_new_course">New Course</string>
+    <string name="title_activity_course_detail">Course Detail</string>
+    <string name="course_name">Course Name</string>
+    <string name="edit_course">edit_course</string>
+    <string name="btn_delete">Delete</string>
+    <string name="course_editor">Course Editor</string>
+    <string name="enter_course_title">Course title</string>
+    <string name="mentor_name">Mentor name</string>
+    <string name="mentor_phone">Mentor\'s phone</string>
+    <string name="mentor_email">Mentor\'s email</string>
+    <string name="title_activity_new_assessment">NewAssessmentActivity</string>
+    <string name="assessment_title">Assessment title</string>
+    <string name="assessment_editor">Assessment Editor</string>
+    <string name="assessment_type">Assessment type</string>
+    <string name="et_assessment_due">Assessment Due Date</string>
+    <string name="empty_not_saved">Data not saved</string>
+    <string name="title_activity_new_note">NewNoteActivity</string>
+    <string name="note_name">Enter Note Title</string>
+</resources>

@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context=".NewAssessmentActivity"
+    tools:showIn="@layout/activity_new_assessment">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="20dp">
+
+        <TextView
+            android:id="@+id/assessment_editor"
+            android:layout_width="222dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginStart="16dp"
+            android:layout_marginLeft="16dp"
+            android:text="@string/assessment_editor"
+            android:textSize="24sp" />
+
+        <EditText
+            android:id="@+id/et_assessment_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="0dp"
+            android:layout_marginEnd="187dp"
+            android:autofillHints="@string/assessment_title"
+            android:hint="@string/assessment_title"
+            android:inputType="date"
+            android:textSize="18sp" />
+
+        <EditText
+            android:id="@+id/et_assessment_type"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:autofillHints="@string/assessment_type"
+            android:hint="@string/assessment_type"
+            android:inputType="text"
+            android:textSize="18sp" />
+
+        <EditText
+            android:id="@+id/et_assessment_due"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:autofillHints="@string/et_assessment_due"
+            android:hint="@string/et_assessment_due"
+            android:inputType="date"
+            android:textSize="18sp" />
+
+        <Button
+            android:id="@+id/btn_save_course"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:background="#B2EBF2"
+            android:text="@string/save_button"
+            android:textSize="12sp" />
+
+        <CalendarView
+            android:id="@+id/calendarView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/darker_gray"
+            android:visibility="visible"
+            tools:visibility="visible"
+            app:layout_constraintTop_toBottomOf="@+id/term_save_button"/>
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
