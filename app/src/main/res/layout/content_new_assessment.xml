@@ -32,7 +32,7 @@
             android:layout_marginEnd="187dp"
             android:autofillHints="@string/assessment_title"
             android:hint="@string/assessment_title"
-            android:inputType="date"
+            android:inputType="text"
             android:textSize="18sp" />
 
         <EditText
@@ -54,7 +54,7 @@
             android:textSize="18sp" />
 
         <Button
-            android:id="@+id/btn_save_course"
+            android:id="@+id/btn_save_assessment"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="end"

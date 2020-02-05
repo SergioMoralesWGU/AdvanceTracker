@@ -69,13 +69,13 @@ public class CourseListActivity extends AppCompatActivity {
             try {
                 CourseEntity courseEntity = new CourseEntity(
                         courseViewModel.lastID() + 1,
-                        data.getStringExtra("courseTitle"),
-                        dateFormat.parse(data.getStringExtra("courseStartDate")),
-                        dateFormat.parse(data.getStringExtra("courseEndDate")),
-                        data.getStringExtra("courseStatus"),
-                        data.getStringExtra("mentorName"),
-                        data.getStringExtra("mentorEmail"),
-                        data.getStringExtra("mentorPhone"),
+                        data.getStringExtra("course_title"),
+                        dateFormat.parse(data.getStringExtra("course_start_date")),
+                        dateFormat.parse(data.getStringExtra("course_end_date")),
+                        data.getStringExtra("course_status"),
+                        data.getStringExtra("mentor_name"),
+                        data.getStringExtra("mentor_phone"),
+                        data.getStringExtra("mentor_email"),
                         data.getIntExtra("courseTermId", -1)
                 );
                 courseViewModel.insert(courseEntity);
