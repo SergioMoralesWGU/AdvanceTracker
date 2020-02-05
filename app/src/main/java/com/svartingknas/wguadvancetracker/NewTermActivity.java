@@ -14,6 +14,7 @@ import androidx.appcompat.widget.Toolbar;
 import com.svartingknas.wguadvancetracker.entities.TermEntity;
 
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -40,27 +41,28 @@ public class NewTermActivity extends AppCompatActivity {
 
         final Button termSaveButton = findViewById(R.id.term_save_button);
         termSaveButton.setOnClickListener(new View.OnClickListener() {
-
             @Override
             public void onClick(View v) {
                 String pattern = "MM/dd/yyyy";
                 DateFormat dateFormat = new SimpleDateFormat(pattern);
 
                 Intent replyIntent = new Intent();
-                String name = termName.getText().toString();
-//                Date termStart = dateFormat.parse(termStartDate(getText().toString()));
-//                Date termEnd = termEndDate.getText().toString();
-
-                replyIntent.putExtra("termName", name);
-//                replyIntent.putExtra("termStartDate", termStart);
-//                replyIntent.putExtra("termEndDate", termEnd);
-
-                if (getIntent().getStringExtra("termName")!= null){
-                    int id = getIntent().getIntExtra("id", 0);
-                    int courseId = getIntent().getIntExtra("courseId", 0);
-//                    TermEntity termEntity = new TermEntity(id, name, termStart, termEnd);
-                }
+                if (TextUtils.isEmpty(termName.getText())) {
+                    setResult(RESULT_CANCELED, replyIntent);
+                } else if ((TextUtils.isEmpty(termStartDate.getText()))) {
+                    setResult(RESULT_CANCELED, replyIntent);
+                } else if (TextUtils.isEmpty(termEndDate.getText())) {
+                    setResult(RESULT_CANCELED, replyIntent);
+                } else {
+                    String termNameString = termName.getText().toString();
+                    String termStartDateString = termStartDate.getText().toString();
+                    String termEndDateString = termEndDate.getText().toString();
+                    replyIntent.putExtra("term_name", termNameString);
+                    replyIntent.putExtra("term_start_date", termStartDateString);
+                    replyIntent.putExtra("term_end_date", termEndDateString);
                     setResult(RESULT_OK, replyIntent);
+                }
+
                 finish();
             }
         });

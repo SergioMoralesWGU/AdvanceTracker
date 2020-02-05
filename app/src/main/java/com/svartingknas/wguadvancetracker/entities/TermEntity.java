@@ -43,7 +43,7 @@ public class TermEntity {
                 '}';
     }
 
-    public TermEntity(int id, @NonNull String termName, @NonNull Date termStart, @NonNull Date termEnd) {
+    public TermEntity(int id, String termName, Date termStart, Date termEnd) {
         this.id = id;
         this.termName = termName;
         this.termStart = termStart;
@@ -63,7 +63,7 @@ public class TermEntity {
         return termName;
     }
 
-    public void setTermName(@NonNull String termName) {
+    public void setTermName(String termName) {
         this.termName = termName;
     }
 
@@ -72,7 +72,7 @@ public class TermEntity {
         return termStart;
     }
 
-    public void setTermStart(@NonNull Date termStart) {
+    public void setTermStart(Date termStart) {
         this.termStart = termStart;
     }
 
@@ -81,7 +81,7 @@ public class TermEntity {
         return termEnd;
     }
 
-    public void setTermEnd(@NonNull Date termEnd) {
+    public void setTermEnd(Date termEnd) {
         this.termEnd = termEnd;
     }
 }

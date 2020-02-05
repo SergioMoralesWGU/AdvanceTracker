@@ -71,12 +71,13 @@ public class TermListActivity extends AppCompatActivity {
         if (resultCode == RESULT_OK) {
             String pattern = "MM/dd/yyyy";
             DateFormat dateFormat = new SimpleDateFormat(pattern);
+
             try {
                 TermEntity term = new TermEntity(
                         termViewModel.lastID() + 1,
-                        data.getStringExtra("termTitle"),
-                        dateFormat.parse(data.getStringExtra("termStartDate")),
-                        dateFormat.parse(data.getStringExtra("termEndDate"))
+                        data.getStringExtra("term_name"),
+                        dateFormat.parse(data.getStringExtra("term_start_date")),
+                        dateFormat.parse(data.getStringExtra("term_end_date"))
                 );
                 termViewModel.insert(term);
             }

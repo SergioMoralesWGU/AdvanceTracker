@@ -73,7 +73,7 @@ public class TermAdapter extends RecyclerView.Adapter<TermAdapter.TermViewHolder
             TermEntity current = termList.get(position);
             holder.termTitleView.setText(current.getTermName());
             holder.termStartDateView.setText(df.format(current.getTermStart()));
-            holder.termEndDateView.setText((df.format(current.getTermStart())));
+            holder.termEndDateView.setText((df.format(current.getTermEnd())));
         } else{
             holder.termTitleView.setText("no data");
             holder.termStartDateView.setText("no data");
