@@ -16,7 +16,6 @@ import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Toast;
 
@@ -28,7 +27,6 @@ import java.util.List;
 public class TermListActivity extends AppCompatActivity {
     private TermViewModel termViewModel;
     private static final int NEW_WORD_ACTIVITY_REQUEST_CODE = 1;
-    private LayoutInflater layoutInflater;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
