@@ -15,6 +15,17 @@ import java.util.List;
 public class InventoryManagementRepository {
 
     private static int currentCourseId;
+    private static int currentTermId;
+
+    public static int getCurrentTermId() {
+        return currentTermId;
+    }
+    public static void setCurrentTermId(int newCurrentTermId) {
+        currentTermId = newCurrentTermId;
+    }
+
+
+
     public static void setCurrentCourseId(int newCurrentCourseId){
         currentCourseId = newCurrentCourseId;
     }

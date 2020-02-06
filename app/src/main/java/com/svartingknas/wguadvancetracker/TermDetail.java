@@ -4,7 +4,9 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.svartingknas.wguadvancetracker.database.InventoryManagementRepository;
 import com.svartingknas.wguadvancetracker.entities.CourseEntity;
+import com.svartingknas.wguadvancetracker.entities.TermEntity;
 import com.svartingknas.wguadvancetracker.ui.CourseAdapter;
 import com.svartingknas.wguadvancetracker.viewmodel.CourseViewModel;
 import com.svartingknas.wguadvancetracker.viewmodel.TermViewModel;
@@ -48,15 +50,18 @@ public class TermDetail extends AppCompatActivity {
         setContentView(R.layout.activity_term_detail);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
 
         termId = findViewById(R.id.term_id);
         termName = findViewById(R.id.tv_term_name);
         termStartDate = findViewById(R.id.term_start_date);
         termEndDate = findViewById(R.id.term_end_date);
 
-        if (getIntent().getStringExtra("termName")!=null){
-            termId.setText(getIntent().getIntExtra("id", -1));
-            termName.setText(getIntent().getStringExtra("termName"));
+        if (getIntent().getStringExtra("termTitle")!=null){
+            InventoryManagementRepository.setCurrentTermId(getIntent().getIntExtra("id", -1));
+            termId.setText(getIntent().getStringExtra("id"));
+            termName.setText(getIntent().getStringExtra("termTitle"));
             termStartDate.setText(getIntent().getStringExtra("termStartDate"));
             termEndDate.setText(getIntent().getStringExtra("termEndDate"));
         }
@@ -71,7 +76,7 @@ public class TermDetail extends AppCompatActivity {
 
             }
         });
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
 
         RecyclerView recyclerView = findViewById(R.id.associated_courses_rv);
         final CourseAdapter adapter = new CourseAdapter(this);
@@ -96,18 +101,13 @@ public class TermDetail extends AppCompatActivity {
             String pattern = "MM/dd/yyyy";
             DateFormat dateFormat = new SimpleDateFormat(pattern);
             try {
-                CourseEntity courseEntity = new CourseEntity(
-                        courseViewModel.lastID() + 1,
-                        data.getStringExtra("courseTitle"),
-                        dateFormat.parse(data.getStringExtra("termStartDate")),
-                        dateFormat.parse(data.getStringExtra("courseEndDate")),
-                        data.getStringExtra("courseStatus"),
-                        data.getStringExtra("mentorName"),
-                        data.getStringExtra("mentorEmail"),
-                        data.getStringExtra("mentorPhone"),
-                        data.getIntExtra("courseTermId", -1)
+                TermEntity termEntity = new TermEntity(
+                        termViewModel.lastID() + 1,
+                        data.getStringExtra("term_name"),
+                        dateFormat.parse(data.getStringExtra("term_start_date")),
+                        dateFormat.parse(data.getStringExtra("term_end_date"))
                 );
-                courseViewModel.insert(courseEntity);
+                termViewModel.insert(termEntity);
             } catch (ParseException pe) {
                 // maybe do something?
             }

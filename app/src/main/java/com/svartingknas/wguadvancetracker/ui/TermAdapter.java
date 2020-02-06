@@ -22,25 +22,33 @@ import java.util.List;
 public class TermAdapter extends RecyclerView.Adapter<TermAdapter.TermViewHolder> {
 
     class TermViewHolder extends RecyclerView.ViewHolder {
+//        private final TextView termIdView;
         private final TextView termTitleView;
         private final TextView termStartDateView;
         private final TextView termEndDateView;
 
         private TermViewHolder(View itemView) {
             super(itemView);
+//            termIdView = itemView.findViewById(R.id.term_id);
             termTitleView = itemView.findViewById(R.id.tv_term_name);
             termStartDateView = itemView.findViewById(R.id.tv_term_start);
             termEndDateView = itemView.findViewById(R.id.tv_term_end);
+
+
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+
+                    String pattern = "MM/dd/yyyy";
+                    DateFormat dateFormat = new SimpleDateFormat(pattern);
+
                     int position = getAdapterPosition();
                     final TermEntity current = termList.get(position);
-                    Intent intent = new Intent(context, TermDetail.class); // TODO not sure what goes here, if TermDetail or NewTermActivity
+                    Intent intent = new Intent(context, TermDetail.class);
                     intent.putExtra("Id", current.getId());
                     intent.putExtra("termTitle", current.getTermName());
-                    intent.putExtra("termStartDate", current.getTermStart());
-                    intent.putExtra("termEndDate", current.getTermEnd());
+                    intent.putExtra("termStartDate", dateFormat.format(current.getTermStart()));
+                    intent.putExtra("termEndDate", dateFormat.format(current.getTermEnd()));
                     intent.putExtra("position", position);
                     context.startActivity(intent);
                 }
@@ -71,10 +79,12 @@ public class TermAdapter extends RecyclerView.Adapter<TermAdapter.TermViewHolder
         DateFormat df = new SimpleDateFormat(pattern);
         if (termList != null){
             TermEntity current = termList.get(position);
+//            holder.termIdView.setText(current.getId());
             holder.termTitleView.setText(current.getTermName());
             holder.termStartDateView.setText(df.format(current.getTermStart()));
             holder.termEndDateView.setText((df.format(current.getTermEnd())));
         } else{
+//            holder.termIdView.setText("no data");
             holder.termTitleView.setText("no data");
             holder.termStartDateView.setText("no data");
             holder.termEndDateView.setText("no data");

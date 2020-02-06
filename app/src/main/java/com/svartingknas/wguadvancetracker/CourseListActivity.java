@@ -43,6 +43,7 @@ public class CourseListActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(CourseListActivity.this, NewCourseActivity.class);
+                intent.putExtra("id", courseViewModel.lastID()+1);
                 startActivityForResult(intent, NEW_CLASS_LIST_REQUEST_CODE);
             }
         });

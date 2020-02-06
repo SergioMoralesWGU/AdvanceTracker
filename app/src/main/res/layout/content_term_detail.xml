@@ -20,7 +20,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/tv_term_start_date"
+        android:id="@+id/description_term_start_date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
@@ -39,7 +39,7 @@
         android:text="@string/end_date"
         android:textSize="20sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_term_start_date" />
+        app:layout_constraintTop_toBottomOf="@+id/description_term_start_date" />
 
     <TextView
         android:id="@+id/term_start_date"
@@ -47,10 +47,10 @@
         android:layout_height="wrap_content"
         android:text="01/01/2020"
         android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="@+id/tv_term_start_date"
+        app:layout_constraintBottom_toBottomOf="@+id/description_term_start_date"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.775"
-        app:layout_constraintStart_toEndOf="@+id/tv_term_start_date" />
+        app:layout_constraintStart_toEndOf="@+id/description_term_start_date" />
 
     <TextView
         android:id="@+id/term_end_date"
@@ -80,7 +80,7 @@
         app:layout_constraintTop_toBottomOf="@+id/tv_term_end_date" />
 
     <ImageButton
-        android:id="@+id/imageButton"
+        android:id="@+id/edit_term_btn"
         android:layout_width="47dp"
         android:layout_height="43dp"
         android:layout_marginStart="8dp"
@@ -102,13 +102,13 @@
         app:layout_constraintVertical_bias="0.0" />
 
     <ImageButton
-        android:id="@+id/imageButton2"
+        android:id="@+id/delete_term_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/imageButton"
-        app:srcCompat="@drawable/ic_delete_black_24dp"
-        tools:layout_editor_absoluteY="0dp" />
+        app:layout_constraintStart_toEndOf="@+id/edit_term_btn"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_delete_black_24dp" />
 
     <TextView
         android:id="@+id/term_id"

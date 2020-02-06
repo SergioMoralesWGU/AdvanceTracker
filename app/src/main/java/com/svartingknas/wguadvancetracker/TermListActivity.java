@@ -26,7 +26,7 @@ import java.util.List;
 
 public class TermListActivity extends AppCompatActivity {
     private TermViewModel termViewModel;
-    private static final int NEW_WORD_ACTIVITY_REQUEST_CODE = 1;
+    private static final int NEW_TERM_ACTIVITY_REQUEST_CODE = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,8 +34,7 @@ public class TermListActivity extends AppCompatActivity {
         setContentView(R.layout.activity_term_list);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        termViewModel = ViewModelProviders.of(this).get(TermViewModel.class);// TODO bicycle project does this differently
-
+        termViewModel = ViewModelProviders.of(this).get(TermViewModel.class);
 
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -43,8 +42,7 @@ public class TermListActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent = new Intent(TermListActivity.this, NewTermActivity.class);
                 intent.putExtra("Id", termViewModel.lastID()+1);
-
-                startActivityForResult(intent, NEW_WORD_ACTIVITY_REQUEST_CODE);
+                startActivityForResult(intent, NEW_TERM_ACTIVITY_REQUEST_CODE);
             }
         });
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
