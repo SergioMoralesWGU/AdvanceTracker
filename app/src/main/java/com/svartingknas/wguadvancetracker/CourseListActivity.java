@@ -28,6 +28,7 @@ public class CourseListActivity extends AppCompatActivity {
     private static final int NEW_CLASS_LIST_REQUEST_CODE = 1;
     private CourseViewModel courseViewModel;
     private LayoutInflater layoutInflater;
+    int courseTermId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -52,17 +52,26 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.CourseView
 //            cdMentorName = itemView.findViewById(R.id.tv_mentor_name);
 //            cdMentorPhoneNumber = itemView.findViewById(R.id.tv_mentor_phone);
 //            cdMentorEmail = itemView.findViewById(R.id.tv_mentor_email);
+
+
+
+
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+
+                    String pattern = "MM/dd/yyyy";
+                    DateFormat dateFormat = new SimpleDateFormat(pattern);
+
+
                     int position = getAdapterPosition();
                     final CourseEntity current = courseList.get(position);
                     Intent intent = new Intent(context, CourseDetail.class); //TODO unsure of what page goes here
                     intent.putExtra("id", current.getId());
                     intent.putExtra("courseTitle", current.getCourseTitle());
                     intent.putExtra("courseStatus", current.getCourseStatus());
-                    intent.putExtra("courseStartDate", current.getCourseStartDate());
-                    intent.putExtra("courseEndDate", current.getCourseEndDate());
+                    intent.putExtra("courseStartDate", dateFormat.format(current.getCourseStartDate()));
+                    intent.putExtra("courseEndDate", dateFormat.format(current.getCourseEndDate()));
                     intent.putExtra("mentorName", current.getMentorName());
                     intent.putExtra("mentorPhone", current.getMentorPhone());
                     intent.putExtra("mentorEmail", current.getMentorEmail());

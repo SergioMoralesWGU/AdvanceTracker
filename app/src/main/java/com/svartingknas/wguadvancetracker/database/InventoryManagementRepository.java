@@ -13,6 +13,16 @@ import com.svartingknas.wguadvancetracker.entities.TermEntity;
 import java.util.List;
 
 public class InventoryManagementRepository {
+
+    private static int currentCourseId;
+    public static void setCurrentCourseId(int newCurrentCourseId){
+        currentCourseId = newCurrentCourseId;
+    }
+    public static int getCurrentCourseId(){
+        return currentCourseId;
+    }
+
+
     private AssessmentDao assessmentDao;
     private CourseDao courseDao;
     private NoteDao noteDao;
@@ -48,6 +58,8 @@ public class InventoryManagementRepository {
         allTerms = termDao.getAllTerms();
 
     }
+
+
 
     public LiveData<List<AssessmentEntity>> getAllAssessments(){
         return allAssessments;
