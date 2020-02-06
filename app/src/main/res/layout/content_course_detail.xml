@@ -70,10 +70,12 @@
         android:id="@+id/tv_course_detail_start_date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="72dp"
+        android:layout_marginEnd="76dp"
         android:text="course start date"
         app:layout_constraintBaseline_toBaselineOf="@+id/textView5"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/tv_course_detail_status" />
 
     <TextView
         android:id="@+id/tv_course_detail_end_date"
@@ -84,7 +86,7 @@
         app:layout_constraintBaseline_toBaselineOf="@+id/textView7"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/tv_course_start_date" />
+        app:layout_constraintStart_toStartOf="@+id/tv_course_detail_start_date" />
 
     <TextView
         android:id="@+id/textView7"

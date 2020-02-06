@@ -30,6 +30,7 @@ import java.util.List;
 public class TermDetail extends AppCompatActivity {
     private static final int NEW_WORD_ACTIVITY_REQUEST_CODE = 1 ;
     public static final String EXTRA_REPLY = "com.svartingknas.wguadvancetracker.REPLY";
+
     private TermViewModel termViewModel;
     private CourseViewModel courseViewModel;
     private TextView termName;
@@ -48,10 +49,10 @@ public class TermDetail extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        termId = findViewById(R.id.term_id);
         termName = findViewById(R.id.tv_term_name);
         termStartDate = findViewById(R.id.term_start_date);
         termEndDate = findViewById(R.id.term_end_date);
-        termId = findViewById(R.id.term_id);
 
         if (getIntent().getStringExtra("termName")!=null){
             termId.setText(getIntent().getIntExtra("id", -1));
@@ -98,7 +99,7 @@ public class TermDetail extends AppCompatActivity {
                 CourseEntity courseEntity = new CourseEntity(
                         courseViewModel.lastID() + 1,
                         data.getStringExtra("courseTitle"),
-                        dateFormat.parse(data.getStringExtra("courseStartDate")),
+                        dateFormat.parse(data.getStringExtra("termStartDate")),
                         dateFormat.parse(data.getStringExtra("courseEndDate")),
                         data.getStringExtra("courseStatus"),
                         data.getStringExtra("mentorName"),
