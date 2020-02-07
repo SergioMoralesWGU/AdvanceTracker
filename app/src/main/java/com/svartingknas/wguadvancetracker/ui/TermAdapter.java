@@ -22,14 +22,12 @@ import java.util.List;
 public class TermAdapter extends RecyclerView.Adapter<TermAdapter.TermViewHolder> {
 
     class TermViewHolder extends RecyclerView.ViewHolder {
-//        private final TextView termIdView;
         private final TextView termTitleView;
         private final TextView termStartDateView;
         private final TextView termEndDateView;
 
         private TermViewHolder(View itemView) {
             super(itemView);
-//            termIdView = itemView.findViewById(R.id.term_id);
             termTitleView = itemView.findViewById(R.id.tv_term_name);
             termStartDateView = itemView.findViewById(R.id.tv_term_start);
             termEndDateView = itemView.findViewById(R.id.tv_term_end);
@@ -79,12 +77,10 @@ public class TermAdapter extends RecyclerView.Adapter<TermAdapter.TermViewHolder
         DateFormat df = new SimpleDateFormat(pattern);
         if (termList != null){
             TermEntity current = termList.get(position);
-//            holder.termIdView.setText(current.getId());
             holder.termTitleView.setText(current.getTermName());
             holder.termStartDateView.setText(df.format(current.getTermStart()));
             holder.termEndDateView.setText((df.format(current.getTermEnd())));
         } else{
-//            holder.termIdView.setText("no data");
             holder.termTitleView.setText("no data");
             holder.termStartDateView.setText("no data");
             holder.termEndDateView.setText("no data");

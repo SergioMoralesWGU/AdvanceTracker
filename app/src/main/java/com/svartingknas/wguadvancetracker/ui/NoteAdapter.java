@@ -34,7 +34,7 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteViewHolder
                 public void onClick(View v) {
                     int position = getAdapterPosition();
                     final NoteEntity current = mNotes.get(position);
-                    Intent intent = new Intent(context, CourseDetail.class); //TODO create a thing to add a note and change the intent.
+                    Intent intent = new Intent(context, CourseDetail.class);
                     intent.putExtra("Id", current.getId());
                     intent.putExtra("noteTitle", current.getNoteTitle());
                     intent.putExtra("noteText", current.getNoteText());

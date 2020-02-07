@@ -72,9 +72,9 @@ public class AssessmentListActivity extends AppCompatActivity {
             try {
                 AssessmentEntity assessmentEntity = new AssessmentEntity(
                         assessmentViewModel.lastID() + 1,
-                        data.getStringExtra("assessment_title"),
-                        dateFormat.parse(data.getStringExtra("assessment_due_date")),
-                        data.getStringExtra("assessment_type"),
+                        data.getStringExtra("assessmentName"),
+                        dateFormat.parse(data.getStringExtra("assessmentDate")),
+                        data.getStringExtra("assessmentType"),
                         data.getIntExtra("assessmentCourseId", -1)
                         );
                 assessmentViewModel.insert(assessmentEntity);

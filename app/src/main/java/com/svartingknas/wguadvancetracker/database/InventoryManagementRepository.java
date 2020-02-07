@@ -16,6 +16,24 @@ public class InventoryManagementRepository {
 
     private static int currentCourseId;
     private static int currentTermId;
+    private static int currentAssessmentId;
+    private static int currentNoteId;
+
+    public static int getCurrentAssessmentId() {
+        return currentAssessmentId;
+    }
+
+    public static void setCurrentAssessmentId(int currentAssessmentId) {
+        InventoryManagementRepository.currentAssessmentId = currentAssessmentId;
+    }
+
+    public static int getCurrentNoteId() {
+        return currentNoteId;
+    }
+
+    public static void setCurrentNoteId(int currentNoteId) {
+        InventoryManagementRepository.currentNoteId = currentNoteId;
+    }
 
     public static int getCurrentTermId() {
         return currentTermId;
@@ -23,8 +41,6 @@ public class InventoryManagementRepository {
     public static void setCurrentTermId(int newCurrentTermId) {
         currentTermId = newCurrentTermId;
     }
-
-
 
     public static void setCurrentCourseId(int newCurrentCourseId){
         currentCourseId = newCurrentCourseId;

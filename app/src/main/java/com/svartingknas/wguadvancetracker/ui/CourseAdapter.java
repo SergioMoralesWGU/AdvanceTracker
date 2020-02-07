@@ -113,20 +113,12 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.CourseView
             holder.clCourseStartDate.setText(df.format(current.getCourseStartDate()));
             holder.clCourseEndDate.setText(df.format(current.getCourseEndDate()));
 
-
-//            holder.courseStatus.setText(current.getCourseStatus());
-//            holder.mentorName.setText(current.getMentorName());
-//            holder.mentorPhoneNumber.setText(current.getMentorPhone());
-//            holder.mentorEmail.setText(current.getMentorEmail());
         } else {
             holder.clCourseTitle.setText("no data");
             holder.clCourseTermid.setText("no data");
             holder.clCourseStartDate.setText("no data");
             holder.clCourseEndDate.setText("no data");
-//            holder.courseStatus.setText("no data");
-//            holder.mentorName.setText("no data");
-//            holder.mentorPhoneNumber.setText("no data");
-//            holder.mentorEmail.setText("no data");
+
         }
 
     }

@@ -11,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.svartingknas.wguadvancetracker.AssessmentListActivity;
+import com.svartingknas.wguadvancetracker.CourseDetail;
 import com.svartingknas.wguadvancetracker.R;
 import com.svartingknas.wguadvancetracker.entities.AssessmentEntity;
 
@@ -38,7 +39,7 @@ public class AssessmentAdapter extends RecyclerView.Adapter<AssessmentAdapter.As
                 public void onClick(View v) {
                     int position = getAdapterPosition();
                     final AssessmentEntity current = assessmentList.get(position);
-                    Intent intent = new Intent(context, AssessmentListActivity.class); //TODO unsure what page goes here
+                    Intent intent = new Intent(context, CourseDetail.class);
                     intent.putExtra("id", current.getId());
                     intent.putExtra("assessmentName", current.getAssessmentName());
                     intent.putExtra("assessmentType", current.getAssessmentType());

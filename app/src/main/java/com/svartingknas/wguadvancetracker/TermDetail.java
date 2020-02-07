@@ -130,11 +130,3 @@ public class TermDetail extends AppCompatActivity {
 
 
 
-
-
-
-
-
-
-
-
