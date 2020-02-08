@@ -32,4 +32,5 @@
     <string name="empty_not_saved">Data not saved</string>
     <string name="title_activity_new_note">NewNoteActivity</string>
     <string name="note_name">Enter Note Title</string>
+    <string name="title_activity_term_course_view">TermCourseView</string>
 </resources>

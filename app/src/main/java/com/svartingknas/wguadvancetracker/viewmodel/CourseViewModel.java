@@ -34,6 +34,7 @@ public class CourseViewModel extends AndroidViewModel {
         return allCourses;
     }
     public LiveData<List<CourseEntity>> getAssociatedCourses(int courseTermId){
+
         return mRepository.getAssociatedCourses(courseTermId);
     }
     public void insert(CourseEntity courseEntity){

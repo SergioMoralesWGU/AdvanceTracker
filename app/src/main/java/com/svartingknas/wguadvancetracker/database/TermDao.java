@@ -26,6 +26,12 @@ public interface TermDao {
     @Query("SELECT * FROM terms_table ORDER BY id DESC")
     LiveData<List<TermEntity>> getAllTerms();
 
+    @Query("SELECT * FROM terms_table WHERE id = :id")
+    public TermEntity loadTerm(int id);
+
+
+
+
 
 }
 

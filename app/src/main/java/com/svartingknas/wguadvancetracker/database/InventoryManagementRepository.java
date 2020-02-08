@@ -14,10 +14,10 @@ import java.util.List;
 
 public class InventoryManagementRepository {
 
-    private static int currentCourseId;
-    private static int currentTermId;
-    private static int currentAssessmentId;
-    private static int currentNoteId;
+    private static int currentCourseId = -1;
+    private static int currentTermId = -1;
+    private static int currentAssessmentId = -1;
+    private static int currentNoteId = -1;
 
     public static int getCurrentAssessmentId() {
         return currentAssessmentId;
@@ -38,6 +38,7 @@ public class InventoryManagementRepository {
     public static int getCurrentTermId() {
         return currentTermId;
     }
+
     public static void setCurrentTermId(int newCurrentTermId) {
         currentTermId = newCurrentTermId;
     }
@@ -89,25 +90,25 @@ public class InventoryManagementRepository {
 
 
     public LiveData<List<AssessmentEntity>> getAllAssessments(){
-        return allAssessments;
+        return assessmentDao.getAllAssessments();
     }
     public LiveData<List<AssessmentEntity>> getAssociatedAssessments(int assessmentCourseId){
-        return associatedAssessments;
+        return assessmentDao.getAssociatedAssessments(assessmentCourseId);
     }
     public LiveData<List<CourseEntity>> getAllCourses(){
-        return allCourses;
+        return courseDao.getAllCourses();
     }
     public LiveData<List<CourseEntity>> getAssociatedCourses(int courseTermId){
-        return associatedCourses;
+        return courseDao.getAssociatedCourses(courseTermId);
     }
     public LiveData<List<NoteEntity>> getAllNotes(){
-        return allNotes;
+        return noteDao.getAllNotes();
     }
     public LiveData<List<NoteEntity>> getAssociatedNotes(int noteCourseId){
-        return associatedNotes;
+        return noteDao.getAssociatedNotes(noteCourseId);
     }
     public LiveData<List<TermEntity>> getAllTerms(){
-        return allTerms;
+        return termDao.getAllTerms();
     }
 
 

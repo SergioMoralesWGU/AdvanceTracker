@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.svartingknas.wguadvancetracker.database.InventoryManagementRepository;
 import com.svartingknas.wguadvancetracker.entities.CourseEntity;
 import com.svartingknas.wguadvancetracker.ui.CourseAdapter;
 import com.svartingknas.wguadvancetracker.viewmodel.CourseViewModel;
@@ -54,12 +55,23 @@ public class CourseListActivity extends AppCompatActivity {
         courseRecyclerView.setAdapter(courseAdapter);
         courseRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        courseViewModel.getAllCourses().observe(this, new Observer<List<CourseEntity>>() {
-            @Override
-            public void onChanged(List<CourseEntity> courses) {
-                courseAdapter.setCourses(courses);
-            }
-        });
+//        int currentTermId = InventoryManagementRepository.getCurrentTermId();
+        int currentTermId = getIntent().getIntExtra("termId", -2);
+        if (currentTermId == -1) {
+            courseViewModel.getAllCourses().observe(this, new Observer<List<CourseEntity>>() {
+                @Override
+                public void onChanged(List<CourseEntity> courses) {
+                    courseAdapter.setCourses(courses);
+                }
+            });
+        } else {
+            courseViewModel.getAssociatedCourses(currentTermId).observe(this, new Observer<List<CourseEntity>>() {
+                @Override
+                public void onChanged(List<CourseEntity> courses) {
+                    courseAdapter.setCourses(courses);
+                }
+            });
+        }
     }
 
     @Override
