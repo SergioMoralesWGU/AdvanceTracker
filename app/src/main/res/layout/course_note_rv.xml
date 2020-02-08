@@ -19,7 +19,7 @@
         android:padding="10dp"
         android:text="name of note" />
 
-    <EditText
+    <TextView
         android:id="@+id/note_text_tv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

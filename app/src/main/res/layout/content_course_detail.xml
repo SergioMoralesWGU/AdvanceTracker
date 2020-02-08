@@ -9,19 +9,6 @@
     tools:showIn="@layout/activity_course_detail">
 
     <TextView
-        android:id="@+id/textView19"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="156dp"
-        android:layout_marginTop="32dp"
-        android:text="Assessments"
-        android:textSize="16sp"
-        app:layout_constraintEnd_toStartOf="@+id/btn_add_assessment"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_course_detail_mentor_phone" />
-
-    <TextView
         android:id="@+id/tv_course_detail_name"
         android:layout_width="227dp"
         android:layout_height="48dp"
@@ -105,24 +92,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="168dp"
+        android:layout_marginTop="220dp"
         android:text="Mentor Details"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.472"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/textView10"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="188dp"
-        android:layout_marginTop="20dp"
-        android:text="Notes"
-        android:textSize="16sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/courseview_assessment_rv" />
 
     <TextView
         android:id="@+id/tv_course_detail_mentor_name"
@@ -137,7 +113,7 @@
         android:id="@+id/tv_course_detail_mentor_phone"
         android:layout_width="wrap_content"
         android:layout_height="19dp"
-        android:layout_marginEnd="52dp"
+        android:layout_marginEnd="60dp"
         android:text="888-888-8888"
         app:layout_constraintBaseline_toBaselineOf="@+id/tv_course_detail_mentor_email"
         app:layout_constraintEnd_toStartOf="@+id/tv_course_detail_mentor_email" />
@@ -146,42 +122,11 @@
         android:id="@+id/tv_course_detail_mentor_email"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="32dp"
         android:layout_marginEnd="16dp"
         android:text="mentor@wgu.edu"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView9" />
-
-    <Button
-        android:id="@+id/btn_add_assessment"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
-        android:text="Add Assessment"
-        android:textSize="10sp"
-        app:layout_constraintBaseline_toBaselineOf="@+id/textView19"
-        app:layout_constraintEnd_toEndOf="parent" />
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/courseview_assessment_rv"
-        android:layout_width="400dp"
-        android:layout_height="147dp"
-        android:layout_marginTop="16dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.727"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView19"
-        tools:listitem="@layout/course_assessment_rv" />
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/courseview_notes_rv"
-        android:layout_width="414dp"
-        android:layout_height="181dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.068"
-        app:layout_constraintStart_toStartOf="parent"
-        tools:listitem="@layout/course_note_rv" />
 
     <ImageButton
         android:id="@+id/btn_delete_course"
@@ -191,18 +136,6 @@
         app:layout_constraintStart_toEndOf="@+id/tv_course_detail_name"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/ic_delete_black_24dp" />
-
-    <Button
-        android:id="@+id/btn_add_note"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="20dp"
-        android:text="Add Note"
-        android:textSize="10sp"
-        app:layout_constraintBaseline_toBaselineOf="@+id/textView10"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toEndOf="@+id/textView10" />
 
     <ImageButton
         android:id="@+id/btn_edit_course"
@@ -214,5 +147,24 @@
         app:layout_constraintHorizontal_bias="0.285"
         app:layout_constraintStart_toEndOf="@+id/btn_delete_course"
         app:srcCompat="@android:drawable/ic_menu_edit" />
+
+    <Button
+        android:id="@+id/btn_display_assessment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="View Assessments"
+        app:layout_constraintBottom_toTopOf="@+id/btn_display_notes"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_course_detail_mentor_phone"
+        app:layout_constraintVertical_bias="0.48" />
+
+    <Button
+        android:id="@+id/btn_display_notes"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="180dp"
+        android:text="View Notes"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

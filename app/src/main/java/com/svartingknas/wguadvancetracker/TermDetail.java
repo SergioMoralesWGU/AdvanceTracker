@@ -67,11 +67,10 @@ public class TermDetail extends AppCompatActivity {
         termName = findViewById(R.id.tv_term_name);
         termStartDate = findViewById(R.id.term_start_date);
         termEndDate = findViewById(R.id.term_end_date);
-
+        final int termInt = getIntent().getIntExtra("Id", -1);
         if (getIntent().getStringExtra("termTitle")!=null){
             InventoryManagementRepository.setCurrentTermId(getIntent().getIntExtra("Id", -1));
-            int termInt = getIntent().getIntExtra("id", -1);
-            termId.setText(getIntent().getIntExtra("Id", -1));
+//            termId.setText(getIntent().getIntExtra("Id", -1));
             termName.setText(getIntent().getStringExtra("termTitle"));
             termStartDate.setText(getIntent().getStringExtra("termStartDate"));
             termEndDate.setText(getIntent().getStringExtra("termEndDate"));
@@ -98,7 +97,7 @@ public class TermDetail extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(TermDetail.this, TermListActivity.class);
-                TermEntity term = termDao.loadTerm(getIntent().getIntExtra("Id", -1));
+                TermEntity term = termDao.loadTerm(termInt);
                 startActivityForResult(intent, NEW_WORD_ACTIVITY_REQUEST_CODE);
             }
         });

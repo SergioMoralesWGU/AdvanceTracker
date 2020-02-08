@@ -44,8 +44,8 @@ public class CourseDetail extends AppCompatActivity{
     private NoteViewModel noteViewModel;
     private CourseViewModel courseViewModel;
     private LayoutInflater inflater;
-    private Button addNoteBtn;
-    private Button addAssessmentBtn;
+    private Button displayAssessmentBtn;
+    private Button displayNotesBtn;
     private ImageButton deleteCourse;
     private ImageButton editCourse;
 
@@ -77,21 +77,21 @@ public class CourseDetail extends AppCompatActivity{
         mentorEmail = findViewById(R.id.tv_course_detail_mentor_email);
 
 
-        addNoteBtn = findViewById(R.id.btn_add_note);
-        addNoteBtn.setOnClickListener(new View.OnClickListener() {
+        displayAssessmentBtn = findViewById(R.id.btn_display_assessment);
+        displayAssessmentBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(CourseDetail.this, NewNoteActivity.class);
+                Intent intent = new Intent(CourseDetail.this, AssessmentListActivity.class);
                 startActivityForResult(intent, NEW_NOTE_ACTIVITY_REQUEST_CODE);
             }
         });
 
 
-        addAssessmentBtn = findViewById(R.id.btn_add_assessment);
-        addAssessmentBtn.setOnClickListener(new View.OnClickListener() {
+        displayNotesBtn = findViewById(R.id.btn_display_notes);
+        displayNotesBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(CourseDetail.this, NewAssessmentActivity.class);
+                Intent intent = new Intent(CourseDetail.this, NoteListActivity.class);
                 startActivityForResult(intent, NEW_ASSESSMENT_ACTIVITY_REQUEST_CODE);
             }
         });
