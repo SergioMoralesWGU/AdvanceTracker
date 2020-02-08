@@ -67,7 +67,7 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.CourseView
                     int position = getAdapterPosition();
                     final CourseEntity current = courseList.get(position);
                     Intent intent = new Intent(context, CourseDetail.class); //TODO unsure of what page goes here
-                    intent.putExtra("id", current.getId());
+                    intent.putExtra("courseId", current.getId());
                     intent.putExtra("courseTitle", current.getCourseTitle());
                     intent.putExtra("courseStatus", current.getCourseStatus());
                     intent.putExtra("courseStartDate", dateFormat.format(current.getCourseStartDate()));

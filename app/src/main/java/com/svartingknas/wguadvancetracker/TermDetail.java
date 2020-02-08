@@ -69,8 +69,7 @@ public class TermDetail extends AppCompatActivity {
         termEndDate = findViewById(R.id.term_end_date);
         final int termInt = getIntent().getIntExtra("Id", -1);
         if (getIntent().getStringExtra("termTitle")!=null){
-            InventoryManagementRepository.setCurrentTermId(getIntent().getIntExtra("Id", -1));
-//            termId.setText(getIntent().getIntExtra("Id", -1));
+            termId.setText(termInt+ "");
             termName.setText(getIntent().getStringExtra("termTitle"));
             termStartDate.setText(getIntent().getStringExtra("termStartDate"));
             termEndDate.setText(getIntent().getStringExtra("termEndDate"));

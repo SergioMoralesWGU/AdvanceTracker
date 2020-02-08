@@ -95,9 +95,9 @@ public abstract class WguRoomDatabase extends RoomDatabase {
             assessment = new AssessmentEntity(2,"Pluscuamperfecto", new Date ("02/01/2020"), "Objective", 2);
             assessmentDao.insert(assessment);
 
-            NoteEntity note = new NoteEntity("Note One", "This is the first note", 1);
+            NoteEntity note = new NoteEntity(1, "Note One", "This is the first note", 1);
             noteDao.insert(note);
-            note = new NoteEntity("Note Two", "This is the second note", 2);
+            note = new NoteEntity(2, "Note Two", "This is the second note", 2);
             noteDao.insert(note);
 
             return null;

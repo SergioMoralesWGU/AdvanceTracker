@@ -58,8 +58,6 @@ public class CourseDetail extends AppCompatActivity{
     private TextView mentorPhone;
     private TextView mentorEmail;
 
-    int courseId = 1;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -68,6 +66,7 @@ public class CourseDetail extends AppCompatActivity{
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        final int courseId = getIntent().getIntExtra("courseId", -2);
         courseName = findViewById(R.id.tv_course_detail_name);
         courseStartDate = findViewById(R.id.tv_course_detail_start_date);
         courseEndDate = findViewById(R.id.tv_course_detail_end_date);
@@ -92,6 +91,7 @@ public class CourseDetail extends AppCompatActivity{
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(CourseDetail.this, NoteListActivity.class);
+                intent.putExtra("courseId", courseId);
                 startActivityForResult(intent, NEW_ASSESSMENT_ACTIVITY_REQUEST_CODE);
             }
         });
