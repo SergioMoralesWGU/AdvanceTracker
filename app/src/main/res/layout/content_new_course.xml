@@ -42,8 +42,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="56dp"
-        android:autofillHints="@string/start_date"
-        android:hint="@string/start_date"
+        android:autofillHints="@string/date_format_start"
+        android:hint="@string/date_format_start"
         android:inputType="date"
         android:textSize="18sp"
         app:layout_constraintEnd_toStartOf="@+id/et_course_end_date"
@@ -108,21 +108,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
-        android:autofillHints="@string/end_date"
-        android:hint="@string/end_date"
+        android:autofillHints="@string/date_format_end"
+        android:hint="@string/date_format_end"
         android:inputType="date"
         android:textSize="18sp"
         app:layout_constraintBaseline_toBaselineOf="@+id/et_course_start_date"
         app:layout_constraintEnd_toEndOf="parent" />
-
-    <CalendarView
-        android:id="@+id/course_calendar_view"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btn_save_course" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

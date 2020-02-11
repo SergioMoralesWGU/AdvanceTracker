@@ -49,8 +49,6 @@ public class TermDetail extends AppCompatActivity {
     private ImageButton deleteTermBtn;
     private int position;
     public static int numCourses;
-    private TermDao termDao;
-    private CourseDao courseDao;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -96,7 +94,12 @@ public class TermDetail extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(TermDetail.this, TermListActivity.class);
-                TermEntity term = termDao.loadTerm(termInt);
+                if (InventoryManagementRepository.hasAssociatedCourses(termInt)) {
+                    InventoryManagementRepository.deleteTermById(termInt);
+                }
+                else {
+                    Toast.makeText(TermDetail.this, "You cannot delete a term with courses", Toast.LENGTH_SHORT).show();
+                }
                 startActivityForResult(intent, NEW_WORD_ACTIVITY_REQUEST_CODE);
             }
         });

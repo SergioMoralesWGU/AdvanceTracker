@@ -81,6 +81,7 @@ public class CourseDetail extends AppCompatActivity{
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(CourseDetail.this, AssessmentListActivity.class);
+                intent.putExtra("courseId", courseId);
                 startActivityForResult(intent, NEW_NOTE_ACTIVITY_REQUEST_CODE);
             }
         });

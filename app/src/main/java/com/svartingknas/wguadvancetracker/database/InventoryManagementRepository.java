@@ -2,6 +2,7 @@ package com.svartingknas.wguadvancetracker.database;
 
 import android.app.Application;
 import android.os.AsyncTask;
+import android.widget.TextView;
 
 import androidx.lifecycle.LiveData;
 
@@ -51,10 +52,10 @@ public class InventoryManagementRepository {
     }
 
 
-    private AssessmentDao assessmentDao;
-    private CourseDao courseDao;
-    private NoteDao noteDao;
-    private TermDao termDao;
+    private static AssessmentDao assessmentDao;
+    private static CourseDao courseDao;
+    private static NoteDao noteDao;
+    private static TermDao termDao;
     private LiveData<List<TermEntity>> allTerms;
     private LiveData<List<CourseEntity>> allCourses;
     private LiveData<List<AssessmentEntity>> allAssessments;
@@ -87,6 +88,9 @@ public class InventoryManagementRepository {
 
     }
 
+    public static boolean hasAssociatedCourses(int termId) {
+        return courseDao.getAssociatedCourses(termId).getValue() != null && !courseDao.getAssociatedCourses(termId).getValue().isEmpty();
+    }
 
 
     public LiveData<List<AssessmentEntity>> getAllAssessments(){
@@ -95,10 +99,10 @@ public class InventoryManagementRepository {
     public LiveData<List<AssessmentEntity>> getAssociatedAssessments(int assessmentCourseId){
         return assessmentDao.getAssociatedAssessments(assessmentCourseId);
     }
-    public LiveData<List<CourseEntity>> getAllCourses(){
+    public static LiveData<List<CourseEntity>> getAllCourses(){
         return courseDao.getAllCourses();
     }
-    public LiveData<List<CourseEntity>> getAssociatedCourses(int courseTermId){
+    public static LiveData<List<CourseEntity>> getAssociatedCourses(int courseTermId){
         return courseDao.getAssociatedCourses(courseTermId);
     }
     public LiveData<List<NoteEntity>> getAllNotes(){
@@ -181,6 +185,27 @@ public class InventoryManagementRepository {
         }
     }
 
+    public static void deleteAssessmentById (int assessmentId){
+        new deleteAssessmentByIdAsyncTask(assessmentDao).execute(assessmentId);
+    }
+    private static class deleteAssessmentByIdAsyncTask extends AsyncTask<Integer, Void, Void> {
+
+        private AssessmentDao mAsyncTaskDao;
+
+        deleteAssessmentByIdAsyncTask(AssessmentDao dao) {
+            mAsyncTaskDao = dao;
+        }
+
+        @Override
+        protected Void doInBackground(Integer... integers) {
+            mAsyncTaskDao.deleteById(integers[0]);
+            return null;
+        }
+    }
+
+
+
+
     public void delete (AssessmentEntity assessmentEntity){
         new deleteAssessmentAsyncTask(assessmentDao).execute(assessmentEntity);
     }
@@ -214,6 +239,27 @@ public class InventoryManagementRepository {
         @Override
         protected Void doInBackground(final CourseEntity... params) {
             mAsyncTaskDao.delete(params[0]);
+            return null;
+        }
+    }
+
+
+
+    public static void deleteTermById(int termId){
+       new deleteTermByIdAsyncTask(termDao).execute(termId);
+    }
+
+    private static class deleteTermByIdAsyncTask extends AsyncTask<Integer, Void, Void> {
+
+        private TermDao mAsyncTaskDao;
+
+        deleteTermByIdAsyncTask(TermDao dao) {
+            mAsyncTaskDao = dao;
+        }
+
+        @Override
+        protected Void doInBackground(Integer... integers) {
+            mAsyncTaskDao.deleteById(integers[0]);
             return null;
         }
     }

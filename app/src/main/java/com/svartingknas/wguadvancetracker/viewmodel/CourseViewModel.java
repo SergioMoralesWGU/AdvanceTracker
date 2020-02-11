@@ -8,7 +8,6 @@ import androidx.lifecycle.LiveData;
 
 import com.svartingknas.wguadvancetracker.database.InventoryManagementRepository;
 import com.svartingknas.wguadvancetracker.entities.CourseEntity;
-import com.svartingknas.wguadvancetracker.entities.TermEntity;
 
 import java.util.List;
 
@@ -33,19 +32,22 @@ public class CourseViewModel extends AndroidViewModel {
     public LiveData<List<CourseEntity>> getAllCourses(){
         return allCourses;
     }
-    public LiveData<List<CourseEntity>> getAssociatedCourses(int courseTermId){
 
+    public LiveData<List<CourseEntity>> getAssociatedCourses(int courseTermId){
         return mRepository.getAssociatedCourses(courseTermId);
     }
+
     public void insert(CourseEntity courseEntity){
         mRepository.insert(courseEntity);
     }
+
     public void delete(CourseEntity courseEntity){
         mRepository.delete(courseEntity);
     }
 
     public int lastID(){
-        return allCourses.getValue().size();
+//        return allCourses.getValue().size();
+        return InventoryManagementRepository.getAllCourses().getValue().size();
     }
 
 }

@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.svartingknas.wguadvancetracker.database.CourseDao;
+import com.svartingknas.wguadvancetracker.database.InventoryManagementRepository;
 import com.svartingknas.wguadvancetracker.entities.AssessmentEntity;
 import com.svartingknas.wguadvancetracker.ui.AssessmentAdapter;
 import com.svartingknas.wguadvancetracker.viewmodel.AssessmentViewModel;
@@ -17,6 +19,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import java.text.DateFormat;
@@ -29,6 +32,7 @@ public class AssessmentListActivity extends AppCompatActivity {
     private static final int NEW_ASSESSMENT_REQUEST_CODE = 1;
     private AssessmentViewModel assessmentViewModel;
     private LayoutInflater layoutInflater;
+    private ImageButton deleteAssessment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,14 +44,16 @@ public class AssessmentListActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         assessmentViewModel = ViewModelProviders.of(this).get(AssessmentViewModel.class);
+        final int assessmentId = getIntent().getIntExtra("assessmentId", -1);
+
 
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(AssessmentListActivity.this, NewAssessmentActivity.class);
+                intent.putExtra("assessmentId", assessmentViewModel.lastID()+1);
                 startActivityForResult(intent, NEW_ASSESSMENT_REQUEST_CODE);
-
             }
         });
 
@@ -56,12 +62,34 @@ public class AssessmentListActivity extends AppCompatActivity {
         assessmentRecyclerView.setAdapter(assessmentAdapter);
         assessmentRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        assessmentViewModel.getAllAssessments().observe(this, new Observer<List<AssessmentEntity>>() {
-            @Override
-            public void onChanged(List<AssessmentEntity> assessmentEntities) {
-                assessmentAdapter.setAssessments(assessmentEntities);
-            }
-        });
+//        deleteAssessment = findViewById(R.id.delete_assessment_btn);
+//        deleteAssessment.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                    InventoryManagementRepository.deleteAssessmentById(assessmentId);
+//            }
+//        });
+
+
+        int currentCourseId = getIntent().getIntExtra("courseId", -2);
+        if (currentCourseId == -1){
+            assessmentViewModel.getAllAssessments().observe(this, new Observer<List<AssessmentEntity>>() {
+                @Override
+                public void onChanged(List<AssessmentEntity> assessmentEntities) {
+                    assessmentAdapter.setAssessments(assessmentEntities);
+                }
+            });
+        } else {
+            assessmentViewModel.getAssociatedAssessments(currentCourseId).observe(this, new Observer<List<AssessmentEntity>>() {
+                @Override
+                public void onChanged(List<AssessmentEntity> assessment) {
+                    assessmentAdapter.setAssessments(assessment);
+                }
+            });
+        }
+
+
+
     }
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {

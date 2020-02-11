@@ -25,6 +25,15 @@
             android:textSize="24sp" />
 
         <EditText
+            android:id="@+id/et_assessment_courseId"
+            android:autofillHints="@string/assessment_courseId"
+            android:textSize="18sp"
+            android:hint="@string/assessment_courseId"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inputType="number" />
+
+        <EditText
             android:id="@+id/et_assessment_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -62,13 +71,5 @@
             android:text="@string/save_button"
             android:textSize="12sp" />
 
-        <CalendarView
-            android:id="@+id/calendarView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@android:color/darker_gray"
-            android:visibility="visible"
-            tools:visibility="visible"
-            app:layout_constraintTop_toBottomOf="@+id/term_save_button"/>
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

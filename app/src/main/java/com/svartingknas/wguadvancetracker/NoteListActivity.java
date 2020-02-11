@@ -50,7 +50,7 @@ public class NoteListActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(NoteListActivity.this, NewNoteActivity.class);
-                intent.putExtra("Id", noteViewModel.lastID()+1); //TODO not sure if this is supposed to be just ID or noteCourseId
+                intent.putExtra("Id", noteViewModel.lastID()+1);
                 startActivityForResult(intent, NEW_NOTE_LIST_REQUEST_CODE);
             }
         });
@@ -75,9 +75,9 @@ public class NoteListActivity extends AppCompatActivity {
         if (resultCode == RESULT_OK) {
              NoteEntity noteEntity = new NoteEntity(
                         noteViewModel.lastID() + 1,
-                        data.getStringExtra("note_title"),
-                        data.getStringExtra("note_text"),
-                        data.getIntExtra("note_course_id", 1));
+                        data.getStringExtra("noteTitle"),
+                        data.getStringExtra("noteText"),
+                        data.getIntExtra("noteCourseId", 1));
                 noteViewModel.insert(noteEntity);
 
         } else {

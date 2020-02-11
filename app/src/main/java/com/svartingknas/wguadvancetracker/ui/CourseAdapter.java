@@ -11,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.svartingknas.wguadvancetracker.CourseDetail;
+import com.svartingknas.wguadvancetracker.CourseListActivity;
 import com.svartingknas.wguadvancetracker.R;
 import com.svartingknas.wguadvancetracker.entities.CourseEntity;
 
