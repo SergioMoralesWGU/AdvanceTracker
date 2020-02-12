@@ -78,7 +78,7 @@ public abstract class WguRoomDatabase extends RoomDatabase {
 //            courseDao.deleteAllCourses();
 //            assessmentDao.deleteAllAssessments();
 //            noteDao.deleteAllNotes();
-            //for testing
+//              for testing
 
             TermEntity term = new TermEntity(1, "First Term", new Date("12/12/2020"), new Date("06/01/2021"));
             termDao.insert(term);

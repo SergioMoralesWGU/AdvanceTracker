@@ -204,8 +204,6 @@ public class InventoryManagementRepository {
     }
 
 
-
-
     public void delete (AssessmentEntity assessmentEntity){
         new deleteAssessmentAsyncTask(assessmentDao).execute(assessmentEntity);
     }
@@ -225,7 +223,7 @@ public class InventoryManagementRepository {
     }
 
 
-    public void delete (CourseEntity courseEntity){
+    public static void delete (CourseEntity courseEntity){
         new deleteCourseAsyncTask(courseDao).execute(courseEntity);
     }
     private static class deleteCourseAsyncTask extends AsyncTask<CourseEntity, Void, Void> {

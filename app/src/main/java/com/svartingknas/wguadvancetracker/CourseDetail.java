@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.Observer;
@@ -22,7 +23,9 @@ import android.widget.Toast;
 
 import com.svartingknas.wguadvancetracker.database.InventoryManagementRepository;
 import com.svartingknas.wguadvancetracker.entities.AssessmentEntity;
+import com.svartingknas.wguadvancetracker.entities.CourseEntity;
 import com.svartingknas.wguadvancetracker.entities.NoteEntity;
+import com.svartingknas.wguadvancetracker.entities.TermEntity;
 import com.svartingknas.wguadvancetracker.ui.AssessmentAdapter;
 import com.svartingknas.wguadvancetracker.ui.NoteAdapter;
 import com.svartingknas.wguadvancetracker.viewmodel.AssessmentViewModel;
@@ -32,6 +35,7 @@ import com.svartingknas.wguadvancetracker.viewmodel.NoteViewModel;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.List;
 
 public class CourseDetail extends AppCompatActivity{
@@ -63,6 +67,8 @@ public class CourseDetail extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_course_detail);
         Toolbar toolbar = findViewById(R.id.toolbar);
+        courseViewModel = ViewModelProviders.of(this).get(CourseViewModel.class);
+
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
@@ -98,6 +104,31 @@ public class CourseDetail extends AppCompatActivity{
         });
 
         deleteCourse = findViewById(R.id.btn_delete_course);
+        deleteCourse.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(CourseDetail.this, TermListActivity.class);
+//                intent.putExtra("courseTermid", courseViewModel. );
+                startActivity(intent);
+
+                courseViewModel.getAllCourses().observe(CourseDetail.this, new Observer<List<CourseEntity>>() {
+                    @Override
+                    public void onChanged(@Nullable final List<CourseEntity> words) {
+                        // Update the cached copy of the words in the adapter.
+                        List<CourseEntity> filteredWords = new ArrayList<>();
+                        for (CourseEntity courseEntity : words)
+                            if (courseEntity.getId() == getIntent().getIntExtra("id", 0))
+//                                filteredWords.add(p);
+                                courseViewModel.delete(courseEntity);
+                        Toast.makeText(getApplicationContext(),"Course Deleted",Toast.LENGTH_LONG).show();
+//                        // make a toast
+//                        //adapter.setWords(words);
+                    }
+                });
+
+            }
+        });
+
 
         editCourse = findViewById(R.id.btn_edit_course);
 

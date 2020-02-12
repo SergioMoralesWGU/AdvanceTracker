@@ -49,6 +49,7 @@ public class TermDetail extends AppCompatActivity {
     private ImageButton deleteTermBtn;
     private int position;
     public static int numCourses;
+    public int getTermId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,12 +61,14 @@ public class TermDetail extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        getTermId = getIntent().getIntExtra("Id", -1);
 
         termId = findViewById(R.id.term_id);
         termName = findViewById(R.id.tv_term_name);
         termStartDate = findViewById(R.id.term_start_date);
         termEndDate = findViewById(R.id.term_end_date);
         final int termInt = getIntent().getIntExtra("Id", -1);
+        final int courseTermId = getIntent().getIntExtra("courseTermId", -1);
         if (getIntent().getStringExtra("termTitle")!=null){
             termId.setText(termInt+ "");
             termName.setText(getIntent().getStringExtra("termTitle"));
@@ -94,13 +97,19 @@ public class TermDetail extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(TermDetail.this, TermListActivity.class);
-                if (InventoryManagementRepository.hasAssociatedCourses(termInt)) {
+                if (!InventoryManagementRepository.hasAssociatedCourses(termInt)) {
                     InventoryManagementRepository.deleteTermById(termInt);
                 }
                 else {
                     Toast.makeText(TermDetail.this, "You cannot delete a term with courses", Toast.LENGTH_SHORT).show();
                 }
                 startActivityForResult(intent, NEW_WORD_ACTIVITY_REQUEST_CODE);
+
+//                if (courseViewModel.getAssociatedCourses(courseTermId) == null) {
+//                    termViewModel.delete(getTermId);
+//                } else {
+//                    Toast.makeText(TermDetail.this, "You cannot delete a term with courses", Toast.LENGTH_SHORT).show();
+//                }
             }
         });
 

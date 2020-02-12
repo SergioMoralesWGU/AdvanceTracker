@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -13,6 +14,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.svartingknas.wguadvancetracker.CourseDetail;
 import com.svartingknas.wguadvancetracker.CourseListActivity;
 import com.svartingknas.wguadvancetracker.R;
+import com.svartingknas.wguadvancetracker.database.CourseDao;
+import com.svartingknas.wguadvancetracker.database.InventoryManagementRepository;
 import com.svartingknas.wguadvancetracker.entities.CourseEntity;
 
 import java.text.DateFormat;
@@ -27,6 +30,7 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.CourseView
         private final TextView clCourseTermid;
         private final TextView clCourseStartDate;
         private final TextView clCourseEndDate;
+        private final ImageButton clCourseDeleteBtn;
 //        //COURSE DETAIL ITEMS
 //        private final TextView cdCourse_name
 //        private final TextView cdCourseStartDate
@@ -43,6 +47,7 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.CourseView
             clCourseTitle = itemView.findViewById(R.id.tv_course_name);
             clCourseStartDate = itemView.findViewById(R.id.tv_course_start_date);
             clCourseEndDate = itemView.findViewById(R.id.tv_course_end_date);
+            clCourseDeleteBtn = itemView.findViewById(R.id.btn_course_list_delete);
 
             //COURSE DETAIL
 //            cdCourse_name = itemView.findViewById(R.id.tv_course_name);
@@ -81,6 +86,13 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.CourseView
                     context.startActivity(intent);
                 }
             });
+            clCourseDeleteBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    InventoryManagementRepository.delete(courseList.get(getAdapterPosition()));
+                }
+            });
+
         }
     }
 
