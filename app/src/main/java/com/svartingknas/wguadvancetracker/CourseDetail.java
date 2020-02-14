@@ -92,7 +92,6 @@ public class CourseDetail extends AppCompatActivity{
             }
         });
 
-
         displayNotesBtn = findViewById(R.id.btn_display_notes);
         displayNotesBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -108,23 +107,27 @@ public class CourseDetail extends AppCompatActivity{
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(CourseDetail.this, TermListActivity.class);
-//                intent.putExtra("courseTermid", courseViewModel. );
+                    InventoryManagementRepository.deleteCourseById(courseId);
+                    Toast.makeText(getApplicationContext(),"Course Deleted",Toast.LENGTH_LONG).show();
                 startActivity(intent);
 
-                courseViewModel.getAllCourses().observe(CourseDetail.this, new Observer<List<CourseEntity>>() {
-                    @Override
-                    public void onChanged(@Nullable final List<CourseEntity> words) {
-                        // Update the cached copy of the words in the adapter.
-                        List<CourseEntity> filteredWords = new ArrayList<>();
-                        for (CourseEntity courseEntity : words)
-                            if (courseEntity.getId() == getIntent().getIntExtra("id", 0))
+
+
+//                intent.putExtra("courseTermid", courseViewModel. );
+
+//                courseViewModel.getAllCourses().observe(CourseDetail.this, new Observer<List<CourseEntity>>() {
+//                    @Override
+//                    public void onChanged(@Nullable final List<CourseEntity> words) {
+//                        // Update the cached copy of the words in the adapter.
+//                        List<CourseEntity> filteredWords = new ArrayList<>();
+//                        for (CourseEntity courseEntity : words)
+//                            if (courseEntity.getId() == getIntent().getIntExtra("id", 0))
 //                                filteredWords.add(p);
-                                courseViewModel.delete(courseEntity);
-                        Toast.makeText(getApplicationContext(),"Course Deleted",Toast.LENGTH_LONG).show();
+//                                courseViewModel.delete(courseEntity);
 //                        // make a toast
 //                        //adapter.setWords(words);
-                    }
-                });
+//                    }
+//                });
 
             }
         });

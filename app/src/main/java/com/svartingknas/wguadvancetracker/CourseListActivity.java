@@ -55,7 +55,7 @@ public class CourseListActivity extends AppCompatActivity {
         courseRecyclerView.setAdapter(courseAdapter);
         courseRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        int currentTermId = getIntent().getIntExtra("termId", -2);
+        int currentTermId = getIntent().getIntExtra("termId", -1);
         if (currentTermId == -1) {
             courseViewModel.getAllCourses().observe(this, new Observer<List<CourseEntity>>() {
                 @Override

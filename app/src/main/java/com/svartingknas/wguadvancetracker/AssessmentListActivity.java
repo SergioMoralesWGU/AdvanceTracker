@@ -4,8 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.svartingknas.wguadvancetracker.database.CourseDao;
-import com.svartingknas.wguadvancetracker.database.InventoryManagementRepository;
 import com.svartingknas.wguadvancetracker.entities.AssessmentEntity;
 import com.svartingknas.wguadvancetracker.ui.AssessmentAdapter;
 import com.svartingknas.wguadvancetracker.viewmodel.AssessmentViewModel;
@@ -71,7 +69,7 @@ public class AssessmentListActivity extends AppCompatActivity {
 //        });
 
 
-        int currentCourseId = getIntent().getIntExtra("courseId", -2);
+        int currentCourseId = getIntent().getIntExtra("courseId", -1);
         if (currentCourseId == -1){
             assessmentViewModel.getAllAssessments().observe(this, new Observer<List<AssessmentEntity>>() {
                 @Override

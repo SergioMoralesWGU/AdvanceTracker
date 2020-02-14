@@ -1,5 +1,8 @@
 package com.svartingknas.wguadvancetracker;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -19,6 +22,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -69,6 +74,48 @@ public class NoteListActivity extends AppCompatActivity {
                 }
             });
         }
+
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.sharing) {
+            Intent sendIntent = new Intent();
+            sendIntent.setAction(Intent.ACTION_SEND);
+            sendIntent.putExtra(Intent.EXTRA_TEXT, "This is my text to send.");
+            // (Optional) Here we're setting the title of the content
+            sendIntent.putExtra(Intent.EXTRA_TITLE, "Send message title");
+            sendIntent.setType("text/plain");
+
+            Intent shareIntent = Intent.createChooser(sendIntent, null);
+            startActivity(shareIntent);
+            return true;
+        }
+//        if (id == R.id.notifications) {
+//            Intent intent=new Intent(NoteListActivity.this,MyReceiver.class);
+//            intent.putExtra("key","This is a short message");
+//            PendingIntent sender= PendingIntent.getBroadcast(NoteListActivity.this,0,intent,0);
+//            AlarmManager alarmManager=(AlarmManager)getSystemService(Context.ALARM_SERVICE);
+//            date=Long.parseLong(mills.getText().toString());
+//            alarmManager.set(AlarmManager.RTC_WAKEUP, date, sender);
+//            return true;
+//        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
 
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);

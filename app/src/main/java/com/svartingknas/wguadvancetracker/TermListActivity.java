@@ -55,8 +55,8 @@ public class TermListActivity extends AppCompatActivity {
         termViewModel.getAllTerms().observe(this, new Observer<List<TermEntity>>() {
             @Override
             public void onChanged(@Nullable final List<TermEntity> terms) {
-                //update the cached copy of nodos in the adapter
-                termListAdapter.setTerms(terms);
+                //update the cached copy of terms in the adapter
+                termListAdapter.setTerms(termViewModel.getAllTerms().getValue());
             }
         });
     }

@@ -45,6 +45,10 @@ public class CourseViewModel extends AndroidViewModel {
         mRepository.delete(courseEntity);
     }
 
+    public void deleteCourseById(int courseId){
+        mRepository.deleteCourseById(courseId);
+    }
+
     public int lastID(){
         return InventoryManagementRepository.getAllCourses().getValue() == null ? 1 : InventoryManagementRepository.getAllCourses().getValue().size();
 //        return allCourses.getValue().size();

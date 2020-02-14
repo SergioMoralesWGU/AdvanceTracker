@@ -1,28 +1,18 @@
 package com.svartingknas.wguadvancetracker;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.svartingknas.wguadvancetracker.database.CourseDao;
-import com.svartingknas.wguadvancetracker.database.InventoryManagementRepository;
-import com.svartingknas.wguadvancetracker.database.TermDao;
-import com.svartingknas.wguadvancetracker.entities.CourseEntity;
+
 import com.svartingknas.wguadvancetracker.entities.TermEntity;
-import com.svartingknas.wguadvancetracker.ui.CourseAdapter;
 import com.svartingknas.wguadvancetracker.viewmodel.CourseViewModel;
 import com.svartingknas.wguadvancetracker.viewmodel.TermViewModel;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -32,15 +22,12 @@ import android.widget.Toast;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.List;
 
 public class TermDetail extends AppCompatActivity {
     private static final int NEW_WORD_ACTIVITY_REQUEST_CODE = 1 ;
     public static final String EXTRA_REPLY = "com.svartingknas.wguadvancetracker.REPLY";
 
     private TermViewModel termViewModel;
-    private CourseViewModel courseViewModel;
     private TextView termName;
     private TextView termStartDate;
     private TextView termEndDate;
@@ -55,7 +42,6 @@ public class TermDetail extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         termViewModel = ViewModelProviders.of(this).get(TermViewModel.class);
-        courseViewModel = ViewModelProviders.of(this).get(CourseViewModel.class);
         setContentView(R.layout.activity_term_detail);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -76,40 +62,17 @@ public class TermDetail extends AppCompatActivity {
             termEndDate.setText(getIntent().getStringExtra("termEndDate"));
         }
 
-//        RecyclerView recyclerView = findViewById(R.id.associated_courses_rv);
-//        final CourseAdapter adapter = new CourseAdapter(this);
-//        recyclerView.setAdapter(adapter);
-//        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-//        courseViewModel = ViewModelProviders.of(this).get(CourseViewModel.class);
-//        courseViewModel.getAssociatedCourses(1).observe(this, new Observer<List<CourseEntity>>() {
-//            @Override
-//            public void onChanged(List<CourseEntity> courseEntities) {
-//                List<CourseEntity> filteredCourses = new ArrayList<>();
-//                for (CourseEntity i:courseEntities)
-//                    if (i.getCourseTermId()==getIntent().getIntExtra("courseTermId", 0))filteredCourses.add(i);
-//                    adapter.setCourses(filteredCourses);
-//                    numCourses = filteredCourses.size();
-//            }
-//        });
-
         deleteTermBtn = findViewById(R.id.delete_term_btn);
         deleteTermBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(TermDetail.this, TermListActivity.class);
-                if (!InventoryManagementRepository.hasAssociatedCourses(termInt)) {
-                    InventoryManagementRepository.deleteTermById(termInt);
-                }
-                else {
-                    Toast.makeText(TermDetail.this, "You cannot delete a term with courses", Toast.LENGTH_SHORT).show();
-                }
-                startActivityForResult(intent, NEW_WORD_ACTIVITY_REQUEST_CODE);
-
-//                if (courseViewModel.getAssociatedCourses(courseTermId) == null) {
-//                    termViewModel.delete(getTermId);
+//                if (courseViewModel.getAssociatedCourses(courseTermId) != null) {
+                    termViewModel.deleteById(courseTermId);
 //                } else {
-//                    Toast.makeText(TermDetail.this, "You cannot delete a term with courses", Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(TermDetail.this, "You cannot delete a term with courses", Toast.LENGTH_LONG).show();
 //                }
+                startActivityForResult(intent, NEW_WORD_ACTIVITY_REQUEST_CODE);
             }
         });
 

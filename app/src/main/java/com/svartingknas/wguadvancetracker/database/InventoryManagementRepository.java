@@ -56,13 +56,13 @@ public class InventoryManagementRepository {
     private static CourseDao courseDao;
     private static NoteDao noteDao;
     private static TermDao termDao;
-    private LiveData<List<TermEntity>> allTerms;
-    private LiveData<List<CourseEntity>> allCourses;
-    private LiveData<List<AssessmentEntity>> allAssessments;
-    private LiveData<List<NoteEntity>> allNotes;
-    private LiveData<List<CourseEntity>> associatedCourses;
-    private LiveData<List<AssessmentEntity>> associatedAssessments;
-    private LiveData<List<NoteEntity>> associatedNotes;
+//    private LiveData<List<TermEntity>> allTerms;
+//    private LiveData<List<CourseEntity>> allCourses;
+//    private LiveData<List<AssessmentEntity>> allAssessments;
+//    private LiveData<List<NoteEntity>> allNotes;
+//    private LiveData<List<CourseEntity>> associatedCourses;
+//    private LiveData<List<AssessmentEntity>> associatedAssessments;
+//    private LiveData<List<NoteEntity>> associatedNotes;
 
     private int assessmentCourseId;
     private int courseTermId;
@@ -72,19 +72,19 @@ public class InventoryManagementRepository {
         WguRoomDatabase db = WguRoomDatabase.getDatabase(application);
 
         assessmentDao = db.assessmentDao();
-        allAssessments = assessmentDao.getAllAssessments();
-        associatedAssessments = assessmentDao.getAssociatedAssessments(assessmentCourseId);
+//        allAssessments = assessmentDao.getAllAssessments();
+//        associatedAssessments = assessmentDao.getAssociatedAssessments(assessmentCourseId);
 
         courseDao = db.courseDao();
-        allCourses = courseDao.getAllCourses();
-        associatedCourses = courseDao.getAssociatedCourses(courseTermId);
+//        allCourses = courseDao.getAllCourses();
+//        associatedCourses = courseDao.getAssociatedCourses(courseTermId);
 
         noteDao = db.noteDao();
-        allNotes = noteDao.getAllNotes();
-        associatedNotes = noteDao.getAssociatedNotes(noteCourseId);
+//        allNotes = noteDao.getAllNotes();
+//        associatedNotes = noteDao.getAssociatedNotes(noteCourseId);
 
         termDao = db.termDao();
-        allTerms = termDao.getAllTerms();
+//        allTerms = termDao.getAllTerms();
 
     }
 
@@ -92,6 +92,18 @@ public class InventoryManagementRepository {
         return courseDao.getAssociatedCourses(termId).getValue() != null && !courseDao.getAssociatedCourses(termId).getValue().isEmpty();
     }
 
+    public static CourseEntity getCourseById(int courseId){
+        List<CourseEntity> courses = getAllCourses().getValue();
+        if (courses == null){
+            return null;
+        }
+        for (CourseEntity courseEntity: courses){
+            if (courseEntity.getId()==courseId){
+                return courseEntity;
+            }
+        }
+        return null;
+    }
 
     public LiveData<List<AssessmentEntity>> getAllAssessments(){
         return assessmentDao.getAllAssessments();
@@ -241,9 +253,30 @@ public class InventoryManagementRepository {
         }
     }
 
+    public static void deleteCourseById(int courseId){
+        new deleteCourseByIdAsyncTask(courseDao).execute(courseId);
+    }
+
+    private static class deleteCourseByIdAsyncTask extends AsyncTask<Integer, Void, Void> {
+
+        private CourseDao mAsyncTaskDao;
+
+        deleteCourseByIdAsyncTask(CourseDao dao) {
+            mAsyncTaskDao = dao;
+        }
+
+        @Override
+        protected Void doInBackground(Integer... integers) {
+            mAsyncTaskDao.deleteCourseById(integers[0]);
+            return null;
+        }
+    }
 
 
-    public static void deleteTermById(int termId){
+
+
+
+    public void deleteTermById(int termId){
        new deleteTermByIdAsyncTask(termDao).execute(termId);
     }
 
