@@ -38,6 +38,5 @@ public class TermViewModel extends AndroidViewModel {
     }
 
     public int lastID(){
-        allTerms = mRepository.getAllTerms();
         return allTerms.getValue() == null ? 1 : allTerms.getValue().size();    }
 }

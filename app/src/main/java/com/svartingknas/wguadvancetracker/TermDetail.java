@@ -4,8 +4,8 @@ import android.content.Intent;
 import android.os.Bundle;
 
 
+import com.svartingknas.wguadvancetracker.database.InventoryManagementRepository;
 import com.svartingknas.wguadvancetracker.entities.TermEntity;
-import com.svartingknas.wguadvancetracker.viewmodel.CourseViewModel;
 import com.svartingknas.wguadvancetracker.viewmodel.TermViewModel;
 
 import androidx.annotation.Nullable;
@@ -67,10 +67,13 @@ public class TermDetail extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(TermDetail.this, TermListActivity.class);
+                if (InventoryManagementRepository.hasAssociatedCourses(termInt)){
+                    Toast.makeText(TermDetail.this, "You cannot delete a term with courses", Toast.LENGTH_LONG).show();
+                }
+                InventoryManagementRepository.deleteTermById(termInt);
+                Toast.makeText(TermDetail.this, "Term Deleted", Toast.LENGTH_LONG).show();
 //                if (courseViewModel.getAssociatedCourses(courseTermId) != null) {
-                    termViewModel.deleteById(courseTermId);
 //                } else {
-//                    Toast.makeText(TermDetail.this, "You cannot delete a term with courses", Toast.LENGTH_LONG).show();
 //                }
                 startActivityForResult(intent, NEW_WORD_ACTIVITY_REQUEST_CODE);
             }

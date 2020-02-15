@@ -39,12 +39,14 @@ public class CourseListActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         courseViewModel = ViewModelProviders.of(this).get(CourseViewModel.class);
 
+        final int currentTermId = getIntent().getIntExtra("termId", -1);
+
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(CourseListActivity.this, NewCourseActivity.class);
-                intent.putExtra("courseId", courseViewModel.lastID()+1);
+                intent.putExtra("termId", currentTermId);
                 startActivityForResult(intent, NEW_CLASS_LIST_REQUEST_CODE);
             }
         });
@@ -55,7 +57,6 @@ public class CourseListActivity extends AppCompatActivity {
         courseRecyclerView.setAdapter(courseAdapter);
         courseRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        int currentTermId = getIntent().getIntExtra("termId", -1);
         if (currentTermId == -1) {
             courseViewModel.getAllCourses().observe(this, new Observer<List<CourseEntity>>() {
                 @Override
@@ -81,7 +82,7 @@ public class CourseListActivity extends AppCompatActivity {
             DateFormat dateFormat = new SimpleDateFormat(pattern);
             try {
                 CourseEntity courseEntity = new CourseEntity(
-                        courseViewModel.lastID() + 1,
+                        data.getIntExtra("termId", -1),
                         data.getStringExtra("courseTitle"),
                         dateFormat.parse(data.getStringExtra("courseStartDate")),
                         dateFormat.parse(data.getStringExtra("courseEndDate")),

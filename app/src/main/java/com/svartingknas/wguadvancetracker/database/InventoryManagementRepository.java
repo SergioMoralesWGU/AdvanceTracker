@@ -276,7 +276,7 @@ public class InventoryManagementRepository {
 
 
 
-    public void deleteTermById(int termId){
+    public static void deleteTermById(int termId){
        new deleteTermByIdAsyncTask(termDao).execute(termId);
     }
 
