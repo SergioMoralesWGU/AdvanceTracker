@@ -50,8 +50,8 @@ public class CourseViewModel extends AndroidViewModel {
     }
 
     public int lastID(){
-        return InventoryManagementRepository.getAllCourses().getValue() == null ? 1 : InventoryManagementRepository.getAllCourses().getValue().size();
-//        return allCourses.getValue().size();
+//        return InventoryManagementRepository.getAllCourses().getValue() == null ? 1 : InventoryManagementRepository.getAllCourses().getValue().size();
+        return allCourses.getValue().size();
 //        return InventoryManagementRepository.getAllCourses().getValue().size();
     }
 
