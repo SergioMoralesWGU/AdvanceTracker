@@ -79,13 +79,6 @@ public class CourseEntity {
         this.courseTermId = courseTermId;
     }
 
-//    public CourseEntity(int id, String courseTitle, Date courseStartDate, Date courseEndDate,int courseTermId) {
-//        this.id = id;
-//        this.courseTitle = courseTitle;
-//        this.courseStartDate = courseStartDate;
-//        this.courseEndDate = courseEndDate;
-//        this.courseTermId = courseTermId;
-//    }
 
     public int getId() {
         return id;

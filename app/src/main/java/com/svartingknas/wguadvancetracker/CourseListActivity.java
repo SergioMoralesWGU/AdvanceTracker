@@ -82,7 +82,8 @@ public class CourseListActivity extends AppCompatActivity {
             DateFormat dateFormat = new SimpleDateFormat(pattern);
             try {
                 CourseEntity courseEntity = new CourseEntity(
-                        data.getIntExtra("termId", -1),
+//                        data.getIntExtra("termId", -1),
+                        courseViewModel.lastID()+1,
                         data.getStringExtra("courseTitle"),
                         dateFormat.parse(data.getStringExtra("courseStartDate")),
                         dateFormat.parse(data.getStringExtra("courseEndDate")),
@@ -90,7 +91,7 @@ public class CourseListActivity extends AppCompatActivity {
                         data.getStringExtra("mentorName"),
                         data.getStringExtra("mentorPhone"),
                         data.getStringExtra("mentorEmail"),
-                        data.getIntExtra("courseTermId", -1)
+                        data.getIntExtra("termId", -1)
                 );
                 courseViewModel.insert(courseEntity);
             } catch (ParseException pe) {
