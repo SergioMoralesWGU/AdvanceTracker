@@ -44,6 +44,14 @@ public class NoteViewModel extends AndroidViewModel {
     }
 
     public int lastID(){
-        return allNotes.getValue().size();
+        if (allNotes.getValue() == null){
+            return 0;
+        }
+        int size = allNotes.getValue().size();
+        NoteEntity lastNote = allNotes.getValue().get(size-1);
+        if (lastNote == null){
+            return 0;
+        }
+        return lastNote.getId();
     }
 }

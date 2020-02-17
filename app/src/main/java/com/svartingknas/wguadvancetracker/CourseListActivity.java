@@ -82,7 +82,6 @@ public class CourseListActivity extends AppCompatActivity {
             DateFormat dateFormat = new SimpleDateFormat(pattern);
             try {
                 CourseEntity courseEntity = new CourseEntity(
-//                        data.getIntExtra("termId", -1),
                         courseViewModel.lastID()+1,
                         data.getStringExtra("courseTitle"),
                         dateFormat.parse(data.getStringExtra("courseStartDate")),
