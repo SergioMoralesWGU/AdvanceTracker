@@ -138,7 +138,7 @@ public class CourseDetail extends AppCompatActivity{
 
 
         if (getIntent().getStringExtra("courseTitle") != null) {
-            InventoryManagementRepository.setCurrentCourseId(getIntent().getIntExtra("id", -1));
+//            InventoryManagementRepository.setCurrentCourseId(getIntent().getIntExtra("id", -1));
             courseName.setText(getIntent().getStringExtra("courseTitle"));
             courseStartDate.setText(getIntent().getStringExtra("courseStartDate"));
             courseEndDate.setText(getIntent().getStringExtra("courseEndDate"));

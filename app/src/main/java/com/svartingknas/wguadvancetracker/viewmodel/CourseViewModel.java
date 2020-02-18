@@ -1,6 +1,7 @@
 package com.svartingknas.wguadvancetracker.viewmodel;
 
 import android.app.Application;
+import android.content.Intent;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
@@ -13,6 +14,7 @@ import java.util.List;
 
 public class CourseViewModel extends AndroidViewModel {
     int courseTermId;
+    private static Integer lastId;
     private InventoryManagementRepository mRepository;
     private LiveData<List<CourseEntity>> associatedCourses;
     private LiveData<List<CourseEntity>> allCourses;
@@ -50,14 +52,7 @@ public class CourseViewModel extends AndroidViewModel {
     }
 
     public int lastID(){
-        if (allCourses.getValue() == null){
-            return 0;
-        }
-        int size = allCourses.getValue().size();
-        CourseEntity lastCourse = allCourses.getValue().get(size-1);
-        if (lastCourse == null){
-            return 0;
-        }
-        return lastCourse.getId();
+        return InventoryManagementRepository.getLastCourseId();
+
     }
 }

@@ -41,15 +41,7 @@ public class AssessmentViewModel extends AndroidViewModel {
     public void delete(AssessmentEntity assessmentEntity){
         mRepository.delete(assessmentEntity);
     }
-    public int lastID(){
-        if (allAssessments.getValue() == null){
-            return 0;
-        }
-        int size = allAssessments.getValue().size();
-        AssessmentEntity lastAssessment = allAssessments.getValue().get(size-1);
-        if (lastAssessment == null){
-            return 0;
-        }
-        return lastAssessment.getId();
+    public int lastID( ){
+        return InventoryManagementRepository.getLastAssessmentId();
     }
 }

@@ -37,17 +37,7 @@ public class TermViewModel extends AndroidViewModel {
         allTerms = mRepository.getAllTerms();
     }
 
-    public int lastID(){
-        if (allTerms.getValue() == null){
-            return 0;
-        }
-        int size = allTerms.getValue().size();
-        TermEntity lastTerm = allTerms.getValue().get(size-1);
-        if (lastTerm == null){
-            return 0;
-        }
-        return lastTerm.getId();
+    public int lastID() {
+        return InventoryManagementRepository.getLastTermId();
     }
-//    public int lastID(){
-//        return allTerms.getValue() == null ? 1 : allTerms.getValue().size();    }
 }
