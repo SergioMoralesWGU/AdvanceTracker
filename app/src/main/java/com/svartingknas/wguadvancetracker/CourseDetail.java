@@ -101,7 +101,6 @@ public class CourseDetail extends AppCompatActivity{
                 startActivityForResult(intent, NEW_ASSESSMENT_ACTIVITY_REQUEST_CODE);
             }
         });
-
         deleteCourse = findViewById(R.id.btn_delete_course);
         deleteCourse.setOnClickListener(new View.OnClickListener() {
             @Override

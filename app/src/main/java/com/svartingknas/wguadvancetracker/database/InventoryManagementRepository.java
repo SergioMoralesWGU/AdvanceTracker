@@ -94,6 +94,7 @@ public class InventoryManagementRepository {
     public LiveData<List<NoteEntity>> getAssociatedNotes(int noteCourseId){
         return noteDao.getAssociatedNotes(noteCourseId);
     }
+
     public LiveData<List<TermEntity>> getAllTerms(){
         return termDao.getAllTerms();
     }

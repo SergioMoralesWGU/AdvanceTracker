@@ -22,7 +22,7 @@
     <TextView
         android:id="@+id/note_text_tv"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:ems="10"
         android:gravity="start|top"
         android:inputType="textMultiLine" />

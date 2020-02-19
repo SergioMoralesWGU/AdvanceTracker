@@ -50,12 +50,14 @@ public class NoteListActivity extends AppCompatActivity {
         tvNoteName = findViewById(R.id.note_text_tv);
         tvNoteText = findViewById(R.id.note_name_tv);
 
+        final int currentCourseId = getIntent().getIntExtra("courseId", -1);
+
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(NoteListActivity.this, NewNoteActivity.class);
-                intent.putExtra("Id", noteViewModel.lastID()+1);
+                intent.putExtra("courseId", currentCourseId);
                 startActivityForResult(intent, NEW_NOTE_LIST_REQUEST_CODE);
             }
         });
@@ -66,14 +68,13 @@ public class NoteListActivity extends AppCompatActivity {
         noteRecyclerView.setAdapter(noteAdapter);
         noteRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        int noteCourseId = getIntent().getIntExtra("courseId", -2);
-            noteViewModel.getAssociatedNotes(noteCourseId).observe(this, new Observer<List<NoteEntity>>() {
-                @Override
-                public void onChanged(List<NoteEntity> courses) {
-                    noteAdapter.setNotes(courses);
-                }
-            });
-        }
+        noteViewModel.getAssociatedNotes(currentCourseId).observe(this, new Observer<List<NoteEntity>>() {
+            @Override
+            public void onChanged(List<NoteEntity> courses) {
+                noteAdapter.setNotes(courses);
+            }
+        });
+    }
 
 
 
@@ -124,7 +125,7 @@ public class NoteListActivity extends AppCompatActivity {
                         noteViewModel.lastID() + 1,
                         data.getStringExtra("noteTitle"),
                         data.getStringExtra("noteText"),
-                        data.getIntExtra("noteCourseId", 1));
+                        data.getIntExtra("noteCourseId", -1));
                 noteViewModel.insert(noteEntity);
 
         } else {

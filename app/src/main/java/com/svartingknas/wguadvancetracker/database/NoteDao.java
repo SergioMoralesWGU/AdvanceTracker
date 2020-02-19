@@ -25,8 +25,8 @@ public interface NoteDao {
     void delete(NoteEntity note);
 
     //    Get all notes associated with course
-    @Query ("SELECT * FROM notes_table WHERE id= :note_courseId ORDER BY id ASC")
-    LiveData<List<NoteEntity>> getAssociatedNotes(int note_courseId);
+    @Query ("SELECT * FROM notes_table WHERE noteCourseId= :noteCourseId ORDER BY id ASC")
+    LiveData<List<NoteEntity>> getAssociatedNotes(int noteCourseId);
 
     @Query("SELECT * FROM notes_table ORDER BY id DESC")
     LiveData<List<NoteEntity>> getAllNotes();

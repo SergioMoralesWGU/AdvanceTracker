@@ -56,7 +56,6 @@ public class NewAssessmentActivity extends AppCompatActivity {
                     String assessmentDueDateString = assessmentDueDate.getText().toString();
 
                     replyIntent.putExtra("assessmentCourseId", getIntent().getIntExtra("courseId", -1));
-//                    replyIntent.putExtra("assessmentCourseId", assessmentCourseIdString);
                     replyIntent.putExtra("assessmentName", assessmentTitleString);
                     replyIntent.putExtra("assessmentType", assessmentTypeString);
                     replyIntent.putExtra("assessmentDate", assessmentDueDateString);
