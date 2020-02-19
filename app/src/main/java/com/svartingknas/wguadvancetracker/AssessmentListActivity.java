@@ -42,7 +42,7 @@ public class AssessmentListActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         assessmentViewModel = ViewModelProviders.of(this).get(AssessmentViewModel.class);
-        final int assessmentId = getIntent().getIntExtra("assessmentId", -1);
+        final int currentCourseId = getIntent().getIntExtra("courseId", -1);
 
 
         FloatingActionButton fab = findViewById(R.id.fab);
@@ -50,7 +50,7 @@ public class AssessmentListActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(AssessmentListActivity.this, NewAssessmentActivity.class);
-                intent.putExtra("assessmentId", assessmentViewModel.lastID()+1);
+                intent.putExtra("courseId", currentCourseId);
                 startActivityForResult(intent, NEW_ASSESSMENT_REQUEST_CODE);
             }
         });
@@ -69,7 +69,6 @@ public class AssessmentListActivity extends AppCompatActivity {
 //        });
 
 
-        int currentCourseId = getIntent().getIntExtra("courseId", -1);
         if (currentCourseId == -1){
             assessmentViewModel.getAllAssessments().observe(this, new Observer<List<AssessmentEntity>>() {
                 @Override

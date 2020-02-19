@@ -29,7 +29,6 @@ public class NewAssessmentActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        assessmentCourseId = findViewById(R.id.et_assessment_courseId);
         assessmentTitle = findViewById(R.id.et_assessment_name);
         assessmentType = findViewById(R.id.et_assessment_type);
         assessmentDueDate = findViewById(R.id.et_assessment_due);
@@ -51,15 +50,16 @@ public class NewAssessmentActivity extends AppCompatActivity {
                 } else if ((TextUtils.isEmpty(assessmentDueDate.getText()))) {
                     setResult(RESULT_CANCELED, replyIntent);
                 } else {
-                    String assessmentCourseIdString = assessmentCourseId.getText().toString();
+//                    String assessmentCourseIdString = assessmentCourseId.getText().toString();
                     String assessmentTitleString = assessmentTitle.getText().toString();
                     String assessmentTypeString = assessmentType.getText().toString();
                     String assessmentDueDateString = assessmentDueDate.getText().toString();
-                    replyIntent.putExtra("assessmentCourseId", assessmentCourseIdString);
+
+                    replyIntent.putExtra("assessmentCourseId", getIntent().getIntExtra("courseId", -1));
+//                    replyIntent.putExtra("assessmentCourseId", assessmentCourseIdString);
                     replyIntent.putExtra("assessmentName", assessmentTitleString);
                     replyIntent.putExtra("assessmentType", assessmentTypeString);
                     replyIntent.putExtra("assessmentDate", assessmentDueDateString);
-
 
                     setResult(RESULT_OK, replyIntent);
                 }

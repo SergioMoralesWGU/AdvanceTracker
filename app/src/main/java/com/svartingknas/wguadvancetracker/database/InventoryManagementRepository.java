@@ -173,7 +173,7 @@ public class InventoryManagementRepository {
     }
 
     public static void deleteAssessmentById (int assessmentId){
-        lastAssessmentId = lastAssessmentId-1;
+//        lastAssessmentId = lastAssessmentId-1;
         new deleteAssessmentByIdAsyncTask(assessmentDao).execute(assessmentId);
     }
     private static class deleteAssessmentByIdAsyncTask extends AsyncTask<Integer, Void, Void> {
@@ -193,7 +193,7 @@ public class InventoryManagementRepository {
 
 
     public void delete (AssessmentEntity assessmentEntity){
-        lastAssessmentId = lastAssessmentId-1;
+//        lastAssessmentId = lastAssessmentId-1;
         new deleteAssessmentAsyncTask(assessmentDao).execute(assessmentEntity);
     }
     private static class deleteAssessmentAsyncTask extends AsyncTask<AssessmentEntity, Void, Void> {
@@ -213,7 +213,7 @@ public class InventoryManagementRepository {
 
 
     public static void delete (CourseEntity courseEntity){
-        lastCourseId = lastCourseId-1;
+//        lastCourseId = lastCourseId-1;
         new deleteCourseAsyncTask(courseDao).execute(courseEntity);
     }
     private static class deleteCourseAsyncTask extends AsyncTask<CourseEntity, Void, Void> {
@@ -232,7 +232,7 @@ public class InventoryManagementRepository {
     }
 
     public static void deleteCourseById(int courseId){
-        lastCourseId = lastCourseId-1;
+//        lastCourseId = lastCourseId-1;
         new deleteCourseByIdAsyncTask(courseDao).execute(courseId);
     }
 
@@ -256,7 +256,7 @@ public class InventoryManagementRepository {
 
 
     public static void deleteTermById(int termId){
-        lastTermId = lastTermId -1;
+//        lastTermId = lastTermId -1;
        new deleteTermByIdAsyncTask(termDao).execute(termId);
     }
 
@@ -278,7 +278,7 @@ public class InventoryManagementRepository {
 
 
     public void delete (TermEntity termEntity){
-        lastTermId = lastTermId -1;
+//        lastTermId = lastTermId -1;
         new deleteTermAsyncTask(termDao).execute(termEntity);
     }
     private static class deleteTermAsyncTask extends AsyncTask<TermEntity, Void, Void> {
@@ -298,7 +298,7 @@ public class InventoryManagementRepository {
 
 
     public void delete (NoteEntity noteEntity){
-        lastNoteId = lastNoteId-1;
+//        lastNoteId = lastNoteId-1;
         new deleteNoteAsyncTask(noteDao).execute(noteEntity);
     }
     private static class deleteNoteAsyncTask extends AsyncTask<NoteEntity, Void, Void> {

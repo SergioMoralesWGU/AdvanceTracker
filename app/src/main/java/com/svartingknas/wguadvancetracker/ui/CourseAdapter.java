@@ -31,14 +31,6 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.CourseView
         private final TextView clCourseStartDate;
         private final TextView clCourseEndDate;
         private final ImageButton clCourseDeleteBtn;
-//        //COURSE DETAIL ITEMS
-//        private final TextView cdCourse_name
-//        private final TextView cdCourseStartDate
-//        private final TextView cdCourseEndDate
-//        private final TextView cdCourseStatus;
-//        private final TextView cdMentorName;
-//        private final TextView cdMentorPhoneNumber;
-//        private final TextView cdMentorEmail;
 
         private CourseViewHolder(View itemView) {
             super(itemView);
@@ -48,18 +40,6 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.CourseView
             clCourseStartDate = itemView.findViewById(R.id.tv_course_start_date);
             clCourseEndDate = itemView.findViewById(R.id.tv_course_end_date);
             clCourseDeleteBtn = itemView.findViewById(R.id.btn_course_list_delete);
-
-            //COURSE DETAIL
-//            cdCourse_name = itemView.findViewById(R.id.tv_course_name);
-//            cdCourseStartDate = itemView.findViewById(R.id.);
-//            cdCourseEndDate = itemView.findViewById(R.id.);
-
-//            cdCourseStatus = itemView.findViewById(R.id.tv_course_status);
-//            cdMentorName = itemView.findViewById(R.id.tv_mentor_name);
-//            cdMentorPhoneNumber = itemView.findViewById(R.id.tv_mentor_phone);
-//            cdMentorEmail = itemView.findViewById(R.id.tv_mentor_email);
-
-
 
 
             itemView.setOnClickListener(new View.OnClickListener() {
@@ -72,7 +52,7 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.CourseView
 
                     int position = getAdapterPosition();
                     final CourseEntity current = courseList.get(position);
-                    Intent intent = new Intent(context, CourseDetail.class); //TODO unsure of what page goes here
+                    Intent intent = new Intent(context, CourseDetail.class);
                     intent.putExtra("courseId", current.getId());
                     intent.putExtra("courseTitle", current.getCourseTitle());
                     intent.putExtra("courseStatus", current.getCourseStatus());

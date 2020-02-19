@@ -111,29 +111,12 @@ public class CourseDetail extends AppCompatActivity{
                     Toast.makeText(getApplicationContext(),"Course Deleted",Toast.LENGTH_LONG).show();
                 startActivity(intent);
 
-
-
-//                intent.putExtra("courseTermid", courseViewModel. );
-
-//                courseViewModel.getAllCourses().observe(CourseDetail.this, new Observer<List<CourseEntity>>() {
-//                    @Override
-//                    public void onChanged(@Nullable final List<CourseEntity> words) {
-//                        // Update the cached copy of the words in the adapter.
-//                        List<CourseEntity> filteredWords = new ArrayList<>();
-//                        for (CourseEntity courseEntity : words)
-//                            if (courseEntity.getId() == getIntent().getIntExtra("id", 0))
-//                                filteredWords.add(p);
-//                                courseViewModel.delete(courseEntity);
-//                        // make a toast
-//                        //adapter.setWords(words);
-//                    }
-//                });
-
             }
         });
 
 
         editCourse = findViewById(R.id.btn_edit_course);
+
 
 
 

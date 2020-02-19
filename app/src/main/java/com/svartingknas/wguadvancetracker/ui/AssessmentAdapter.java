@@ -22,8 +22,6 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.List;
 
-import static androidx.core.app.ActivityCompat.startActivityForResult;
-
 public class AssessmentAdapter extends RecyclerView.Adapter<AssessmentAdapter.AssessmentViewHolder> {
 
     class AssessmentViewHolder extends RecyclerView.ViewHolder{
@@ -117,6 +115,4 @@ public class AssessmentAdapter extends RecyclerView.Adapter<AssessmentAdapter.As
             return assessmentList.size();
         else return 0;
     }
-
-
 }

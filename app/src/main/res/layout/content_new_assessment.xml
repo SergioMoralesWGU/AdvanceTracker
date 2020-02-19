@@ -25,15 +25,6 @@
             android:textSize="24sp" />
 
         <EditText
-            android:id="@+id/et_assessment_courseId"
-            android:autofillHints="@string/assessment_courseId"
-            android:textSize="18sp"
-            android:hint="@string/assessment_courseId"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:inputType="number" />
-
-        <EditText
             android:id="@+id/et_assessment_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
