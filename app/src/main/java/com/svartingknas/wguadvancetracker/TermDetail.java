@@ -70,11 +70,10 @@ public class TermDetail extends AppCompatActivity {
                 if (InventoryManagementRepository.hasAssociatedCourses(termInt)){
                     Toast.makeText(TermDetail.this, "You cannot delete a term with courses", Toast.LENGTH_LONG).show();
                 }
-                InventoryManagementRepository.deleteTermById(termInt);
-                Toast.makeText(TermDetail.this, "Term Deleted", Toast.LENGTH_LONG).show();
-//                if (courseViewModel.getAssociatedCourses(courseTermId) != null) {
-//                } else {
-//                }
+                else {
+                    InventoryManagementRepository.deleteTermById(termInt);
+                    Toast.makeText(TermDetail.this, "Term Deleted", Toast.LENGTH_LONG).show();
+                }
                 startActivityForResult(intent, NEW_WORD_ACTIVITY_REQUEST_CODE);
             }
         });

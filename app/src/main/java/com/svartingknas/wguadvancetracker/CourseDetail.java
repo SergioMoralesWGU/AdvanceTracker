@@ -115,6 +115,12 @@ public class CourseDetail extends AppCompatActivity{
 
 
         editCourse = findViewById(R.id.btn_edit_course);
+        editCourse.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
 
 
 
@@ -158,30 +164,30 @@ public class CourseDetail extends AppCompatActivity{
 //        });
     }
 
-//    @Override
-//    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-//        super.onActivityResult(requestCode, resultCode, data);
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
 
-//        if (resultCode == RESULT_OK) {
-//            String pattern = "MM/dd/yyyy";
-//            DateFormat dateFormat = new SimpleDateFormat(pattern);
-//            try {
-//                AssessmentEntity assessmentEntity = new AssessmentEntity(
-//                        assessmentViewModel.lastID() + 1,
-//                        data.getStringExtra("assessment_title"),
-//                        dateFormat.parse(data.getStringExtra("assessment_due_date")),
-//                        data.getStringExtra("assessment_type"),
-//                        data.getIntExtra("assessmentCourseId", -1)
-//                );
-//                assessmentViewModel.insert(assessmentEntity);
-//            }
-//            catch (ParseException pe){
-//                // maybe do something?
-//            }
-//        }else {
-//            Toast.makeText(this, R.string.empty_not_saved, Toast.LENGTH_LONG)
-//                    .show();
-//        }
-//    }
+        if (resultCode == RESULT_OK) {
+            String pattern = "MM/dd/yyyy";
+            DateFormat dateFormat = new SimpleDateFormat(pattern);
+            try {
+                AssessmentEntity assessmentEntity = new AssessmentEntity(
+                        assessmentViewModel.lastID() + 1,
+                        data.getStringExtra("assessment_title"),
+                        dateFormat.parse(data.getStringExtra("assessment_due_date")),
+                        data.getStringExtra("assessment_type"),
+                        data.getIntExtra("assessmentCourseId", -1)
+                );
+                assessmentViewModel.insert(assessmentEntity);
+            }
+            catch (ParseException pe){
+                // maybe do something?
+            }
+        }else {
+            Toast.makeText(this, R.string.empty_not_saved, Toast.LENGTH_LONG)
+                    .show();
+        }
+    }
 
 }

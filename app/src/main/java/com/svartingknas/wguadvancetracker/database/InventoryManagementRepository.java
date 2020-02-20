@@ -11,6 +11,7 @@ import com.svartingknas.wguadvancetracker.entities.CourseEntity;
 import com.svartingknas.wguadvancetracker.entities.NoteEntity;
 import com.svartingknas.wguadvancetracker.entities.TermEntity;
 
+import java.util.HashMap;
 import java.util.List;
 
 public class InventoryManagementRepository {
@@ -20,36 +21,38 @@ public class InventoryManagementRepository {
     private static TermDao termDao;
 
 
-    private static Integer lastCourseId = 2; //TODO be aware we need to set this to match what's coming from test data
-    private static Integer lastTermId = 2; //TODO be aware we need to set this to match what's coming from test data
-    private static Integer lastNoteId = 2; //TODO be aware we need to set this to match what's coming from test data
-    private static Integer lastAssessmentId = 2; //TODO be aware we need to set this to match what's coming from test data
+    private static Integer lastCourseId = 0; //TODO be aware we need to set this to match what's coming from test data
+    private static Integer lastTermId = 0; //TODO be aware we need to set this to match what's coming from test data
+    private static Integer lastNoteId = 0; //TODO be aware we need to set this to match what's coming from test data
+    private static Integer lastAssessmentId = 0; //TODO be aware we need to set this to match what's coming from test data
+
+    private static HashMap<Integer,Integer> termCourses=new HashMap<Integer,Integer>();
 
 
     public static Integer getLastCourseId() {
         if (lastCourseId == null){
-            return 2;//TODO be aware we need to set this to match what's coming from test data
+            return 0;//TODO be aware we need to set this to match what's coming from test data
         }
         return lastCourseId;
     }
 
     public static Integer getLastTermId() {
         if (lastTermId == null){
-            return 2;//TODO be aware we need to set this to match what's coming from test data
+            return 0;//TODO be aware we need to set this to match what's coming from test data
         }
         return lastTermId;
     }
 
     public static Integer getLastNoteId() {
         if (lastNoteId == null){
-            return 2;//TODO be aware we need to set this to match what's coming from test data
+            return 0;//TODO be aware we need to set this to match what's coming from test data
         }
         return lastNoteId;
     }
 
     public static Integer getLastAssessmentId() {
         if (lastAssessmentId == null){
-            return 2;//TODO be aware we need to set this to match what's coming from test data
+            return 0;//TODO be aware we need to set this to match what's coming from test data
         }
         return lastAssessmentId;
     }
@@ -73,7 +76,8 @@ public class InventoryManagementRepository {
     }
 
     public static boolean hasAssociatedCourses(int termId) {
-        return courseDao.getAssociatedCourses(termId).getValue() != null && !courseDao.getAssociatedCourses(termId).getValue().isEmpty();
+        Integer currentCourseCount = termCourses.get(termId);
+        return currentCourseCount != null && currentCourseCount > 0;
     }
 
     public LiveData<List<AssessmentEntity>> getAllAssessments(){
@@ -125,6 +129,11 @@ public class InventoryManagementRepository {
 
     public void insert (CourseEntity courseEntity) {
         lastCourseId = lastCourseId+1;
+        Integer currentCourseCount = termCourses.get(courseEntity.getCourseTermId());
+        if (currentCourseCount != null){
+            currentCourseCount = currentCourseCount +1;
+            termCourses.put(courseEntity.getCourseTermId(), currentCourseCount);
+        }
         new insertAsyncTaskCourse(courseDao).execute(courseEntity);
     }
     private static class insertAsyncTaskCourse extends AsyncTask<CourseEntity, Void, Void> {
@@ -142,6 +151,7 @@ public class InventoryManagementRepository {
 
     public void insert (TermEntity termEntity) {
         lastTermId = lastTermId+1;
+        termCourses.put(termEntity.getId(), 0);
         new insertAsyncTaskTerm(termDao).execute(termEntity);
     }
     private static class insertAsyncTaskTerm extends AsyncTask<TermEntity, Void, Void> {
@@ -214,7 +224,10 @@ public class InventoryManagementRepository {
 
 
     public static void delete (CourseEntity courseEntity){
-//        lastCourseId = lastCourseId-1;
+        Integer currentCourseCount = termCourses.get(courseEntity.getCourseTermId());
+        if (currentCourseCount != null){
+            termCourses.put(courseEntity.getCourseTermId(), currentCourseCount-1);
+        }
         new deleteCourseAsyncTask(courseDao).execute(courseEntity);
     }
     private static class deleteCourseAsyncTask extends AsyncTask<CourseEntity, Void, Void> {
@@ -233,8 +246,10 @@ public class InventoryManagementRepository {
     }
 
     public static void deleteCourseById(int courseId){
-//        lastCourseId = lastCourseId-1;
-        new deleteCourseByIdAsyncTask(courseDao).execute(courseId);
+        Integer currentCourseCount = termCourses.get(courseId);
+        if (currentCourseCount != null){
+            termCourses.put((courseId), currentCourseCount-1);
+        }        new deleteCourseByIdAsyncTask(courseDao).execute(courseId);
     }
 
     private static class deleteCourseByIdAsyncTask extends AsyncTask<Integer, Void, Void> {
@@ -257,7 +272,7 @@ public class InventoryManagementRepository {
 
 
     public static void deleteTermById(int termId){
-//        lastTermId = lastTermId -1;
+        termCourses.remove(termId);
        new deleteTermByIdAsyncTask(termDao).execute(termId);
     }
 
@@ -279,7 +294,7 @@ public class InventoryManagementRepository {
 
 
     public void delete (TermEntity termEntity){
-//        lastTermId = lastTermId -1;
+        termCourses.remove(termEntity.getId());
         new deleteTermAsyncTask(termDao).execute(termEntity);
     }
     private static class deleteTermAsyncTask extends AsyncTask<TermEntity, Void, Void> {
