@@ -13,6 +13,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.ViewModelProviders;
 
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -25,6 +26,7 @@ import java.text.SimpleDateFormat;
 
 public class TermDetail extends AppCompatActivity {
     private static final int NEW_WORD_ACTIVITY_REQUEST_CODE = 1 ;
+    private static final int EDIT_TERM_ACTIVITY_REQUEST_CODE = 2 ;
     public static final String EXTRA_REPLY = "com.svartingknas.wguadvancetracker.REPLY";
 
     private TermViewModel termViewModel;
@@ -34,6 +36,7 @@ public class TermDetail extends AppCompatActivity {
     private TextView termId;
     private Button associatedCourses;
     private ImageButton deleteTermBtn;
+    private ImageButton editTermButton;
     private int position;
     public static int numCourses;
     public int getTermId;
@@ -74,10 +77,24 @@ public class TermDetail extends AppCompatActivity {
                     InventoryManagementRepository.deleteTermById(termInt);
                     Toast.makeText(TermDetail.this, "Term Deleted", Toast.LENGTH_LONG).show();
                 }
-                startActivityForResult(intent, NEW_WORD_ACTIVITY_REQUEST_CODE);
+                startActivityForResult(intent, EDIT_TERM_ACTIVITY_REQUEST_CODE);
             }
         });
 
+
+        editTermButton = findViewById(R.id.edit_term_btn);
+        editTermButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(TermDetail.this, NewTermActivity.class);
+                    intent.putExtra("termId", getTermId);
+                    intent.putExtra("termTitle", getIntent().getStringExtra("termTitle"));
+                    intent.putExtra("termStartDate", getIntent().getStringExtra("termStartDate"));
+                    intent.putExtra("termEndDate", getIntent().getStringExtra("termEndDate"));
+                    startActivityForResult(intent, NEW_WORD_ACTIVITY_REQUEST_CODE);
+
+            }
+        });
 
         associatedCourses = findViewById(R.id.btn_term_associated_courses);
         associatedCourses.setOnClickListener(new View.OnClickListener() {
@@ -106,12 +123,19 @@ public class TermDetail extends AppCompatActivity {
             DateFormat dateFormat = new SimpleDateFormat(pattern);
             try {
                 TermEntity termEntity = new TermEntity(
-                        termViewModel.lastID() + 1,
+                        data.getIntExtra("termId", -1),
+//                        termViewModel.lastID() + 1,
                         data.getStringExtra("term_name"),
                         dateFormat.parse(data.getStringExtra("term_start_date")),
                         dateFormat.parse(data.getStringExtra("term_end_date"))
                 );
                 termViewModel.insert(termEntity);
+                termName = findViewById(R.id.tv_term_name);
+                termStartDate = findViewById(R.id.term_start_date);
+                termEndDate = findViewById(R.id.term_end_date);
+                termName.setText(termEntity.getTermName());
+                termStartDate.setText(dateFormat.format(termEntity.getTermStart()));
+                termEndDate.setText(dateFormat.format(termEntity.getTermEnd()));
             } catch (ParseException pe) {
                 // maybe do something?
             }

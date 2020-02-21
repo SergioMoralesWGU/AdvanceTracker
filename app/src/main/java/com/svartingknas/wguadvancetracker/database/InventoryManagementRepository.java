@@ -151,7 +151,9 @@ public class InventoryManagementRepository {
 
     public void insert (TermEntity termEntity) {
         lastTermId = lastTermId+1;
-        termCourses.put(termEntity.getId(), 0);
+        if (termCourses.get(termEntity.getId()) == null){
+            termCourses.put(termEntity.getId(), 0);
+        }
         new insertAsyncTaskTerm(termDao).execute(termEntity);
     }
     private static class insertAsyncTaskTerm extends AsyncTask<TermEntity, Void, Void> {

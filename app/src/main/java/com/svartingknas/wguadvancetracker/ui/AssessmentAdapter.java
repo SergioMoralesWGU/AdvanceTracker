@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.svartingknas.wguadvancetracker.AssessmentListActivity;
 import com.svartingknas.wguadvancetracker.CourseDetail;
 import com.svartingknas.wguadvancetracker.CourseListActivity;
+import com.svartingknas.wguadvancetracker.NewAssessmentActivity;
 import com.svartingknas.wguadvancetracker.R;
 import com.svartingknas.wguadvancetracker.database.InventoryManagementRepository;
 import com.svartingknas.wguadvancetracker.entities.AssessmentEntity;
@@ -30,6 +31,7 @@ public class AssessmentAdapter extends RecyclerView.Adapter<AssessmentAdapter.As
         private final TextView assessmentType;
         private final TextView assessmentDate;
         private final ImageButton deleteAssessment;
+        private final ImageButton editAssessment;
 
         private AssessmentViewHolder(View itemView) {
             super(itemView);
@@ -38,6 +40,7 @@ public class AssessmentAdapter extends RecyclerView.Adapter<AssessmentAdapter.As
             assessmentType = itemView.findViewById(R.id.tv_assessment_type);
             assessmentDate = itemView.findViewById(R.id.tv_assessment_date);
             deleteAssessment = itemView.findViewById(R.id.delete_assessment_btn);
+            editAssessment = itemView.findViewById(R.id.edit_assessment_btn);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -60,6 +63,12 @@ public class AssessmentAdapter extends RecyclerView.Adapter<AssessmentAdapter.As
                 public void onClick(View v) {
                     final AssessmentEntity current = assessmentList.get(getAdapterPosition());
                     InventoryManagementRepository.deleteAssessmentById(current.getId());
+                }
+            });
+            editAssessment.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
                 }
             });
         }
