@@ -41,6 +41,6 @@
             android:id="@+id/btn_save_note"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Button" />
+            android:text="Save Note" />
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

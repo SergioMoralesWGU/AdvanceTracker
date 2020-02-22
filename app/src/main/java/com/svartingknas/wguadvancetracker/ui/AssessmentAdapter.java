@@ -1,5 +1,6 @@
 package com.svartingknas.wguadvancetracker.ui;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
@@ -24,6 +25,8 @@ import java.text.SimpleDateFormat;
 import java.util.List;
 
 public class AssessmentAdapter extends RecyclerView.Adapter<AssessmentAdapter.AssessmentViewHolder> {
+
+    private static final int EDIT_ASSESSMENT_REQUEST = 1;
 
     class AssessmentViewHolder extends RecyclerView.ViewHolder{
         private final TextView assessmentCourseId;
@@ -55,7 +58,6 @@ public class AssessmentAdapter extends RecyclerView.Adapter<AssessmentAdapter.As
                     intent.putExtra("assessmentCourseId", current.getAssessmentCourseId());
                     intent.putExtra("position", position);
                     context.startActivity(intent);
-
                 }
             });
             deleteAssessment.setOnClickListener(new View.OnClickListener() {
@@ -68,6 +70,18 @@ public class AssessmentAdapter extends RecyclerView.Adapter<AssessmentAdapter.As
             editAssessment.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    String pattern = "MM/dd/yyyy";
+                    DateFormat dateFormat = new SimpleDateFormat(pattern);
+                    Intent editIntent = new Intent(context, NewAssessmentActivity.class);
+                    int position = getAdapterPosition();
+                    final AssessmentEntity current = assessmentList.get(position);
+                    editIntent.putExtra("assessmentId", current.getId());
+                    editIntent.putExtra("assessmentName", current.getAssessmentName());
+                    editIntent.putExtra("assessmentType", current.getAssessmentType());
+                    editIntent.putExtra("assessmentDate",  dateFormat.format(current.getAssessmentDate()));
+                    editIntent.putExtra("assessmentCourseId", current.getAssessmentCourseId());
+
+                    ((Activity) context).startActivityForResult(editIntent, EDIT_ASSESSMENT_REQUEST);
 
                 }
             });
@@ -114,6 +128,8 @@ public class AssessmentAdapter extends RecyclerView.Adapter<AssessmentAdapter.As
         assessmentList = mAssessments;
         notifyDataSetChanged();
     }
+
+
 
     // getItemCount() is called many times, and when it is first called,
     // mWords has not been updated (means initially, it's null, and we can't return null).
