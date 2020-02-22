@@ -17,6 +17,9 @@ public interface TermDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insert (TermEntity term);
 
+    @Query("DELETE FROM terms_table WHERE id = :id")
+    void deleteById(int id);
+
     @Query("DELETE FROM terms_table")
     void deleteAllTerms();
 
@@ -26,6 +29,8 @@ public interface TermDao {
     @Query("SELECT * FROM terms_table ORDER BY id DESC")
     LiveData<List<TermEntity>> getAllTerms();
 
+    @Query("SELECT * FROM terms_table WHERE id = :id")
+    public TermEntity loadTerm(int id);
 
 }
 

@@ -34,13 +34,16 @@ public class NewNoteActivity extends AppCompatActivity {
                 Intent replyIntent = new Intent();
                 if (TextUtils.isEmpty(noteName.getText())) {
                     setResult(RESULT_CANCELED, replyIntent);
-                } else if ((TextUtils.isEmpty(noteText.getText()))) {
+                } else if ((TextUtils.isEmpty(noteName.getText()))) {
+                setResult(RESULT_CANCELED, replyIntent);
+                }   else if ((TextUtils.isEmpty(noteText.getText()))) {
+                    setResult(RESULT_CANCELED, replyIntent);
                 } else {
                     String noteNameString = noteName.getText().toString();
                     String noteTextString = noteText.getText().toString();
-
-                    replyIntent.putExtra("note_name", noteNameString);
-                    replyIntent.putExtra("note_text", noteTextString);
+                    replyIntent.putExtra("noteCourseId", getIntent().getIntExtra("courseId", -1));
+                    replyIntent.putExtra("noteTitle", noteNameString);
+                    replyIntent.putExtra("noteText", noteTextString);
 
                     setResult(RESULT_OK, replyIntent);
                 }

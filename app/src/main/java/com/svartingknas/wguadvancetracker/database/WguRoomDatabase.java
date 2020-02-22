@@ -1,5 +1,6 @@
 package com.svartingknas.wguadvancetracker.database;
 
+import android.app.Application;
 import android.content.Context;
 import android.os.AsyncTask;
 
@@ -13,6 +14,7 @@ import com.svartingknas.wguadvancetracker.entities.AssessmentEntity;
 import com.svartingknas.wguadvancetracker.entities.CourseEntity;
 import com.svartingknas.wguadvancetracker.entities.NoteEntity;
 import com.svartingknas.wguadvancetracker.entities.TermEntity;
+import com.svartingknas.wguadvancetracker.viewmodel.TermViewModel;
 
 import java.util.Date;
 
@@ -78,28 +80,28 @@ public abstract class WguRoomDatabase extends RoomDatabase {
 //            courseDao.deleteAllCourses();
 //            assessmentDao.deleteAllAssessments();
 //            noteDao.deleteAllNotes();
-            //for testing
+//              for testing
 
-            TermEntity term = new TermEntity(1, "First Term", new Date("12/12/2020"), new Date("06/01/2021"));
-            termDao.insert(term);
-            term = new TermEntity(2, "second Term", new Date("07/01/2021"), new Date("12/01/2021"));
-            termDao.insert(term);
-
-            CourseEntity course = new CourseEntity(1,"Spanish", new Date("02/01/2019"), new Date("04/01/2020"), "Not Started","Jaime", "8011234567", "jaime@wgu.edu", 1);
-            courseDao.insert(course);
-            course = new CourseEntity(2,"english", new Date("02/01/2019"), new Date("04/01/2020"), "Not Started","Che", "8017654321", "che@wgu.edu",2);
-            courseDao.insert(course);
-
-            AssessmentEntity assessment = new AssessmentEntity(1,"Preterito", new Date("01/01/2020"), "Objective", 1);
-            assessmentDao.insert(assessment);
-            assessment = new AssessmentEntity(2,"Pluscuamperfecto", new Date ("02/01/2020"), "Objective", 2);
-            assessmentDao.insert(assessment);
-
-            NoteEntity note = new NoteEntity("Note One", "This is the first note", 1);
-            noteDao.insert(note);
-            note = new NoteEntity("Note Two", "This is the second note", 2);
-            noteDao.insert(note);
-
+//            TermEntity term = new TermEntity(1, "First Term", new Date("12/12/2020"), new Date("06/01/2021"));
+//            termDao.insert(term);
+//            term = new TermEntity(2, "second Term", new Date("07/01/2021"), new Date("12/01/2021"));
+//            termDao.insert(term);
+////
+//            CourseEntity course = new CourseEntity(1,"Spanish", new Date("02/01/2019"), new Date("04/01/2020"), "Not Started","Jaime", "8011234567", "jaime@wgu.edu", 1);
+//            courseDao.insert(course);
+//            course = new CourseEntity(2,"english", new Date("02/01/2019"), new Date("04/01/2020"), "Not Started","Che", "8017654321", "che@wgu.edu",2);
+//            courseDao.insert(course);
+//
+//            AssessmentEntity assessment = new AssessmentEntity(1,"Preterito", new Date("01/01/2020"), "Objective", 1);
+//            assessmentDao.insert(assessment);
+//            assessment = new AssessmentEntity(2,"Pluscuamperfecto", new Date ("02/01/2020"), "Objective", 2);
+//            assessmentDao.insert(assessment);
+//
+//            NoteEntity note = new NoteEntity(1, "Note One", "This is the first note", 1);
+//            noteDao.insert(note);
+//            note = new NoteEntity(2, "Note Two", "This is the second note", 2);
+//            noteDao.insert(note);
+//
             return null;
         }
     }

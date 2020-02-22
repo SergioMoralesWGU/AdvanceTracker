@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -12,7 +13,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.svartingknas.wguadvancetracker.AssessmentListActivity;
 import com.svartingknas.wguadvancetracker.CourseDetail;
+import com.svartingknas.wguadvancetracker.CourseListActivity;
+import com.svartingknas.wguadvancetracker.NewAssessmentActivity;
 import com.svartingknas.wguadvancetracker.R;
+import com.svartingknas.wguadvancetracker.database.InventoryManagementRepository;
 import com.svartingknas.wguadvancetracker.entities.AssessmentEntity;
 
 import java.text.DateFormat;
@@ -26,6 +30,8 @@ public class AssessmentAdapter extends RecyclerView.Adapter<AssessmentAdapter.As
         private final TextView assessmentName;
         private final TextView assessmentType;
         private final TextView assessmentDate;
+        private final ImageButton deleteAssessment;
+        private final ImageButton editAssessment;
 
         private AssessmentViewHolder(View itemView) {
             super(itemView);
@@ -33,6 +39,8 @@ public class AssessmentAdapter extends RecyclerView.Adapter<AssessmentAdapter.As
             assessmentName = itemView.findViewById(R.id.tv_assessment_title);
             assessmentType = itemView.findViewById(R.id.tv_assessment_type);
             assessmentDate = itemView.findViewById(R.id.tv_assessment_date);
+            deleteAssessment = itemView.findViewById(R.id.delete_assessment_btn);
+            editAssessment = itemView.findViewById(R.id.edit_assessment_btn);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -40,13 +48,26 @@ public class AssessmentAdapter extends RecyclerView.Adapter<AssessmentAdapter.As
                     int position = getAdapterPosition();
                     final AssessmentEntity current = assessmentList.get(position);
                     Intent intent = new Intent(context, CourseDetail.class);
-                    intent.putExtra("id", current.getId());
+                    intent.putExtra("assessmentId", current.getId());
                     intent.putExtra("assessmentName", current.getAssessmentName());
                     intent.putExtra("assessmentType", current.getAssessmentType());
                     intent.putExtra("assessmentDate", current.getAssessmentDate());
                     intent.putExtra("assessmentCourseId", current.getAssessmentCourseId());
                     intent.putExtra("position", position);
                     context.startActivity(intent);
+
+                }
+            });
+            deleteAssessment.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    final AssessmentEntity current = assessmentList.get(getAdapterPosition());
+                    InventoryManagementRepository.deleteAssessmentById(current.getId());
+                }
+            });
+            editAssessment.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
 
                 }
             });
@@ -103,6 +124,4 @@ public class AssessmentAdapter extends RecyclerView.Adapter<AssessmentAdapter.As
             return assessmentList.size();
         else return 0;
     }
-
-
 }

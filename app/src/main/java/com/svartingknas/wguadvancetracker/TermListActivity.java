@@ -41,7 +41,6 @@ public class TermListActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(TermListActivity.this, NewTermActivity.class);
-                intent.putExtra("Id", termViewModel.lastID()+1);
                 startActivityForResult(intent, NEW_TERM_ACTIVITY_REQUEST_CODE);
             }
         });
@@ -55,7 +54,7 @@ public class TermListActivity extends AppCompatActivity {
         termViewModel.getAllTerms().observe(this, new Observer<List<TermEntity>>() {
             @Override
             public void onChanged(@Nullable final List<TermEntity> terms) {
-                //update the cached copy of nodos in the adapter
+                //update the cached copy of terms in the adapter
                 termListAdapter.setTerms(terms);
             }
         });

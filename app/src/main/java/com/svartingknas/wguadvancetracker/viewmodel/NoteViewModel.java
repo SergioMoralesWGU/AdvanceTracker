@@ -44,6 +44,6 @@ public class NoteViewModel extends AndroidViewModel {
     }
 
     public int lastID(){
-        return allNotes.getValue().size();
+        return  InventoryManagementRepository.getLastNoteId();
     }
 }

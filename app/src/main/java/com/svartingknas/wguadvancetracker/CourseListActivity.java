@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.svartingknas.wguadvancetracker.database.InventoryManagementRepository;
 import com.svartingknas.wguadvancetracker.entities.CourseEntity;
 import com.svartingknas.wguadvancetracker.ui.CourseAdapter;
 import com.svartingknas.wguadvancetracker.viewmodel.CourseViewModel;
@@ -38,12 +39,14 @@ public class CourseListActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         courseViewModel = ViewModelProviders.of(this).get(CourseViewModel.class);
 
+        final int currentTermId = getIntent().getIntExtra("termId", -1);
+
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(CourseListActivity.this, NewCourseActivity.class);
-                intent.putExtra("id", courseViewModel.lastID()+1);
+                intent.putExtra("termId", currentTermId);
                 startActivityForResult(intent, NEW_CLASS_LIST_REQUEST_CODE);
             }
         });
@@ -54,12 +57,21 @@ public class CourseListActivity extends AppCompatActivity {
         courseRecyclerView.setAdapter(courseAdapter);
         courseRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        courseViewModel.getAllCourses().observe(this, new Observer<List<CourseEntity>>() {
-            @Override
-            public void onChanged(List<CourseEntity> courses) {
-                courseAdapter.setCourses(courses);
-            }
-        });
+        if (currentTermId == -1) {
+            courseViewModel.getAllCourses().observe(this, new Observer<List<CourseEntity>>() {
+                @Override
+                public void onChanged(List<CourseEntity> courses) {
+                    courseAdapter.setCourses(courses);
+                }
+            });
+        } else {
+            courseViewModel.getAssociatedCourses(currentTermId).observe(this, new Observer<List<CourseEntity>>() {
+                @Override
+                public void onChanged(List<CourseEntity> courses) {
+                    courseAdapter.setCourses(courses);
+                }
+            });
+        }
     }
 
     @Override
@@ -70,15 +82,15 @@ public class CourseListActivity extends AppCompatActivity {
             DateFormat dateFormat = new SimpleDateFormat(pattern);
             try {
                 CourseEntity courseEntity = new CourseEntity(
-                        courseViewModel.lastID() + 1,
-                        data.getStringExtra("course_title"),
-                        dateFormat.parse(data.getStringExtra("course_start_date")),
-                        dateFormat.parse(data.getStringExtra("course_end_date")),
-                        data.getStringExtra("course_status"),
-                        data.getStringExtra("mentor_name"),
-                        data.getStringExtra("mentor_phone"),
-                        data.getStringExtra("mentor_email"),
-                        data.getIntExtra("courseTermId", -1)
+                        courseViewModel.lastID()+1,
+                        data.getStringExtra("courseTitle"),
+                        dateFormat.parse(data.getStringExtra("courseStartDate")),
+                        dateFormat.parse(data.getStringExtra("courseEndDate")),
+                        data.getStringExtra("courseStatus"),
+                        data.getStringExtra("mentorName"),
+                        data.getStringExtra("mentorPhone"),
+                        data.getStringExtra("mentorEmail"),
+                        data.getIntExtra("termId", -1)
                 );
                 courseViewModel.insert(courseEntity);
             } catch (ParseException pe) {

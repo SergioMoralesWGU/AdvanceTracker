@@ -5,13 +5,17 @@ import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.svartingknas.wguadvancetracker.CourseDetail;
+import com.svartingknas.wguadvancetracker.CourseListActivity;
 import com.svartingknas.wguadvancetracker.R;
+import com.svartingknas.wguadvancetracker.database.CourseDao;
+import com.svartingknas.wguadvancetracker.database.InventoryManagementRepository;
 import com.svartingknas.wguadvancetracker.entities.CourseEntity;
 
 import java.text.DateFormat;
@@ -26,14 +30,7 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.CourseView
         private final TextView clCourseTermid;
         private final TextView clCourseStartDate;
         private final TextView clCourseEndDate;
-//        //COURSE DETAIL ITEMS
-//        private final TextView cdCourse_name
-//        private final TextView cdCourseStartDate
-//        private final TextView cdCourseEndDate
-//        private final TextView cdCourseStatus;
-//        private final TextView cdMentorName;
-//        private final TextView cdMentorPhoneNumber;
-//        private final TextView cdMentorEmail;
+        private final ImageButton clCourseDeleteBtn;
 
         private CourseViewHolder(View itemView) {
             super(itemView);
@@ -42,18 +39,7 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.CourseView
             clCourseTitle = itemView.findViewById(R.id.tv_course_name);
             clCourseStartDate = itemView.findViewById(R.id.tv_course_start_date);
             clCourseEndDate = itemView.findViewById(R.id.tv_course_end_date);
-
-            //COURSE DETAIL
-//            cdCourse_name = itemView.findViewById(R.id.tv_course_name);
-//            cdCourseStartDate = itemView.findViewById(R.id.);
-//            cdCourseEndDate = itemView.findViewById(R.id.);
-
-//            cdCourseStatus = itemView.findViewById(R.id.tv_course_status);
-//            cdMentorName = itemView.findViewById(R.id.tv_mentor_name);
-//            cdMentorPhoneNumber = itemView.findViewById(R.id.tv_mentor_phone);
-//            cdMentorEmail = itemView.findViewById(R.id.tv_mentor_email);
-
-
+            clCourseDeleteBtn = itemView.findViewById(R.id.btn_course_list_delete);
 
 
             itemView.setOnClickListener(new View.OnClickListener() {
@@ -66,8 +52,8 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.CourseView
 
                     int position = getAdapterPosition();
                     final CourseEntity current = courseList.get(position);
-                    Intent intent = new Intent(context, CourseDetail.class); //TODO unsure of what page goes here
-                    intent.putExtra("id", current.getId());
+                    Intent intent = new Intent(context, CourseDetail.class);
+                    intent.putExtra("courseId", current.getId());
                     intent.putExtra("courseTitle", current.getCourseTitle());
                     intent.putExtra("courseStatus", current.getCourseStatus());
                     intent.putExtra("courseStartDate", dateFormat.format(current.getCourseStartDate()));
@@ -75,11 +61,18 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.CourseView
                     intent.putExtra("mentorName", current.getMentorName());
                     intent.putExtra("mentorPhone", current.getMentorPhone());
                     intent.putExtra("mentorEmail", current.getMentorEmail());
-                    intent.putExtra("courseTermId", current.getCourseTermId());
+                    intent.putExtra("termId", current.getCourseTermId());
                     intent.putExtra("position", position);
                     context.startActivity(intent);
                 }
             });
+            clCourseDeleteBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    InventoryManagementRepository.delete(courseList.get(getAdapterPosition()));
+                }
+            });
+
         }
     }
 

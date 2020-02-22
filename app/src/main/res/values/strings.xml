@@ -28,8 +28,18 @@
     <string name="assessment_title">Assessment title</string>
     <string name="assessment_editor">Assessment Editor</string>
     <string name="assessment_type">Assessment type</string>
-    <string name="et_assessment_due">Assessment Due Date</string>
+    <string name="et_assessment_due">Assessment Due Date mm/dd/yyyy</string>
     <string name="empty_not_saved">Data not saved</string>
     <string name="title_activity_new_note">NewNoteActivity</string>
     <string name="note_name">Enter Note Title</string>
+    <string name="title_activity_term_course_view">TermCourseView</string>
+    <string name="title_activity_note_list">NoteListActivity</string>
+    <string name="date_format_start">start date mm/dd/yyyy</string>
+    <string name="date_format_end">end date mm/dd/yyyy</string>
+    <string name="assessment_courseId">Enter Course Id</string>
+    <string name="delete">delete</string>
+    <string name="sharing">Sharing</string>
+    <string name="notifications">Notifications</string>
+    <string name="channel_name">notification channel</string>
+    <string name="channel_description">notification channel description</string>
 </resources>

@@ -22,7 +22,8 @@ public class NoteEntity {
 //    @ColumnInfo(name = "note_courseId")
     private int noteCourseId;
 
-    public NoteEntity(@NonNull String noteTitle, @NonNull String noteText, int noteCourseId) {
+    public NoteEntity(int id, @NonNull String noteTitle, @NonNull String noteText, int noteCourseId) {
+        this.id = id;
         this.noteTitle = noteTitle;
         this.noteText = noteText;
         this.noteCourseId = noteCourseId;

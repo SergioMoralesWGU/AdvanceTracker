@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.Observer;
@@ -22,7 +23,9 @@ import android.widget.Toast;
 
 import com.svartingknas.wguadvancetracker.database.InventoryManagementRepository;
 import com.svartingknas.wguadvancetracker.entities.AssessmentEntity;
+import com.svartingknas.wguadvancetracker.entities.CourseEntity;
 import com.svartingknas.wguadvancetracker.entities.NoteEntity;
+import com.svartingknas.wguadvancetracker.entities.TermEntity;
 import com.svartingknas.wguadvancetracker.ui.AssessmentAdapter;
 import com.svartingknas.wguadvancetracker.ui.NoteAdapter;
 import com.svartingknas.wguadvancetracker.viewmodel.AssessmentViewModel;
@@ -32,6 +35,7 @@ import com.svartingknas.wguadvancetracker.viewmodel.NoteViewModel;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.List;
 
 public class CourseDetail extends AppCompatActivity{
@@ -39,13 +43,14 @@ public class CourseDetail extends AppCompatActivity{
     private static final int NEW_NOTE_ACTIVITY_REQUEST_CODE = 1;
     private static final int NEW_ASSESSMENT_ACTIVITY_REQUEST_CODE = 1;
     public static final String EXTRA_REPLY = "com.svartingknas.wguadvancetracker.REPLY";
+    private static final int EDIT_CLASS_REQUEST_CODE = 2;
 
     private AssessmentViewModel assessmentViewModel;
     private NoteViewModel noteViewModel;
     private CourseViewModel courseViewModel;
     private LayoutInflater inflater;
-    private Button addNoteBtn;
-    private Button addAssessmentBtn;
+    private Button displayAssessmentBtn;
+    private Button displayNotesBtn;
     private ImageButton deleteCourse;
     private ImageButton editCourse;
 
@@ -58,16 +63,17 @@ public class CourseDetail extends AppCompatActivity{
     private TextView mentorPhone;
     private TextView mentorEmail;
 
-    int courseId = 1;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_course_detail);
         Toolbar toolbar = findViewById(R.id.toolbar);
+        courseViewModel = ViewModelProviders.of(this).get(CourseViewModel.class);
+
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        final int courseId = getIntent().getIntExtra("courseId", -2);
         courseName = findViewById(R.id.tv_course_detail_name);
         courseStartDate = findViewById(R.id.tv_course_detail_start_date);
         courseEndDate = findViewById(R.id.tv_course_detail_end_date);
@@ -77,33 +83,57 @@ public class CourseDetail extends AppCompatActivity{
         mentorEmail = findViewById(R.id.tv_course_detail_mentor_email);
 
 
-        addNoteBtn = findViewById(R.id.btn_add_note);
-        addNoteBtn.setOnClickListener(new View.OnClickListener() {
+        displayAssessmentBtn = findViewById(R.id.btn_display_assessment);
+        displayAssessmentBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(CourseDetail.this, NewNoteActivity.class);
+                Intent intent = new Intent(CourseDetail.this, AssessmentListActivity.class);
+                intent.putExtra("courseId", courseId);
                 startActivityForResult(intent, NEW_NOTE_ACTIVITY_REQUEST_CODE);
             }
         });
 
-
-        addAssessmentBtn = findViewById(R.id.btn_add_assessment);
-        addAssessmentBtn.setOnClickListener(new View.OnClickListener() {
+        displayNotesBtn = findViewById(R.id.btn_display_notes);
+        displayNotesBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(CourseDetail.this, NewAssessmentActivity.class);
+                Intent intent = new Intent(CourseDetail.this, NoteListActivity.class);
+                intent.putExtra("courseId", courseId);
                 startActivityForResult(intent, NEW_ASSESSMENT_ACTIVITY_REQUEST_CODE);
             }
         });
-
         deleteCourse = findViewById(R.id.btn_delete_course);
+        deleteCourse.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(CourseDetail.this, TermListActivity.class);
+                    InventoryManagementRepository.deleteCourseById(courseId);
+                    Toast.makeText(getApplicationContext(),"Course Deleted",Toast.LENGTH_LONG).show();
+                startActivity(intent);
+
+            }
+        });
 
         editCourse = findViewById(R.id.btn_edit_course);
-
+        editCourse.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(CourseDetail.this, NewCourseActivity.class);
+                intent.putExtra("termId", getIntent().getIntExtra("termId", -1));
+                intent.putExtra("courseId", courseId);
+                intent.putExtra("courseTitle", courseName.getText());
+                intent.putExtra("courseStartDate", courseStartDate.getText());
+                intent.putExtra("courseEndDate", courseEndDate.getText());
+                intent.putExtra("courseStatus", courseStatus.getText());
+                intent.putExtra("mentorName", mentorName.getText());
+                intent.putExtra("mentorEmail", mentorEmail.getText());
+                intent.putExtra("mentorPhone", mentorPhone.getText());
+                startActivityForResult(intent, EDIT_CLASS_REQUEST_CODE);
+            }
+        });
 
 
         if (getIntent().getStringExtra("courseTitle") != null) {
-            InventoryManagementRepository.setCurrentCourseId(getIntent().getIntExtra("id", -1));
             courseName.setText(getIntent().getStringExtra("courseTitle"));
             courseStartDate.setText(getIntent().getStringExtra("courseStartDate"));
             courseEndDate.setText(getIntent().getStringExtra("courseEndDate"));
@@ -114,57 +144,44 @@ public class CourseDetail extends AppCompatActivity{
         }
 
 
-
-
-//        RecyclerView assessmentRecyclerView = findViewById(R.id.courseview_assessment_rv);
-//        final AssessmentAdapter assessmentAdapter = new AssessmentAdapter(this);
-//        assessmentRecyclerView.setAdapter(assessmentAdapter);
-//        assessmentRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-//
-//        assessmentViewModel.getAssociatedAssessments(courseId).observe(this, new Observer<List<AssessmentEntity>>() {
-//            @Override
-//            public void onChanged(List<AssessmentEntity> assessmentEntities) {
-//                assessmentAdapter.setAssessments(assessmentEntities);
-//            }
-//        });
-
-//        RecyclerView notesRecyclerView = findViewById(R.id.courseview_notes_rv);
-//        final NoteAdapter notesAdapter = new NoteAdapter(this);
-//        notesRecyclerView.setAdapter(notesAdapter);
-//        notesRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-//
-//        noteViewModel.getAssociatedNotes(courseId).observe(this, new Observer<List<NoteEntity>>() {
-//            @Override
-//            public void onChanged(List<NoteEntity> noteEntities) {
-//                notesAdapter.setNotes(noteEntities);
-//            }
-//        });
     }
 
-//    @Override
-//    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-//        super.onActivityResult(requestCode, resultCode, data);
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
 
-//        if (resultCode == RESULT_OK) {
-//            String pattern = "MM/dd/yyyy";
-//            DateFormat dateFormat = new SimpleDateFormat(pattern);
-//            try {
-//                AssessmentEntity assessmentEntity = new AssessmentEntity(
-//                        assessmentViewModel.lastID() + 1,
-//                        data.getStringExtra("assessment_title"),
-//                        dateFormat.parse(data.getStringExtra("assessment_due_date")),
-//                        data.getStringExtra("assessment_type"),
-//                        data.getIntExtra("assessmentCourseId", -1)
-//                );
-//                assessmentViewModel.insert(assessmentEntity);
-//            }
-//            catch (ParseException pe){
-//                // maybe do something?
-//            }
-//        }else {
-//            Toast.makeText(this, R.string.empty_not_saved, Toast.LENGTH_LONG)
-//                    .show();
-//        }
-//    }
+        if (resultCode == RESULT_OK) {
+            String pattern = "MM/dd/yyyy";
+            DateFormat dateFormat = new SimpleDateFormat(pattern);
+            try {
+                CourseEntity courseEntity = new CourseEntity(
+                        data.getIntExtra("courseId", -1),
+                        data.getStringExtra("courseTitle"),
+                        dateFormat.parse(data.getStringExtra("courseStartDate")),
+                        dateFormat.parse(data.getStringExtra("courseEndDate")),
+                        data.getStringExtra("courseStatus"),
+                        data.getStringExtra("mentorName"),
+                        data.getStringExtra("mentorEmail"),
+                        data.getStringExtra("mentorPhone"),
+                        data.getIntExtra("termId", -1));
+                courseViewModel.insert(courseEntity);
+
+            } catch (ParseException pe){
+                //do stuff
+            }
+            courseName.setText(data.getStringExtra("courseTitle"));
+            courseStartDate.setText(data.getStringExtra("courseStartDate"));
+            courseEndDate.setText(data.getStringExtra("courseEndDate"));
+            courseStatus.setText(data.getStringExtra("courseStatus"));
+            mentorName.setText(data.getStringExtra("mentorName"));
+            mentorEmail.setText(data.getStringExtra("mentorEmail"));
+            mentorPhone.setText(data.getStringExtra("mentorPhone"));
+
+
+        }else {
+            Toast.makeText(this, R.string.empty_not_saved, Toast.LENGTH_LONG)
+                    .show();
+        }
+    }
 
 }

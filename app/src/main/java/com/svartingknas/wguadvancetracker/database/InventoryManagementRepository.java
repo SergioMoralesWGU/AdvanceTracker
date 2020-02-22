@@ -2,6 +2,7 @@ package com.svartingknas.wguadvancetracker.database;
 
 import android.app.Application;
 import android.os.AsyncTask;
+import android.widget.TextView;
 
 import androidx.lifecycle.LiveData;
 
@@ -10,110 +11,103 @@ import com.svartingknas.wguadvancetracker.entities.CourseEntity;
 import com.svartingknas.wguadvancetracker.entities.NoteEntity;
 import com.svartingknas.wguadvancetracker.entities.TermEntity;
 
+import java.util.HashMap;
 import java.util.List;
 
 public class InventoryManagementRepository {
+    private static AssessmentDao assessmentDao;
+    private static CourseDao courseDao;
+    private static NoteDao noteDao;
+    private static TermDao termDao;
 
-    private static int currentCourseId;
-    private static int currentTermId;
-    private static int currentAssessmentId;
-    private static int currentNoteId;
 
-    public static int getCurrentAssessmentId() {
-        return currentAssessmentId;
+    private static Integer lastCourseId = 0; //TODO be aware we need to set this to match what's coming from test data
+    private static Integer lastTermId = 0; //TODO be aware we need to set this to match what's coming from test data
+    private static Integer lastNoteId = 0; //TODO be aware we need to set this to match what's coming from test data
+    private static Integer lastAssessmentId = 0; //TODO be aware we need to set this to match what's coming from test data
+
+    private static HashMap<Integer,Integer> termCourses=new HashMap<Integer,Integer>();
+
+
+    public static Integer getLastCourseId() {
+        if (lastCourseId == null){
+            return 0;//TODO be aware we need to set this to match what's coming from test data
+        }
+        return lastCourseId;
     }
 
-    public static void setCurrentAssessmentId(int currentAssessmentId) {
-        InventoryManagementRepository.currentAssessmentId = currentAssessmentId;
+    public static Integer getLastTermId() {
+        if (lastTermId == null){
+            return 0;//TODO be aware we need to set this to match what's coming from test data
+        }
+        return lastTermId;
     }
 
-    public static int getCurrentNoteId() {
-        return currentNoteId;
+    public static Integer getLastNoteId() {
+        if (lastNoteId == null){
+            return 0;//TODO be aware we need to set this to match what's coming from test data
+        }
+        return lastNoteId;
     }
 
-    public static void setCurrentNoteId(int currentNoteId) {
-        InventoryManagementRepository.currentNoteId = currentNoteId;
-    }
-
-    public static int getCurrentTermId() {
-        return currentTermId;
-    }
-    public static void setCurrentTermId(int newCurrentTermId) {
-        currentTermId = newCurrentTermId;
-    }
-
-    public static void setCurrentCourseId(int newCurrentCourseId){
-        currentCourseId = newCurrentCourseId;
-    }
-    public static int getCurrentCourseId(){
-        return currentCourseId;
+    public static Integer getLastAssessmentId() {
+        if (lastAssessmentId == null){
+            return 0;//TODO be aware we need to set this to match what's coming from test data
+        }
+        return lastAssessmentId;
     }
 
 
-    private AssessmentDao assessmentDao;
-    private CourseDao courseDao;
-    private NoteDao noteDao;
-    private TermDao termDao;
-    private LiveData<List<TermEntity>> allTerms;
-    private LiveData<List<CourseEntity>> allCourses;
-    private LiveData<List<AssessmentEntity>> allAssessments;
-    private LiveData<List<NoteEntity>> allNotes;
-    private LiveData<List<CourseEntity>> associatedCourses;
-    private LiveData<List<AssessmentEntity>> associatedAssessments;
-    private LiveData<List<NoteEntity>> associatedNotes;
-
-    private int assessmentCourseId;
-    private int courseTermId;
-    private int noteCourseId;
 
     public InventoryManagementRepository(Application application){
         WguRoomDatabase db = WguRoomDatabase.getDatabase(application);
 
         assessmentDao = db.assessmentDao();
-        allAssessments = assessmentDao.getAllAssessments();
-        associatedAssessments = assessmentDao.getAssociatedAssessments(assessmentCourseId);
+
 
         courseDao = db.courseDao();
-        allCourses = courseDao.getAllCourses();
-        associatedCourses = courseDao.getAssociatedCourses(courseTermId);
+
 
         noteDao = db.noteDao();
-        allNotes = noteDao.getAllNotes();
-        associatedNotes = noteDao.getAssociatedNotes(noteCourseId);
+
 
         termDao = db.termDao();
-        allTerms = termDao.getAllTerms();
 
     }
 
-
+    public static boolean hasAssociatedCourses(int termId) {
+        Integer currentCourseCount = termCourses.get(termId);
+        return currentCourseCount != null && currentCourseCount > 0;
+    }
 
     public LiveData<List<AssessmentEntity>> getAllAssessments(){
-        return allAssessments;
+        return assessmentDao.getAllAssessments();
     }
     public LiveData<List<AssessmentEntity>> getAssociatedAssessments(int assessmentCourseId){
-        return associatedAssessments;
+        return assessmentDao.getAssociatedAssessments(assessmentCourseId);
     }
-    public LiveData<List<CourseEntity>> getAllCourses(){
-        return allCourses;
+    public static LiveData<List<CourseEntity>> getAllCourses(){
+        return courseDao.getAllCourses();
     }
-    public LiveData<List<CourseEntity>> getAssociatedCourses(int courseTermId){
-        return associatedCourses;
+    public static LiveData<List<CourseEntity>> getAssociatedCourses(int courseTermId){
+        return courseDao.getAssociatedCourses(courseTermId);
     }
     public LiveData<List<NoteEntity>> getAllNotes(){
-        return allNotes;
+        return noteDao.getAllNotes();
     }
     public LiveData<List<NoteEntity>> getAssociatedNotes(int noteCourseId){
-        return associatedNotes;
+        return noteDao.getAssociatedNotes(noteCourseId);
     }
+
     public LiveData<List<TermEntity>> getAllTerms(){
-        return allTerms;
+        return termDao.getAllTerms();
     }
 
 
 
 
     public void insert (AssessmentEntity assessmentEntity) {
+        lastAssessmentId = lastAssessmentId+1;
         new insertAsyncTaskAssessment(assessmentDao).execute(assessmentEntity);
     }
     //using an asyncTask, this allows us to do things asynchronously. This is so that the main thread
@@ -134,6 +128,12 @@ public class InventoryManagementRepository {
 
 
     public void insert (CourseEntity courseEntity) {
+        lastCourseId = lastCourseId+1;
+        Integer currentCourseCount = termCourses.get(courseEntity.getCourseTermId());
+        if (currentCourseCount != null){
+            currentCourseCount = currentCourseCount +1;
+            termCourses.put(courseEntity.getCourseTermId(), currentCourseCount);
+        }
         new insertAsyncTaskCourse(courseDao).execute(courseEntity);
     }
     private static class insertAsyncTaskCourse extends AsyncTask<CourseEntity, Void, Void> {
@@ -150,6 +150,10 @@ public class InventoryManagementRepository {
 
 
     public void insert (TermEntity termEntity) {
+        lastTermId = lastTermId+1;
+        if (termCourses.get(termEntity.getId()) == null){
+            termCourses.put(termEntity.getId(), 0);
+        }
         new insertAsyncTaskTerm(termDao).execute(termEntity);
     }
     private static class insertAsyncTaskTerm extends AsyncTask<TermEntity, Void, Void> {
@@ -166,6 +170,7 @@ public class InventoryManagementRepository {
 
 
     public void insert (NoteEntity noteEntity) {
+        lastNoteId = lastNoteId+1;
         new insertAsyncTaskNote(noteDao).execute(noteEntity);
     }
     private static class insertAsyncTaskNote extends AsyncTask<NoteEntity, Void, Void> {
@@ -180,7 +185,28 @@ public class InventoryManagementRepository {
         }
     }
 
+    public static void deleteAssessmentById (int assessmentId){
+//        lastAssessmentId = lastAssessmentId-1;
+        new deleteAssessmentByIdAsyncTask(assessmentDao).execute(assessmentId);
+    }
+    private static class deleteAssessmentByIdAsyncTask extends AsyncTask<Integer, Void, Void> {
+
+        private AssessmentDao mAsyncTaskDao;
+
+        deleteAssessmentByIdAsyncTask(AssessmentDao dao) {
+            mAsyncTaskDao = dao;
+        }
+
+        @Override
+        protected Void doInBackground(Integer... integers) {
+            mAsyncTaskDao.deleteById(integers[0]);
+            return null;
+        }
+    }
+
+
     public void delete (AssessmentEntity assessmentEntity){
+//        lastAssessmentId = lastAssessmentId-1;
         new deleteAssessmentAsyncTask(assessmentDao).execute(assessmentEntity);
     }
     private static class deleteAssessmentAsyncTask extends AsyncTask<AssessmentEntity, Void, Void> {
@@ -199,7 +225,11 @@ public class InventoryManagementRepository {
     }
 
 
-    public void delete (CourseEntity courseEntity){
+    public static void delete (CourseEntity courseEntity){
+        Integer currentCourseCount = termCourses.get(courseEntity.getCourseTermId());
+        if (currentCourseCount != null){
+            termCourses.put(courseEntity.getCourseTermId(), currentCourseCount-1);
+        }
         new deleteCourseAsyncTask(courseDao).execute(courseEntity);
     }
     private static class deleteCourseAsyncTask extends AsyncTask<CourseEntity, Void, Void> {
@@ -217,9 +247,56 @@ public class InventoryManagementRepository {
         }
     }
 
+    public static void deleteCourseById(int courseId){
+        Integer currentCourseCount = termCourses.get(courseId);
+        if (currentCourseCount != null){
+            termCourses.put((courseId), currentCourseCount-1);
+        }        new deleteCourseByIdAsyncTask(courseDao).execute(courseId);
+    }
+
+    private static class deleteCourseByIdAsyncTask extends AsyncTask<Integer, Void, Void> {
+
+        private CourseDao mAsyncTaskDao;
+
+        deleteCourseByIdAsyncTask(CourseDao dao) {
+            mAsyncTaskDao = dao;
+        }
+
+        @Override
+        protected Void doInBackground(Integer... integers) {
+            mAsyncTaskDao.deleteCourseById(integers[0]);
+            return null;
+        }
+    }
+
+
+
+
+
+    public static void deleteTermById(int termId){
+        termCourses.remove(termId);
+       new deleteTermByIdAsyncTask(termDao).execute(termId);
+    }
+
+    private static class deleteTermByIdAsyncTask extends AsyncTask<Integer, Void, Void> {
+
+        private TermDao mAsyncTaskDao;
+
+        deleteTermByIdAsyncTask(TermDao dao) {
+            mAsyncTaskDao = dao;
+        }
+
+        @Override
+        protected Void doInBackground(Integer... integers) {
+            mAsyncTaskDao.deleteById(integers[0]);
+            return null;
+        }
+    }
+
 
 
     public void delete (TermEntity termEntity){
+        termCourses.remove(termEntity.getId());
         new deleteTermAsyncTask(termDao).execute(termEntity);
     }
     private static class deleteTermAsyncTask extends AsyncTask<TermEntity, Void, Void> {
@@ -239,6 +316,7 @@ public class InventoryManagementRepository {
 
 
     public void delete (NoteEntity noteEntity){
+//        lastNoteId = lastNoteId-1;
         new deleteNoteAsyncTask(noteDao).execute(noteEntity);
     }
     private static class deleteNoteAsyncTask extends AsyncTask<NoteEntity, Void, Void> {

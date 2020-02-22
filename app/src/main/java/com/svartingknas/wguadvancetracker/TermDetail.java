@@ -3,97 +3,118 @@ package com.svartingknas.wguadvancetracker;
 import android.content.Intent;
 import android.os.Bundle;
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
 import com.svartingknas.wguadvancetracker.database.InventoryManagementRepository;
-import com.svartingknas.wguadvancetracker.entities.CourseEntity;
 import com.svartingknas.wguadvancetracker.entities.TermEntity;
-import com.svartingknas.wguadvancetracker.ui.CourseAdapter;
-import com.svartingknas.wguadvancetracker.viewmodel.CourseViewModel;
 import com.svartingknas.wguadvancetracker.viewmodel.TermViewModel;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
+import android.text.TextUtils;
 import android.view.View;
+import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.List;
 
 public class TermDetail extends AppCompatActivity {
     private static final int NEW_WORD_ACTIVITY_REQUEST_CODE = 1 ;
+    private static final int EDIT_TERM_ACTIVITY_REQUEST_CODE = 2 ;
     public static final String EXTRA_REPLY = "com.svartingknas.wguadvancetracker.REPLY";
 
     private TermViewModel termViewModel;
-    private CourseViewModel courseViewModel;
     private TextView termName;
     private TextView termStartDate;
     private TextView termEndDate;
     private TextView termId;
+    private Button associatedCourses;
+    private ImageButton deleteTermBtn;
+    private ImageButton editTermButton;
     private int position;
     public static int numCourses;
+    public int getTermId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         termViewModel = ViewModelProviders.of(this).get(TermViewModel.class);
-        courseViewModel = ViewModelProviders.of(this).get(CourseViewModel.class);
         setContentView(R.layout.activity_term_detail);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        getTermId = getIntent().getIntExtra("Id", -1);
 
         termId = findViewById(R.id.term_id);
         termName = findViewById(R.id.tv_term_name);
         termStartDate = findViewById(R.id.term_start_date);
         termEndDate = findViewById(R.id.term_end_date);
-
+        final int termInt = getIntent().getIntExtra("Id", -1);
+        final int courseTermId = getIntent().getIntExtra("courseTermId", -1);
         if (getIntent().getStringExtra("termTitle")!=null){
-            InventoryManagementRepository.setCurrentTermId(getIntent().getIntExtra("id", -1));
-            termId.setText(getIntent().getStringExtra("id"));
+            termId.setText(termInt+ "");
             termName.setText(getIntent().getStringExtra("termTitle"));
             termStartDate.setText(getIntent().getStringExtra("termStartDate"));
             termEndDate.setText(getIntent().getStringExtra("termEndDate"));
         }
 
-        FloatingActionButton fab = findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-
+        deleteTermBtn = findViewById(R.id.delete_term_btn);
+        deleteTermBtn.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(TermDetail.this, NewCourseActivity.class);
+            public void onClick(View v) {
+                Intent intent = new Intent(TermDetail.this, TermListActivity.class);
+                if (InventoryManagementRepository.hasAssociatedCourses(termInt)){
+                    Toast.makeText(TermDetail.this, "You cannot delete a term with courses", Toast.LENGTH_LONG).show();
+                }
+                else {
+                    InventoryManagementRepository.deleteTermById(termInt);
+                    Toast.makeText(TermDetail.this, "Term Deleted", Toast.LENGTH_LONG).show();
+                }
+                startActivityForResult(intent, EDIT_TERM_ACTIVITY_REQUEST_CODE);
+            }
+        });
+
+
+        editTermButton = findViewById(R.id.edit_term_btn);
+        editTermButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(TermDetail.this, NewTermActivity.class);
+                    intent.putExtra("termId", getTermId);
+                    intent.putExtra("termTitle", getIntent().getStringExtra("termTitle"));
+                    intent.putExtra("termStartDate", getIntent().getStringExtra("termStartDate"));
+                    intent.putExtra("termEndDate", getIntent().getStringExtra("termEndDate"));
+                    startActivityForResult(intent, NEW_WORD_ACTIVITY_REQUEST_CODE);
+
+            }
+        });
+
+        associatedCourses = findViewById(R.id.btn_term_associated_courses);
+        associatedCourses.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(TermDetail.this, CourseListActivity.class);
+                try {
+                    intent.putExtra("termId", getIntent().getIntExtra("Id", -1));
+
+                }catch (Exception ex){
+                    //stuff
+                }
                 startActivityForResult(intent, NEW_WORD_ACTIVITY_REQUEST_CODE);
-
             }
         });
 
 
-        RecyclerView recyclerView = findViewById(R.id.associated_courses_rv);
-        final CourseAdapter adapter = new CourseAdapter(this);
-        recyclerView.setAdapter(adapter);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        courseViewModel = ViewModelProviders.of(this).get(CourseViewModel.class);
-        courseViewModel.getAssociatedCourses(1).observe(this, new Observer<List<CourseEntity>>() {
-            @Override
-            public void onChanged(List<CourseEntity> courseEntities) {
-                List<CourseEntity> filteredCourses = new ArrayList<>();
-                for (CourseEntity i:courseEntities)
-                    if (i.getCourseTermId()==getIntent().getIntExtra("courseTermId", 0))filteredCourses.add(i);
-                    adapter.setCourses(filteredCourses);
-                    numCourses = filteredCourses.size();
-            }
-        });
     }
+
+
 
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -102,12 +123,19 @@ public class TermDetail extends AppCompatActivity {
             DateFormat dateFormat = new SimpleDateFormat(pattern);
             try {
                 TermEntity termEntity = new TermEntity(
-                        termViewModel.lastID() + 1,
+                        data.getIntExtra("termId", -1),
+//                        termViewModel.lastID() + 1,
                         data.getStringExtra("term_name"),
                         dateFormat.parse(data.getStringExtra("term_start_date")),
                         dateFormat.parse(data.getStringExtra("term_end_date"))
                 );
                 termViewModel.insert(termEntity);
+                termName = findViewById(R.id.tv_term_name);
+                termStartDate = findViewById(R.id.term_start_date);
+                termEndDate = findViewById(R.id.term_end_date);
+                termName.setText(termEntity.getTermName());
+                termStartDate.setText(dateFormat.format(termEntity.getTermStart()));
+                termEndDate.setText(dateFormat.format(termEntity.getTermEnd()));
             } catch (ParseException pe) {
                 // maybe do something?
             }

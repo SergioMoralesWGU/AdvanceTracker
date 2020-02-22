@@ -23,6 +23,9 @@ public interface AssessmentDao {
     @Query("DELETE FROM assessment_table")
     void deleteAllAssessments();
 
+    @Query("DELETE FROM assessment_table WHERE id = :assessmentId")
+    void deleteById(int assessmentId);
+
     @Query("SELECT * FROM assessment_table ORDER BY id DESC")
     LiveData<List<AssessmentEntity>> getAllAssessments();
 

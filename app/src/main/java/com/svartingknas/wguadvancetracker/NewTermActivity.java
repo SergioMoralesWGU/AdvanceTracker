@@ -37,6 +37,15 @@ public class NewTermActivity extends AppCompatActivity {
         termStartDate = findViewById(R.id.et_term_start_date);
         termEndDate = findViewById(R.id.et_term_end_date);
 
+        final int termId = getIntent().getIntExtra("termId", -1);
+        if (termId != -1){
+            // this means we are editing
+            termName.setText(getIntent().getStringExtra("termTitle"));
+            termStartDate.setText(getIntent().getStringExtra("termStartDate"));
+            termEndDate.setText(getIntent().getStringExtra("termEndDate"));
+        }
+
+
 
 
         final Button termSaveButton = findViewById(R.id.term_save_button);
@@ -54,6 +63,7 @@ public class NewTermActivity extends AppCompatActivity {
                 } else if (TextUtils.isEmpty(termEndDate.getText())) {
                     setResult(RESULT_CANCELED, replyIntent);
                 } else {
+                    replyIntent.putExtra("termId", termId);
                     String termNameString = termName.getText().toString();
                     String termStartDateString = termStartDate.getText().toString();
                     String termEndDateString = termEndDate.getText().toString();
