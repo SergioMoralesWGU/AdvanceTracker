@@ -84,13 +84,6 @@ public class AssessmentListActivity extends AppCompatActivity {
         assessmentRecyclerView.setAdapter(assessmentAdapter);
         assessmentRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-//        deleteAssessment = findViewById(R.id.delete_assessment_btn);
-//        deleteAssessment.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                    InventoryManagementRepository.deleteAssessmentById(assessmentId);
-//            }
-//        });
 
         if (currentCourseId == -1){
             assessmentViewModel.getAllAssessments().observe(this, new Observer<List<AssessmentEntity>>() {

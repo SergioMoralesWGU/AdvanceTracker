@@ -43,6 +43,7 @@ public class CourseDetail extends AppCompatActivity{
     private static final int NEW_NOTE_ACTIVITY_REQUEST_CODE = 1;
     private static final int NEW_ASSESSMENT_ACTIVITY_REQUEST_CODE = 1;
     public static final String EXTRA_REPLY = "com.svartingknas.wguadvancetracker.REPLY";
+    private static final int EDIT_CLASS_REQUEST_CODE = 2;
 
     private AssessmentViewModel assessmentViewModel;
     private NoteViewModel noteViewModel;
@@ -113,20 +114,26 @@ public class CourseDetail extends AppCompatActivity{
             }
         });
 
-
         editCourse = findViewById(R.id.btn_edit_course);
         editCourse.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Intent intent = new Intent(CourseDetail.this, NewCourseActivity.class);
+                intent.putExtra("termId", getIntent().getIntExtra("termId", -1));
+                intent.putExtra("courseId", courseId);
+                intent.putExtra("courseTitle", courseName.getText());
+                intent.putExtra("courseStartDate", courseStartDate.getText());
+                intent.putExtra("courseEndDate", courseEndDate.getText());
+                intent.putExtra("courseStatus", courseStatus.getText());
+                intent.putExtra("mentorName", mentorName.getText());
+                intent.putExtra("mentorEmail", mentorEmail.getText());
+                intent.putExtra("mentorPhone", mentorPhone.getText());
+                startActivityForResult(intent, EDIT_CLASS_REQUEST_CODE);
             }
         });
 
 
-
-
         if (getIntent().getStringExtra("courseTitle") != null) {
-//            InventoryManagementRepository.setCurrentCourseId(getIntent().getIntExtra("id", -1));
             courseName.setText(getIntent().getStringExtra("courseTitle"));
             courseStartDate.setText(getIntent().getStringExtra("courseStartDate"));
             courseEndDate.setText(getIntent().getStringExtra("courseEndDate"));
@@ -137,31 +144,6 @@ public class CourseDetail extends AppCompatActivity{
         }
 
 
-
-
-//        RecyclerView assessmentRecyclerView = findViewById(R.id.courseview_assessment_rv);
-//        final AssessmentAdapter assessmentAdapter = new AssessmentAdapter(this);
-//        assessmentRecyclerView.setAdapter(assessmentAdapter);
-//        assessmentRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-//
-//        assessmentViewModel.getAssociatedAssessments(courseId).observe(this, new Observer<List<AssessmentEntity>>() {
-//            @Override
-//            public void onChanged(List<AssessmentEntity> assessmentEntities) {
-//                assessmentAdapter.setAssessments(assessmentEntities);
-//            }
-//        });
-
-//        RecyclerView notesRecyclerView = findViewById(R.id.courseview_notes_rv);
-//        final NoteAdapter notesAdapter = new NoteAdapter(this);
-//        notesRecyclerView.setAdapter(notesAdapter);
-//        notesRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-//
-//        noteViewModel.getAssociatedNotes(courseId).observe(this, new Observer<List<NoteEntity>>() {
-//            @Override
-//            public void onChanged(List<NoteEntity> noteEntities) {
-//                notesAdapter.setNotes(noteEntities);
-//            }
-//        });
     }
 
     @Override
@@ -172,18 +154,30 @@ public class CourseDetail extends AppCompatActivity{
             String pattern = "MM/dd/yyyy";
             DateFormat dateFormat = new SimpleDateFormat(pattern);
             try {
-                AssessmentEntity assessmentEntity = new AssessmentEntity(
-                        assessmentViewModel.lastID() + 1,
-                        data.getStringExtra("assessment_title"),
-                        dateFormat.parse(data.getStringExtra("assessment_due_date")),
-                        data.getStringExtra("assessment_type"),
-                        data.getIntExtra("assessmentCourseId", -1)
-                );
-                assessmentViewModel.insert(assessmentEntity);
+                CourseEntity courseEntity = new CourseEntity(
+                        data.getIntExtra("courseId", -1),
+                        data.getStringExtra("courseTitle"),
+                        dateFormat.parse(data.getStringExtra("courseStartDate")),
+                        dateFormat.parse(data.getStringExtra("courseEndDate")),
+                        data.getStringExtra("courseStatus"),
+                        data.getStringExtra("mentorName"),
+                        data.getStringExtra("mentorEmail"),
+                        data.getStringExtra("mentorPhone"),
+                        data.getIntExtra("termId", -1));
+                courseViewModel.insert(courseEntity);
+
+            } catch (ParseException pe){
+                //do stuff
             }
-            catch (ParseException pe){
-                // maybe do something?
-            }
+            courseName.setText(data.getStringExtra("courseTitle"));
+            courseStartDate.setText(data.getStringExtra("courseStartDate"));
+            courseEndDate.setText(data.getStringExtra("courseEndDate"));
+            courseStatus.setText(data.getStringExtra("courseStatus"));
+            mentorName.setText(data.getStringExtra("mentorName"));
+            mentorEmail.setText(data.getStringExtra("mentorEmail"));
+            mentorPhone.setText(data.getStringExtra("mentorPhone"));
+
+
         }else {
             Toast.makeText(this, R.string.empty_not_saved, Toast.LENGTH_LONG)
                     .show();

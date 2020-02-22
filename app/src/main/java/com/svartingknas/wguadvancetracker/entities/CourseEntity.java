@@ -77,6 +77,7 @@ public class CourseEntity {
         this.mentorPhone = mentorPhone;
         this.mentorEmail = mentorEmail;
         this.courseTermId = courseTermId;
+
     }
 
 

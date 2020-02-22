@@ -40,6 +40,19 @@ public class NewCourseActivity extends AppCompatActivity {
         mentorPhone = findViewById(R.id.et_course_mentor_phone);
         mentorEmail = findViewById(R.id.et_course_mentor_email);
 
+        final int courseId = getIntent().getIntExtra("courseId", -1);
+        if (courseId != -1){
+            // this means we are editing
+            courseTitle.setText(getIntent().getStringExtra("courseTitle"));
+            courseStartDate.setText(getIntent().getStringExtra("courseStartDate"));
+            courseEndDate.setText(getIntent().getStringExtra("courseEndDate"));
+            courseStatus.setText(getIntent().getStringExtra("courseStatus"));
+            mentorName.setText(getIntent().getStringExtra("mentorName"));
+            mentorPhone.setText(getIntent().getStringExtra("mentorPhone"));
+            mentorEmail.setText(getIntent().getStringExtra("mentorEmail"));
+
+        }
+
         final Button courseSaveButton = findViewById(R.id.btn_save_course);
         courseSaveButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -72,6 +85,7 @@ public class NewCourseActivity extends AppCompatActivity {
                     String mentorEmailString = mentorEmail.getText().toString();
 
                     replyIntent.putExtra("termId", getIntent().getIntExtra("termId", -1));
+                    replyIntent.putExtra("courseId", courseId);
                     replyIntent.putExtra("courseTitle", courseTitleString);
                     replyIntent.putExtra("courseStartDate", courseStartDateString);
                     replyIntent.putExtra("courseEndDate", courseEndDateString);
