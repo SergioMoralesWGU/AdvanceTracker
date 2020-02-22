@@ -48,13 +48,11 @@ public class AssessmentListActivity extends AppCompatActivity {
     private static final int NEW_ASSESSMENT_REQUEST_CODE = 1;
     private AssessmentViewModel assessmentViewModel;
     private LayoutInflater layoutInflater;
-//    private ImageButton deleteAssessment;
-//    private ImageButton editAssessment;
+
 
     public static final String NOTIFICATION_CHANNEL_ID = "10001" ;
     private final static String default_notification_channel_id = "default" ;
-//    Button btnDate ;
-//    final Calendar myCalendar = Calendar. getInstance () ;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -111,8 +109,12 @@ public class AssessmentListActivity extends AppCompatActivity {
             String pattern = "MM/dd/yyyy";
             DateFormat dateFormat = new SimpleDateFormat(pattern);
             try {
+                int assessmentId = data.getIntExtra("assessmentId", -1);
+                if (assessmentId == -1){
+                    assessmentId = assessmentViewModel.lastID()+1;
+                }
                 AssessmentEntity assessmentEntity = new AssessmentEntity(
-                        assessmentViewModel.lastID() + 1,
+                        assessmentId,
                         data.getStringExtra("assessmentName"),
                         dateFormat.parse(data.getStringExtra("assessmentDate")),
                         data.getStringExtra("assessmentType"),
