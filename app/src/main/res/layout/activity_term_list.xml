@@ -23,6 +23,7 @@
     <include
         android:id="@+id/include"
         layout="@layout/content_term_list"
+        android:layout_height="355dp"
         app:layout_anchorGravity="center" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton

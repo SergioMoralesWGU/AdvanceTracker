@@ -1,6 +1,11 @@
 package com.svartingknas.wguadvancetracker;
 
+import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -10,6 +15,7 @@ import com.svartingknas.wguadvancetracker.viewmodel.AssessmentViewModel;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.NotificationCompat;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -72,7 +78,7 @@ public class AssessmentListActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(AssessmentListActivity.this, NewAssessmentActivity.class);
-                intent.putExtra("courseId", currentCourseId);
+                intent.putExtra("assessmentCourseId", currentCourseId);
                 startActivityForResult(intent, NEW_ASSESSMENT_REQUEST_CODE);
             }
         });
@@ -130,11 +136,13 @@ public class AssessmentListActivity extends AppCompatActivity {
                     .show();
         }
     }
-
     @Override
     public boolean onSupportNavigateUp(){
         onBackPressed();
         return true;
     }
+
+
+
 
 }
