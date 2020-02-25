@@ -19,6 +19,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.text.format.DateUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 
 import android.view.Menu;
@@ -73,11 +74,8 @@ public class CourseDetail extends AppCompatActivity{
     private TextView mentorPhone;
     private TextView mentorEmail;
 
-    long date;
-
-//notification stuff
-//    NotificationCompat.Builder notification;
-//    private static final int uniqueID = 1000;
+    long startDate;
+    long endDate;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -99,12 +97,6 @@ public class CourseDetail extends AppCompatActivity{
         mentorEmail = findViewById(R.id.tv_course_detail_mentor_email);
 
 
-        //notification stuff
-//        notification = new NotificationCompat.Builder(this);
-//        notification.setAutoCancel(true);
-
-
-
         displayAssessmentBtn = findViewById(R.id.btn_display_assessment);
         displayAssessmentBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -124,6 +116,7 @@ public class CourseDetail extends AppCompatActivity{
                 startActivityForResult(intent, NEW_ASSESSMENT_ACTIVITY_REQUEST_CODE);
             }
         });
+
         deleteCourse = findViewById(R.id.btn_delete_course);
         deleteCourse.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -178,38 +171,33 @@ public class CourseDetail extends AppCompatActivity{
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.action_enable_notifications) {
-            Intent intent=new Intent(CourseDetail.this,MyReceiver.class);
-            intent.putExtra("channel","webinar");
-            intent.putExtra("startClass", "Your class starts soon");
-            PendingIntent sender= PendingIntent.getBroadcast(CourseDetail.this,0,intent, PendingIntent.FLAG_UPDATE_CURRENT);
-            AlarmManager alarmManager=(AlarmManager)getSystemService(Context.ALARM_SERVICE);
+            Intent startIntent=new Intent(CourseDetail.this,MyReceiver.class);
+            startIntent.putExtra("channel", "webinar");
+            startIntent.putExtra("startClass", "Your class starts today");
+            PendingIntent senderStart= PendingIntent.getBroadcast(CourseDetail.this,0,startIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+            AlarmManager startAlarmManager=(AlarmManager)getSystemService(Context.ALARM_SERVICE);
 //            date=Long.parseLong(mills.getText().toString());
-            alarmManager.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + 1000, sender);
+            startDate = System.currentTimeMillis() + 500;
+            startAlarmManager.set(AlarmManager.RTC_WAKEUP, startDate, senderStart);
+
+            Intent endIntent=new Intent(CourseDetail.this,MyReceiver.class);
+            endIntent.putExtra("channel", "webinar");
+            endIntent.putExtra("endClass", "Your class ends today");
+            PendingIntent senderEnd= PendingIntent.getBroadcast(CourseDetail.this,0,endIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+            AlarmManager endAlarmManager=(AlarmManager)getSystemService(Context.ALARM_SERVICE);
+//            date=Long.parseLong(mills.getText().toString());
+            startDate = System.currentTimeMillis() + 500;
+            endDate = System.currentTimeMillis() + 1500;
+            endAlarmManager.set(AlarmManager.RTC_WAKEUP, endDate, senderEnd);
             return true;
 
-//            notification.setSmallIcon(R.drawable.ic_event_note_black_24dp);
-//            notification.setTicker("Class alert");
-//            notification.setWhen(System.currentTimeMillis());
-//            notification.setContentTitle("this is the title");
-//            notification.setContentText("this is the body of the notification");
-//
-//            Intent intent = new Intent(this, CourseDetail.class);
-//            PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-//            notification.setContentIntent(pendingIntent);
-//
-//
-//            //builds notification and issues it
-//            NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-//            notificationManager.notify(uniqueID, notification.build());
         }
         return super.onOptionsItemSelected(item);
     }
 
 
-//    private boolean enableNotifications(){
-//        long now = System.currentTimeMillis();
-//        if (now <= scheduleCourseAlarm(getApplicationContext(), courseId, DateUtil.get) )
-//    }
 
 
 

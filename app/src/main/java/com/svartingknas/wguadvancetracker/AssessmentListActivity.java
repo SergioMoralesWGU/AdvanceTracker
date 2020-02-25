@@ -36,33 +36,13 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.List;
 
-//alert imports:
-//import android.app.AlarmManager ;
-//import android.app.DatePickerDialog ;
-//import android.app.Notification ;
-//import android.app.PendingIntent ;
-//import android.content.Context ;
-//import android.content.Intent ;
-//import android.os.Bundle ;
-//import android.support.v4.app.NotificationCompat ;
-//import android.support.v7.app.AppCompatActivity ;
-//import android.view.View ;
-//import android.widget.Button ;
-//import android.widget.DatePicker ;
-//import java.text.SimpleDateFormat ;
-//import java.util.Calendar ;
-//import java.util.Date ;
-//import java.util.Locale ;
-
 public class AssessmentListActivity extends AppCompatActivity {
 
     private static final int NEW_ASSESSMENT_REQUEST_CODE = 1;
     private AssessmentViewModel assessmentViewModel;
     private LayoutInflater layoutInflater;
 
-
-    public static final String NOTIFICATION_CHANNEL_ID = "10001" ;
-    private final static String default_notification_channel_id = "default" ;
+    long assessmentDate;
 
 
     @Override
@@ -121,38 +101,21 @@ public class AssessmentListActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.action_enable_notifications) {
-            Intent intent=new Intent(AssessmentListActivity.this,MyReceiver.class);
-            intent.putExtra("channel","webinar");
-            intent.putExtra("startAssessment", "Your assessment starts soon");
-            PendingIntent sender= PendingIntent.getBroadcast(AssessmentListActivity.this,0,intent, PendingIntent.FLAG_UPDATE_CURRENT);
-            AlarmManager alarmManager=(AlarmManager)getSystemService(Context.ALARM_SERVICE);
-//            date=Long.parseLong(mills.getText().toString());
-            alarmManager.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + 1000, sender);
-            return true;
 
-//            notification.setSmallIcon(R.drawable.ic_event_note_black_24dp);
-//            notification.setTicker("Class alert");
-//            notification.setWhen(System.currentTimeMillis());
-//            notification.setContentTitle("this is the title");
-//            notification.setContentText("this is the body of the notification");
-//
-//            Intent intent = new Intent(this, CourseDetail.class);
-//            PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-//            notification.setContentIntent(pendingIntent);
-//
-//
-//            //builds notification and issues it
-//            NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-//            notificationManager.notify(uniqueID, notification.build());
+            Intent intent = new Intent(AssessmentListActivity.this, MyReceiver.class);
+            intent.putExtra("channel", "webinar");
+            intent.putExtra("startAssessment", "Your assessment is today");
+            PendingIntent sender = PendingIntent.getBroadcast(AssessmentListActivity.this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+            AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+//            assessmentDate=Long.parseLong(mills.getText().toString());
+            assessmentDate = System.currentTimeMillis() + 500;
+            alarmManager.set(AlarmManager.RTC_WAKEUP, assessmentDate, sender);
+            return true;
         }
         return super.onOptionsItemSelected(item);
     }
 
 
-    //    private boolean enableNotifications(){
-//        long now = System.currentTimeMillis();
-//        if (now <= scheduleCourseAlarm(getApplicationContext(), courseId, DateUtil.get) )
-//    }
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
