@@ -42,4 +42,6 @@
     <string name="notifications">Notifications</string>
     <string name="channel_name">notification channel</string>
     <string name="channel_description">notification channel description</string>
+    <string name="EnableNotifications">Enable Notifications</string>
+    <string name="disable_notifications">Disable Notifications</string>
 </resources>

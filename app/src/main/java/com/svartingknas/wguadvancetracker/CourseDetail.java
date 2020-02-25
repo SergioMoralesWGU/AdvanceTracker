@@ -1,19 +1,28 @@
 package com.svartingknas.wguadvancetracker;
 
+import android.app.AlarmManager;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.NotificationCompat;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -21,6 +30,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.svartingknas.wguadvancetracker.database.DateTypeConverter;
 import com.svartingknas.wguadvancetracker.database.InventoryManagementRepository;
 import com.svartingknas.wguadvancetracker.entities.AssessmentEntity;
 import com.svartingknas.wguadvancetracker.entities.CourseEntity;
@@ -63,6 +73,12 @@ public class CourseDetail extends AppCompatActivity{
     private TextView mentorPhone;
     private TextView mentorEmail;
 
+    long date;
+
+//notification stuff
+//    NotificationCompat.Builder notification;
+//    private static final int uniqueID = 1000;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -81,6 +97,12 @@ public class CourseDetail extends AppCompatActivity{
         mentorName = findViewById(R.id.tv_course_detail_mentor_name);
         mentorPhone = findViewById(R.id.tv_course_detail_mentor_phone);
         mentorEmail = findViewById(R.id.tv_course_detail_mentor_email);
+
+
+        //notification stuff
+//        notification = new NotificationCompat.Builder(this);
+//        notification.setAutoCancel(true);
+
 
 
         displayAssessmentBtn = findViewById(R.id.btn_display_assessment);
@@ -145,6 +167,51 @@ public class CourseDetail extends AppCompatActivity{
 
 
     }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_notifications, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        int id = item.getItemId();
+        if (id == R.id.action_enable_notifications) {
+            Intent intent=new Intent(CourseDetail.this,MyReceiver.class);
+            intent.putExtra("channel","webinar");
+            intent.putExtra("startClass", "Your class starts soon");
+            PendingIntent sender= PendingIntent.getBroadcast(CourseDetail.this,0,intent, PendingIntent.FLAG_UPDATE_CURRENT);
+            AlarmManager alarmManager=(AlarmManager)getSystemService(Context.ALARM_SERVICE);
+//            date=Long.parseLong(mills.getText().toString());
+            alarmManager.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + 1000, sender);
+            return true;
+
+//            notification.setSmallIcon(R.drawable.ic_event_note_black_24dp);
+//            notification.setTicker("Class alert");
+//            notification.setWhen(System.currentTimeMillis());
+//            notification.setContentTitle("this is the title");
+//            notification.setContentText("this is the body of the notification");
+//
+//            Intent intent = new Intent(this, CourseDetail.class);
+//            PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+//            notification.setContentIntent(pendingIntent);
+//
+//
+//            //builds notification and issues it
+//            NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+//            notificationManager.notify(uniqueID, notification.build());
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+
+//    private boolean enableNotifications(){
+//        long now = System.currentTimeMillis();
+//        if (now <= scheduleCourseAlarm(getApplicationContext(), courseId, DateUtil.get) )
+//    }
+
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
