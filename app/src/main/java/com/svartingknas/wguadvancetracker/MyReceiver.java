@@ -18,7 +18,7 @@ public class MyReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        Toast.makeText(context, "notification", Toast.LENGTH_LONG).show();
+        Toast.makeText(context, "Notifications enabled.", Toast.LENGTH_LONG).show();
         String channel = intent.getStringExtra("channel");
         String startClass = intent.getStringExtra("startClass");
         createNotificationChannel(context, channel);
@@ -40,10 +40,10 @@ public class MyReceiver extends BroadcastReceiver {
     }
 }
 //    static int notificationID;
-//    String channel_id = "test";
-
-
-//        Toast.makeText(context,intent.getStringExtra("key"),Toast.LENGTH_LONG).show();
+//    String channel_id="test";
+//    @Override
+//    public void onReceive(Context context, Intent intent) {
+//        Toast.makeText(context,"Notification",Toast.LENGTH_LONG).show();
 //        createNotificationChannel(context,channel_id);
 //  /*      Notification n=new Notification.Builder(context)
 //                .setSmallIcon(R.drawable.ic_launcher_foreground)
@@ -52,7 +52,7 @@ public class MyReceiver extends BroadcastReceiver {
 //                .setContentText("This is a test").build();*/
 //        Notification n= new NotificationCompat.Builder(context, channel_id)
 //                .setSmallIcon(R.drawable.ic_launcher_foreground)
-//                .setContentText(intent.getStringExtra("key"))
+//                .setContentText("This is a test")
 //                .setContentTitle("Test of Notification with an id of :"+Integer.toString(notificationID)).build();
 //
 //        NotificationManager notificationManager=(NotificationManager)context.getSystemService(NOTIFICATION_SERVICE);
@@ -80,4 +80,3 @@ public class MyReceiver extends BroadcastReceiver {
 //            notificationManager.createNotificationChannel(channel);
 //        }
 //    }
-//}
