@@ -79,41 +79,62 @@ public class AssessmentListActivity extends AppCompatActivity {
             assessmentViewModel.getAllAssessments().observe(this, new Observer<List<AssessmentEntity>>() {
                 @Override
                 public void onChanged(List<AssessmentEntity> assessmentEntities) {
+                    for (AssessmentEntity currentAssessment : assessmentEntities) {
+                        Intent intent = new Intent(AssessmentListActivity.this, MyReceiver.class);
+                        intent.putExtra("TitleKey", "Assessment Alert");
+                        intent.putExtra("ContentKey", "Your assessment is today");
+                        PendingIntent sender = PendingIntent.getBroadcast(AssessmentListActivity.this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+                        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+                        long assessmentDate;
+                        assessmentDate = currentAssessment.getAssessmentDate().getTime();
+                        alarmManager.set(AlarmManager.RTC_WAKEUP, assessmentDate, sender);
+                    }
                     assessmentAdapter.setAssessments(assessmentEntities);
+
                 }
             });
         } else {
             assessmentViewModel.getAssociatedAssessments(currentCourseId).observe(this, new Observer<List<AssessmentEntity>>() {
                 @Override
                 public void onChanged(List<AssessmentEntity> assessment) {
+                    for (AssessmentEntity currentAssessment : assessment) {
+                        Intent intent = new Intent(AssessmentListActivity.this, MyReceiver.class);
+                        intent.putExtra("TitleKey", "Assessment Alert");
+                        intent.putExtra("ContentKey", "Your assessment is today");
+                        PendingIntent sender = PendingIntent.getBroadcast(AssessmentListActivity.this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+                        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+                        long assessmentDate;
+                        assessmentDate = currentAssessment.getAssessmentDate().getTime();
+                        alarmManager.set(AlarmManager.RTC_WAKEUP, assessmentDate, sender);
+                    }
                     assessmentAdapter.setAssessments(assessment);
                 }
             });
         }
     }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_notifications, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        int id = item.getItemId();
-        if (id == R.id.action_enable_notifications) {
-
-            Intent intent = new Intent(AssessmentListActivity.this, MyReceiver.class);
-            intent.putExtra("TitleKey", "Assessment Alert");
-            intent.putExtra("ContentKey", "Your assessment is today");
-            PendingIntent sender = PendingIntent.getBroadcast(AssessmentListActivity.this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-            AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-            assessmentDate = System.currentTimeMillis();
-            alarmManager.set(AlarmManager.RTC_WAKEUP, assessmentDate, sender);
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
+//
+//    @Override
+//    public boolean onCreateOptionsMenu(Menu menu) {
+//        getMenuInflater().inflate(R.menu.menu_notifications, menu);
+//        return true;
+//    }
+//
+//    @Override
+//    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+//        int id = item.getItemId();
+//        if (id == R.id.action_enable_notifications) {
+//
+//            Intent intent = new Intent(AssessmentListActivity.this, MyReceiver.class);
+//            intent.putExtra("TitleKey", "Assessment Alert");
+//            intent.putExtra("ContentKey", "Your assessment is today");
+//            PendingIntent sender = PendingIntent.getBroadcast(AssessmentListActivity.this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+//            AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+//            assessmentDate = System.currentTimeMillis();
+//            alarmManager.set(AlarmManager.RTC_WAKEUP, assessmentDate, sender);
+//            return true;
+//        }
+//        return super.onOptionsItemSelected(item);
+//    }
 
 
     @Override
@@ -139,18 +160,7 @@ public class AssessmentListActivity extends AppCompatActivity {
             catch (ParseException pe){
                 // maybe do something?
             }
-            Intent intent = new Intent(AssessmentListActivity.this, MyReceiver.class);
-            intent.putExtra("TitleKey", "Assessment Alert");
-            intent.putExtra("ContentKey", "Your assessment is today");
-            PendingIntent sender = PendingIntent.getBroadcast(AssessmentListActivity.this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-            AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-            long assessmentDate;
-            try {
-                assessmentDate = dateFormat.parse(data.getStringExtra("assessmentDate")).getTime()+ 1154000;
-                alarmManager.set(AlarmManager.RTC_WAKEUP, assessmentDate, sender);
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
+
         }else {
             Toast.makeText(this, R.string.empty_not_saved, Toast.LENGTH_LONG)
                     .show();
