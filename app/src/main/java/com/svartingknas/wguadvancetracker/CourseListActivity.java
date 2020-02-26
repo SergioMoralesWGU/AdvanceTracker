@@ -1,10 +1,12 @@
 package com.svartingknas.wguadvancetracker;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.svartingknas.wguadvancetracker.database.InventoryManagementRepository;
 import com.svartingknas.wguadvancetracker.entities.CourseEntity;
 import com.svartingknas.wguadvancetracker.ui.CourseAdapter;
 import com.svartingknas.wguadvancetracker.viewmodel.CourseViewModel;
@@ -61,6 +63,27 @@ public class CourseListActivity extends AppCompatActivity {
             courseViewModel.getAllCourses().observe(this, new Observer<List<CourseEntity>>() {
                 @Override
                 public void onChanged(List<CourseEntity> courses) {
+//                    for (CourseEntity currentCourse : courses) {
+//                        Intent intent = new Intent(CourseListActivity.this, MyReceiver.class);
+//                        intent.putExtra("notificationID", 1);
+//                        intent.putExtra("TitleKey", "Course Alert");
+//                        intent.putExtra("ContentKey", "Your course starts today");
+//                        PendingIntent sender = PendingIntent.getBroadcast(CourseListActivity.this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+//                        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+//                        long courseStartDate;
+//                        courseStartDate = currentCourse.getCourseStartDate().getTime();
+//                        alarmManager.set(AlarmManager.RTC_WAKEUP, courseStartDate, sender);
+//                    }
+//                    for (CourseEntity currentCourse : courses) {
+//                        Intent endIntent = new Intent(CourseListActivity.this, MyReceiver.class);
+//                        endIntent.putExtra("TitleKey", "Course Alert");
+//                        endIntent.putExtra("ContentKey", "Your course ends today");
+//                        PendingIntent endSender = PendingIntent.getBroadcast(CourseListActivity.this, 0, endIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+//                        AlarmManager endAlarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+//                        long courseEndDate;
+//                        courseEndDate = currentCourse.getCourseStartDate().getTime();
+//                        endAlarmManager.set(AlarmManager.RTC_WAKEUP, courseEndDate, endSender);
+//                    }
                     courseAdapter.setCourses(courses);
                 }
             });
@@ -68,6 +91,28 @@ public class CourseListActivity extends AppCompatActivity {
             courseViewModel.getAssociatedCourses(currentTermId).observe(this, new Observer<List<CourseEntity>>() {
                 @Override
                 public void onChanged(List<CourseEntity> courses) {
+//                    for (CourseEntity currentCourse : courses) {
+//                        Intent intent = new Intent(CourseListActivity.this, MyReceiver.class);
+//                        intent.putExtra("notificationID", 1);
+//                        intent.putExtra("TitleKey", "Course Alert");
+//                        intent.putExtra("ContentKey", "Your course starts today");
+//                        PendingIntent sender = PendingIntent.getBroadcast(CourseListActivity.this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+//                        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+//                        long courseStartdate;
+//                        courseStartdate = currentCourse.getCourseStartDate().getTime();
+//                        alarmManager.set(AlarmManager.RTC_WAKEUP, courseStartdate, sender);
+//                    }
+//                    for (CourseEntity currentCourse : courses) {
+//                        Intent endIntent = new Intent(CourseListActivity.this, MyReceiver.class);
+//                        endIntent.putExtra("notificationID", 2);
+//                        endIntent.putExtra("TitleKey", "Course Alert");
+//                        endIntent.putExtra("ContentKey", "Your course ends today");
+//                        PendingIntent endSender = PendingIntent.getBroadcast(CourseListActivity.this, 0, endIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+//                        AlarmManager endAlarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+//                        long courseEndDate;
+//                        courseEndDate = currentCourse.getCourseEndDate().getTime();
+//                        endAlarmManager.set(AlarmManager.RTC_WAKEUP, courseEndDate, endSender);
+//                    }
                     courseAdapter.setCourses(courses);
                 }
             });
@@ -96,6 +141,35 @@ public class CourseListActivity extends AppCompatActivity {
             } catch (ParseException pe) {
                 // maybe do something?
             }
+
+
+
+            Intent intent = new Intent(CourseListActivity.this, MyReceiver.class);
+            intent.putExtra("TitleKey", "Course Alert");
+            intent.putExtra("ContentKey", "Your course starts today");
+            PendingIntent sender = PendingIntent.getBroadcast(CourseListActivity.this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+            AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+            long courseStartDate;
+            try {
+                courseStartDate = dateFormat.parse(data.getStringExtra("courseStartDate")).getTime();
+                alarmManager.set(AlarmManager.RTC_WAKEUP, courseStartDate, sender);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+
+            Intent endIntent = new Intent(CourseListActivity.this, MyReceiver.class);
+            endIntent.putExtra("TitleKey", "Course Alert");
+            endIntent.putExtra("ContentKey", "Your course ends today");
+            PendingIntent endSender = PendingIntent.getBroadcast(CourseListActivity.this, 0, endIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+            AlarmManager endAlarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+            long courseEndDate;
+            try {
+                courseEndDate = dateFormat.parse(data.getStringExtra("courseEndDate")).getTime();
+                endAlarmManager.set(AlarmManager.RTC_WAKEUP, courseEndDate, endSender);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+
 
 
         } else {

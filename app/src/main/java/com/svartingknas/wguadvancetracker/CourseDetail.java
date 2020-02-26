@@ -258,6 +258,33 @@ public class CourseDetail extends AppCompatActivity{
             mentorPhone.setText(data.getStringExtra("mentorPhone"));
 
 
+//            Intent intent = new Intent(CourseDetail.this, MyReceiver.class);
+//            intent.putExtra("TitleKey", "Course Alert");
+//            intent.putExtra("ContentKey", "Your course starts today");
+//            PendingIntent sender = PendingIntent.getBroadcast(CourseDetail.this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+//            AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+//            long courseStartDate;
+//            try {
+//                courseStartDate = dateFormat.parse(data.getStringExtra("courseStartDate")).getTime();
+//                alarmManager.set(AlarmManager.RTC_WAKEUP, courseStartDate, sender);
+//            } catch (ParseException e) {
+//                e.printStackTrace();
+//            }
+
+//            Intent endIntent = new Intent(CourseDetail.this, MyReceiver.class);
+//            endIntent.putExtra("TitleKey", "Course Alert");
+//            endIntent.putExtra("ContentKey", "Your course ends today");
+//            PendingIntent endSender = PendingIntent.getBroadcast(CourseDetail.this, 1, endIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+//            AlarmManager endAlarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+//            long courseEndDate;
+//            try {
+//                courseEndDate = dateFormat.parse(data.getStringExtra("courseEndDate")).getTime();
+//                endAlarmManager.set(AlarmManager.RTC_WAKEUP, courseEndDate, endSender);
+//            } catch (ParseException e) {
+//                e.printStackTrace();
+//            }
+
+
         }else {
             Toast.makeText(this, R.string.empty_not_saved, Toast.LENGTH_LONG)
                     .show();

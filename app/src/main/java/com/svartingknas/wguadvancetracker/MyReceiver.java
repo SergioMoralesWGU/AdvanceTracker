@@ -19,6 +19,7 @@ public class MyReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
+        notificationID = intent.getIntExtra("notificationID", 0);
 //        Toast.makeText(context, "Notifications enabled.", Toast.LENGTH_LONG).show();
 //        String channel = intent.getStringExtra("channel");
 //        String startClass = intent.getStringExtra("startClass");

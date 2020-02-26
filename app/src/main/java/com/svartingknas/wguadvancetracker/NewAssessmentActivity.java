@@ -126,7 +126,7 @@ public class NewAssessmentActivity extends AppCompatActivity {
             AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
             long assessmentDate;
             try {
-                assessmentDate = dateFormat.parse(data.getStringExtra("assessmentDate")).getTime()+ 1150000;
+                assessmentDate = dateFormat.parse(data.getStringExtra("assessmentDate")).getTime();
                 alarmManager.set(AlarmManager.RTC_WAKEUP, assessmentDate, sender);
             } catch (ParseException e) {
                 e.printStackTrace();

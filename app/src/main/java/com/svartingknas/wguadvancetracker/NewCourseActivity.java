@@ -1,5 +1,8 @@
 package com.svartingknas.wguadvancetracker;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -12,6 +15,7 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
 public class NewCourseActivity extends AppCompatActivity {
@@ -96,6 +100,9 @@ public class NewCourseActivity extends AppCompatActivity {
 
                     setResult(RESULT_OK, replyIntent);
                 }
+
+
+
 
                 finish();
             }

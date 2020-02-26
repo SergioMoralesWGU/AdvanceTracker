@@ -112,29 +112,6 @@ public class AssessmentListActivity extends AppCompatActivity {
             });
         }
     }
-//
-//    @Override
-//    public boolean onCreateOptionsMenu(Menu menu) {
-//        getMenuInflater().inflate(R.menu.menu_notifications, menu);
-//        return true;
-//    }
-//
-//    @Override
-//    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-//        int id = item.getItemId();
-//        if (id == R.id.action_enable_notifications) {
-//
-//            Intent intent = new Intent(AssessmentListActivity.this, MyReceiver.class);
-//            intent.putExtra("TitleKey", "Assessment Alert");
-//            intent.putExtra("ContentKey", "Your assessment is today");
-//            PendingIntent sender = PendingIntent.getBroadcast(AssessmentListActivity.this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-//            AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-//            assessmentDate = System.currentTimeMillis();
-//            alarmManager.set(AlarmManager.RTC_WAKEUP, assessmentDate, sender);
-//            return true;
-//        }
-//        return super.onOptionsItemSelected(item);
-//    }
 
 
     @Override
