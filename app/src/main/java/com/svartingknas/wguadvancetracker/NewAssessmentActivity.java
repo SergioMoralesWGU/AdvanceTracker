@@ -1,13 +1,16 @@
 package com.svartingknas.wguadvancetracker;
 
+import android.app.AlarmManager;
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.NotificationCompat;
@@ -91,6 +94,8 @@ public class NewAssessmentActivity extends AppCompatActivity {
         });
 
     }
+
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -114,6 +119,19 @@ public class NewAssessmentActivity extends AppCompatActivity {
             catch (ParseException pe){
                 // maybe do something?
             }
+            Intent intent = new Intent(NewAssessmentActivity.this, MyReceiver.class);
+            intent.putExtra("TitleKey", "Assessment Alert");
+            intent.putExtra("ContentKey", "Your assessment is today");
+            PendingIntent sender = PendingIntent.getBroadcast(NewAssessmentActivity.this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+            AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+            long assessmentDate;
+            try {
+                assessmentDate = dateFormat.parse(data.getStringExtra("assessmentDate")).getTime()+ 1150000;
+                alarmManager.set(AlarmManager.RTC_WAKEUP, assessmentDate, sender);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+
         }else {
             Toast.makeText(this, R.string.empty_not_saved, Toast.LENGTH_LONG)
                     .show();

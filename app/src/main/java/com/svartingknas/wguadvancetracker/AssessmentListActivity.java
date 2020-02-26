@@ -58,6 +58,7 @@ public class AssessmentListActivity extends AppCompatActivity {
         final int currentCourseId = getIntent().getIntExtra("courseId", -1);
 
 
+
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -103,12 +104,11 @@ public class AssessmentListActivity extends AppCompatActivity {
         if (id == R.id.action_enable_notifications) {
 
             Intent intent = new Intent(AssessmentListActivity.this, MyReceiver.class);
-            intent.putExtra("channel", "webinar");
-            intent.putExtra("startAssessment", "Your assessment is today");
+            intent.putExtra("TitleKey", "Assessment Alert");
+            intent.putExtra("ContentKey", "Your assessment is today");
             PendingIntent sender = PendingIntent.getBroadcast(AssessmentListActivity.this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
             AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-//            assessmentDate=Long.parseLong(mills.getText().toString());
-            assessmentDate = System.currentTimeMillis() + 500;
+            assessmentDate = System.currentTimeMillis();
             alarmManager.set(AlarmManager.RTC_WAKEUP, assessmentDate, sender);
             return true;
         }
@@ -138,6 +138,18 @@ public class AssessmentListActivity extends AppCompatActivity {
             }
             catch (ParseException pe){
                 // maybe do something?
+            }
+            Intent intent = new Intent(AssessmentListActivity.this, MyReceiver.class);
+            intent.putExtra("TitleKey", "Assessment Alert");
+            intent.putExtra("ContentKey", "Your assessment is today");
+            PendingIntent sender = PendingIntent.getBroadcast(AssessmentListActivity.this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+            AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+            long assessmentDate;
+            try {
+                assessmentDate = dateFormat.parse(data.getStringExtra("assessmentDate")).getTime()+ 1154000;
+                alarmManager.set(AlarmManager.RTC_WAKEUP, assessmentDate, sender);
+            } catch (ParseException e) {
+                e.printStackTrace();
             }
         }else {
             Toast.makeText(this, R.string.empty_not_saved, Toast.LENGTH_LONG)
