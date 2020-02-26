@@ -211,7 +211,7 @@ public class CourseDetail extends AppCompatActivity{
             Intent endIntent=new Intent(CourseDetail.this,MyReceiver.class);
             endIntent.putExtra("TitleKey", "End of class");
             endIntent.putExtra("ContentKey", "Your class ends today");
-            PendingIntent senderEnd= PendingIntent.getBroadcast(CourseDetail.this,0,endIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+            PendingIntent senderEnd= PendingIntent.getBroadcast(CourseDetail.this,1,endIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
             AlarmManager endAlarmManager=(AlarmManager)getSystemService(Context.ALARM_SERVICE);
             endAlarmManager.set(AlarmManager.RTC_WAKEUP, endDate, senderEnd);
