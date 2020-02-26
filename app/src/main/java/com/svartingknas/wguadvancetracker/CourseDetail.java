@@ -150,13 +150,40 @@ public class CourseDetail extends AppCompatActivity{
 
         if (getIntent().getStringExtra("courseTitle") != null) {
             courseName.setText(getIntent().getStringExtra("courseTitle"));
+
+            String courseStartDateString = getIntent().getStringExtra("courseStartDate");
+            if(courseStartDateString != null){
+                String pattern = "MM/dd/yyyy";
+                DateFormat dateFormat = new SimpleDateFormat(pattern);
+                try {
+                    startDate = dateFormat.parse(courseStartDateString).getTime();
+                } catch (ParseException e) {
+                    startDate = -1;
+                }
+            }
             courseStartDate.setText(getIntent().getStringExtra("courseStartDate"));
+
+            String courseEndDateString = getIntent().getStringExtra("courseEndDate");
+            if(courseEndDateString != null){
+                String pattern = "MM/dd/yyyy";
+                DateFormat dateFormat = new SimpleDateFormat(pattern);
+                try {
+                    endDate = dateFormat.parse(courseEndDateString).getTime();
+                } catch (ParseException e) {
+                    endDate = -1;
+                }
+            }
             courseEndDate.setText(getIntent().getStringExtra("courseEndDate"));
+
             courseStatus.setText(getIntent().getStringExtra("courseStatus"));
             mentorName.setText(getIntent().getStringExtra("mentorName"));
             mentorPhone.setText(getIntent().getStringExtra("mentorPhone"));
             mentorEmail.setText(getIntent().getStringExtra("mentorEmail"));
         }
+
+
+
+
 
 
     }
@@ -171,26 +198,25 @@ public class CourseDetail extends AppCompatActivity{
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.action_enable_notifications) {
+
             Intent startIntent=new Intent(CourseDetail.this,MyReceiver.class);
-            startIntent.putExtra("channel", "webinar");
-            startIntent.putExtra("startClass", "Your class starts today");
+            startIntent.putExtra("TitleKey", "Course Start!");
+            startIntent.putExtra("ContentKey", "Your class starts today");
             PendingIntent senderStart= PendingIntent.getBroadcast(CourseDetail.this,0,startIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
             AlarmManager startAlarmManager=(AlarmManager)getSystemService(Context.ALARM_SERVICE);
-//            date=Long.parseLong(mills.getText().toString());
-            startDate = System.currentTimeMillis() + 500;
             startAlarmManager.set(AlarmManager.RTC_WAKEUP, startDate, senderStart);
 
+
             Intent endIntent=new Intent(CourseDetail.this,MyReceiver.class);
-            endIntent.putExtra("channel", "webinar");
-            endIntent.putExtra("endClass", "Your class ends today");
+            endIntent.putExtra("TitleKey", "End of class");
+            endIntent.putExtra("ContentKey", "Your class ends today");
             PendingIntent senderEnd= PendingIntent.getBroadcast(CourseDetail.this,0,endIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
             AlarmManager endAlarmManager=(AlarmManager)getSystemService(Context.ALARM_SERVICE);
-//            date=Long.parseLong(mills.getText().toString());
-            startDate = System.currentTimeMillis() + 500;
-            endDate = System.currentTimeMillis() + 1500;
             endAlarmManager.set(AlarmManager.RTC_WAKEUP, endDate, senderEnd);
+
+
             return true;
 
         }
@@ -220,7 +246,6 @@ public class CourseDetail extends AppCompatActivity{
                         data.getStringExtra("mentorPhone"),
                         data.getIntExtra("termId", -1));
                 courseViewModel.insert(courseEntity);
-
             } catch (ParseException pe){
                 //do stuff
             }

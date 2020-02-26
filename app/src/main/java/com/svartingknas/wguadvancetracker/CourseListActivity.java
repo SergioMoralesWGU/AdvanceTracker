@@ -96,6 +96,8 @@ public class CourseListActivity extends AppCompatActivity {
             } catch (ParseException pe) {
                 // maybe do something?
             }
+
+
         } else {
             Toast.makeText(this, R.string.empty_not_saved, Toast.LENGTH_LONG)
                     .show();

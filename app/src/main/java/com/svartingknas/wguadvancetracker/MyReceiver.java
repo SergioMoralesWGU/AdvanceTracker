@@ -15,17 +15,18 @@ import static android.content.Context.NOTIFICATION_SERVICE;
 
 public class MyReceiver extends BroadcastReceiver {
     static int notificationID;
+    String channel_id = "test";
 
     @Override
     public void onReceive(Context context, Intent intent) {
         Toast.makeText(context, "Notifications enabled.", Toast.LENGTH_LONG).show();
-        String channel = intent.getStringExtra("channel");
-        String startClass = intent.getStringExtra("startClass");
-        createNotificationChannel(context, channel);
-        Notification n = new NotificationCompat.Builder(context, channel)
+//        String channel = intent.getStringExtra("channel");
+//        String startClass = intent.getStringExtra("startClass");
+        createNotificationChannel(context, channel_id);
+        Notification n = new NotificationCompat.Builder(context, channel_id)
                 .setSmallIcon(R.drawable.ic_event_note_black_24dp)
-                .setContentTitle("Test notification")
-                .setContentText(startClass).build();
+                .setContentTitle(intent.getStringExtra("TitleKey"))
+                .setContentText(intent.getStringExtra("ContentKey")).build();
         NotificationManager notificationManager= (NotificationManager) context.getSystemService(NOTIFICATION_SERVICE);
         notificationManager.notify(notificationID++, n);
     }
@@ -33,50 +34,18 @@ public class MyReceiver extends BroadcastReceiver {
     private void createNotificationChannel(Context context, String CHANNEL_ID) {
         // Create the NotificationChannel, but only on API 26+ because
         // the NotificationChannel class is new and not in the support library
-        NotificationChannel channel = new NotificationChannel(CHANNEL_ID, "ted", NotificationManager.IMPORTANCE_DEFAULT);
-        channel.setDescription("test channel");
-        NotificationManager notificationManager = context.getSystemService(NotificationManager.class);
-        notificationManager.createNotificationChannel(channel);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            CharSequence name = context.getResources().getString(R.string.channel_name);
+            String description = context.getString(R.string.channel_description);
+            int importance = NotificationManager.IMPORTANCE_DEFAULT;
+            NotificationChannel channel = new NotificationChannel(CHANNEL_ID, name, importance);
+            channel.setDescription(description);
+            // Register the channel with the system; you can't change the importance
+            // or other notification behaviors after this
+            NotificationManager notificationManager = context.getSystemService(NotificationManager.class);
+            notificationManager.createNotificationChannel(channel);
+        }
     }
 }
-//    static int notificationID;
-//    String channel_id="test";
-//    @Override
-//    public void onReceive(Context context, Intent intent) {
-//        Toast.makeText(context,"Notification",Toast.LENGTH_LONG).show();
-//        createNotificationChannel(context,channel_id);
-//  /*      Notification n=new Notification.Builder(context)
-//                .setSmallIcon(R.drawable.ic_launcher_foreground)
-//                .setChannelId(channel_id)
-//                .setContentTitle("Test Notification with an id of:"+Integer.toString(notificationID))
-//                .setContentText("This is a test").build();*/
-//        Notification n= new NotificationCompat.Builder(context, channel_id)
-//                .setSmallIcon(R.drawable.ic_launcher_foreground)
-//                .setContentText("This is a test")
-//                .setContentTitle("Test of Notification with an id of :"+Integer.toString(notificationID)).build();
-//
-//        NotificationManager notificationManager=(NotificationManager)context.getSystemService(NOTIFICATION_SERVICE);
-//        notificationManager.notify(notificationID++,n);
-//
-//        //Put a notification her aka Vogella Tutorial
-//
-//        // TODO: This method is called when the BroadcastReceiver is receiving
-//        // an Intent broadcast.
-//        // throw new UnsupportedOperationException("Not yet implemented");
-//    }
-//    private void createNotificationChannel(Context context, String CHANNEL_ID) {
-//        // Create the NotificationChannel, but only on API 26+ because
-//        // the NotificationChannel class is new and not in the support library
-//
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-//            CharSequence name = context.getResources().getString(R.string.channel_name);
-//            String description = context.getString(R.string.channel_description);
-//            int importance = NotificationManager.IMPORTANCE_DEFAULT;
-//            NotificationChannel channel = new NotificationChannel(CHANNEL_ID, name, importance);
-//            channel.setDescription(description);
-//            // Register the channel with the system; you can't change the importance
-//            // or other notification behaviors after this
-//            NotificationManager notificationManager = context.getSystemService(NotificationManager.class);
-//            notificationManager.createNotificationChannel(channel);
-//        }
-//    }
+
